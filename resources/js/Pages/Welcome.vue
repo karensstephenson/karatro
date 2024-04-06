@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { defineProps, ref, computed } from 'vue';
-import { Head, Link } from '@inertiajs/vue3';
-import cards from '@/global/cards';
+import { defineProps, ref, computed } from "vue";
+import { Head, Link } from "@inertiajs/vue3";
+import cards from "@/global/cards";
 
 defineProps<{
     canLogin?: boolean;
@@ -11,11 +11,13 @@ defineProps<{
 }>();
 
 function handleImageError() {
-    document.getElementById('screenshot-container')?.classList.add('!hidden');
-    document.getElementById('docs-card')?.classList.add('!row-span-1');
-    document.getElementById('docs-card-content')?.classList.add('!flex-row');
-    document.getElementById('background')?.classList.add('!hidden');
+    document.getElementById("screenshot-container")?.classList.add("!hidden");
+    document.getElementById("docs-card")?.classList.add("!row-span-1");
+    document.getElementById("docs-card-content")?.classList.add("!flex-row");
+    document.getElementById("background")?.classList.add("!hidden");
 }
+
+const randomCard = ref("clubs_2");
 </script>
 
 <template>
@@ -32,7 +34,18 @@ function handleImageError() {
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main class="mt-6 flex items-center justify-center">
-                    <img src="cards/clubs_2.png" alt="clubs_2" class="w-1/4 h-1/4" />
+                    <div class="flex flex-col items-center">
+                        <img
+                            :src="`cards/${randomCard}.png`"
+                            :alt="randomCard"
+                        />
+
+                        <button
+                            class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                        >
+                            New Random Card
+                        </button>
+                    </div>
                 </main>
             </div>
         </div>
