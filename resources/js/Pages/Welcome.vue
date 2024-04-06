@@ -58,9 +58,7 @@ function handleImageError() {
                 </header> -->
 
                 <main class="mt-6 flex items-center justify-center">
-                    <p>
-                        Hello world!
-                    </p>
+                    <img src="cards/clubs_2.png" alt="clubs_2" class="w-1/4 h-1/4" />
                 </main>
             </div>
         </div>
