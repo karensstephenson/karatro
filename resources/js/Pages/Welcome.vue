@@ -16,8 +16,16 @@ function handleImageError() {
     document.getElementById("docs-card-content")?.classList.add("!flex-row");
     document.getElementById("background")?.classList.add("!hidden");
 }
+const pickRandomCard = () => {
+    const randomNumber = Math.floor(Math.random() * cards.length);
+    const randomCard = cards[randomNumber];
+    return randomCard;
+};
 
-const randomCard = ref("clubs_2");
+const randomCard = ref(pickRandomCard());
+const updateRandomCard = () => {
+    randomCard.value = pickRandomCard();
+};
 </script>
 
 <template>
@@ -42,6 +50,7 @@ const randomCard = ref("clubs_2");
 
                         <button
                             class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                            @click="updateRandomCard"
                         >
                             New Random Card
                         </button>
