@@ -16,16 +16,24 @@ function handleImageError() {
     document.getElementById("docs-card-content")?.classList.add("!flex-row");
     document.getElementById("background")?.classList.add("!hidden");
 }
+
+// Choose one random card
 const pickRandomCard = () => {
     const randomNumber = Math.floor(Math.random() * cards.length);
     const randomCard = cards[randomNumber];
     return randomCard;
 };
 
-const randomCard = ref(pickRandomCard());
-const updateRandomCard = () => {
-    randomCard.value = pickRandomCard();
+// Create array of five random cards
+let randomCards = ref([]);
+const drawFiveCards = () => {
+    randomCards.value = [];
+    for (let i = 0; i < 5; i++) {
+        randomCards.value.push(pickRandomCard());
+    }
 };
+
+drawFiveCards();
 </script>
 
 <template>
@@ -43,16 +51,20 @@ const updateRandomCard = () => {
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main class="mt-6 flex items-center justify-center">
                     <div class="flex flex-col items-center">
-                        <img
-                            :src="`cards/${randomCard}.png`"
-                            :alt="randomCard"
-                        />
+                        <div class="flex flex justify-center gap-3 list-none">
+                            <li
+                                v-for="(card, index) in randomCards"
+                                :key="index"
+                            >
+                                <img :src="`cards/${card}.png`" :alt="card" />
+                            </li>
+                        </div>
 
                         <button
                             class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                            @click="updateRandomCard"
+                            @click="drawFiveCards"
                         >
-                            New Random Card
+                            Draw 5 Cards
                         </button>
                     </div>
                 </main>
