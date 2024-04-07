@@ -17,6 +17,8 @@ function handleImageError() {
     document.getElementById("background")?.classList.add("!hidden");
 }
 
+const selectedCards = ref([]);
+
 // Choose one random card
 const pickRandomCard = () => {
     const randomNumber = Math.floor(Math.random() * cards.length);
@@ -28,12 +30,26 @@ const pickRandomCard = () => {
 let randomCards = ref([]);
 const drawFiveCards = () => {
     randomCards.value = [];
+    selectedCards.value = [];  
     for (let i = 0; i < 5; i++) {
         randomCards.value.push(pickRandomCard());
     }
 };
 
 drawFiveCards();
+
+// When clicked, move a card up or down
+const isSelected = (index) => selectedCards.value.includes(index);
+
+const toggleCard = (index) => {
+    if (isSelected(index)) {
+        selectedCards.value = selectedCards.value.filter(
+            (cardIndex) => cardIndex !== index
+        );
+    } else {
+        selectedCards.value.push(index);
+    }
+};
 </script>
 
 <template>
@@ -55,6 +71,11 @@ drawFiveCards();
                             <li
                                 v-for="(card, index) in randomCards"
                                 :key="index"
+                                :class="{
+                                    card: true,
+                                    selected: isSelected(index),
+                                }"
+                                @click="toggleCard(index)"
                             >
                                 <img :src="`cards/${card}.png`" :alt="card" />
                             </li>
@@ -72,3 +93,9 @@ drawFiveCards();
         </div>
     </div>
 </template>
+
+<style scoped>
+.selected {
+    transform: translateY(-10px);
+}
+</style>
