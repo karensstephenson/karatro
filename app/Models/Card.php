@@ -11,6 +11,7 @@ class Card extends Model
     protected $fillable = [
         'suit',
         'rank',
+        'suit',
         'is_face',
         'value',
     ];
