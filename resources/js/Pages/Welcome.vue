@@ -92,6 +92,7 @@ const showScore = () => {
                                     selected: isSelected(index),
                                 }"
                                 @click="toggleCard(index)"
+                                
                             >
                                 <img :src="`cards/${card}.png`" :alt="card" />
                             </li>
@@ -113,5 +114,9 @@ const showScore = () => {
 <style scoped>
 .selected {
     transform: translateY(-20px);
+}
+
+.card:hover {
+    cursor: pointer;
 }
 </style>
