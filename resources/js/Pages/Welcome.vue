@@ -114,4 +114,8 @@ const showScore = () => {
 .selected {
     transform: translateY(-20px);
 }
+
+.card:hover {
+    cursor: pointer;
+}
 </style>
