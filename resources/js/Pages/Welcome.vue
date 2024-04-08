@@ -71,8 +71,8 @@ const toggleCard = (index) => {
                             <li
                                 v-for="(card, index) in randomCards"
                                 :key="index"
+                                class="card"
                                 :class="{
-                                    card: true,
                                     selected: isSelected(index),
                                 }"
                                 @click="toggleCard(index)"
@@ -96,6 +96,6 @@ const toggleCard = (index) => {
 
 <style scoped>
 .selected {
-    transform: translateY(-10px);
+    transform: translateY(-20px);
 }
 </style>
