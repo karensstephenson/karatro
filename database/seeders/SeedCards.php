@@ -13,6 +13,43 @@ class SeedCards extends Seeder
      */
     public function run(): void
     {
+        $suits = ['clubs', 'hearts', 'spades', 'diamonds'];
+
+        foreach ($suits as $suit) {
+            for ($i = 2; $i <= 10; $i++) {
+                Card::create([
+                    'name' => $suit . '_' . $i,
+                    'suit' => $suit,
+                    'value' => $i,
+                    'is_face' => false,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+    
+            $faceCards = ['J', 'Q', 'K'];
+    
+            foreach ($faceCards as $faceCard) {
+                Card::create([
+                    'name' => $suit . '_' . $faceCard,
+                    'suit' => $suit,
+                    'value' => 10,
+                    'is_face' => true,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            Card::create([
+                'name' => $suit . '_A',
+                'suit' => $suit,
+                'value' => 11,
+                'is_face' => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+
         $cards = [
             ['name' => 'clubs_2', 'suit' => 'clubs', 'value' => 2, 'is_face' => false],
             ['name' => 'clubs_3', 'suit' => 'clubs', 'value' => 3, 'is_face' => false],
