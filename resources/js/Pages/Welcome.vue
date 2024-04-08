@@ -61,7 +61,9 @@ const toggleCard = (index) => {
         selectedCards.value.push(index);
         selectedCardNames.value.push(randomCards.value[index]);
     }
+};
 
+const showScore = () => {
     console.log(selectedCardNames.value);
 };
 </script>
@@ -97,7 +99,7 @@ const toggleCard = (index) => {
 
                         <button
                             class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                            @click="drawFiveCards"
+                            @click="showScore"
                         >
                             Score
                         </button>
