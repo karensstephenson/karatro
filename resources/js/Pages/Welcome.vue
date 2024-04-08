@@ -17,8 +17,8 @@ function handleImageError() {
     document.getElementById("background")?.classList.add("!hidden");
 }
 
-const selectedCards = ref([]);
-const selectedCardNames = ref([]);
+const selectedCards = ref<number[]>([]);
+const selectedCardNames = ref<string[]>([]);
 
 // Choose one random card
 const pickRandomCard = () => {
@@ -28,7 +28,7 @@ const pickRandomCard = () => {
 };
 
 // Create array of five random cards
-let randomCards = ref([]);
+let randomCards = ref<string[]>([]);
 const drawFiveCards = () => {
     randomCards.value = [];
     selectedCards.value = [];
@@ -40,7 +40,7 @@ const drawFiveCards = () => {
 
 drawFiveCards();
 
-const removeFirstInstanceOfCard = (index) => {
+const removeFirstInstanceOfCard = (index:number) => {
     const cardToRemove = randomCards.value[index];
     const firstIndex = selectedCardNames.value.indexOf(cardToRemove);
     selectedCardNames.value = selectedCardNames.value.filter(
@@ -49,9 +49,9 @@ const removeFirstInstanceOfCard = (index) => {
 };
 
 // When clicked, move a card up or down and add/remove from a list of selected card indexes and names
-const isSelected = (index) => selectedCards.value.includes(index);
+const isSelected = (index:number) => selectedCards.value.includes(index);
 
-const toggleCard = (index) => {
+const toggleCard = (index:number) => {
     if (isSelected(index)) {
         selectedCards.value = selectedCards.value.filter(
             (cardIndex) => cardIndex !== index
