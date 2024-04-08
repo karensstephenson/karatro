@@ -73,6 +73,7 @@ class SeedCards extends Seeder
             Card::create([
                 'name' => $card['name'],
                 'suit' => $card['suit'],
+                'rank' => $card['rank'],
                 'value' => $card['value'],
                 'is_face' => $card['is_face'],
                 'created_at' => now(),
