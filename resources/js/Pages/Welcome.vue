@@ -92,7 +92,6 @@ const showScore = () => {
                                     selected: isSelected(index),
                                 }"
                                 @click="toggleCard(index)"
-                                
                             >
                                 <img :src="`cards/${card}.png`" :alt="card" />
                             </li>
