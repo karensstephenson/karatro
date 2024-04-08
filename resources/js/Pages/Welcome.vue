@@ -33,7 +33,7 @@ const drawFiveCards = () => {
     randomCards.value = [];
     selectedCards.value = [];
     selectedCardNames.value = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 7; i++) {
         randomCards.value.push(pickRandomCard());
     }
 };
@@ -83,7 +83,7 @@ const showScore = () => {
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main class="mt-6 flex items-center justify-center">
                     <div class="flex flex-col items-center">
-                        <div class="flex flex justify-center gap-3 list-none">
+                        <div class="flex justify-center gap-3 list-none">
                             <li
                                 v-for="(card, index) in randomCards"
                                 :key="index"
