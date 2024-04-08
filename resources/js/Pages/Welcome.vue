@@ -18,6 +18,7 @@ function handleImageError() {
 }
 
 const selectedCards = ref([]);
+const selectedCardNames = ref([]);
 
 // Choose one random card
 const pickRandomCard = () => {
@@ -30,7 +31,8 @@ const pickRandomCard = () => {
 let randomCards = ref([]);
 const drawFiveCards = () => {
     randomCards.value = [];
-    selectedCards.value = [];  
+    selectedCards.value = [];
+    selectedCardNames.value = [];
     for (let i = 0; i < 5; i++) {
         randomCards.value.push(pickRandomCard());
     }
@@ -38,7 +40,15 @@ const drawFiveCards = () => {
 
 drawFiveCards();
 
-// When clicked, move a card up or down
+const removeFirstInstanceOfCard = (index) => {
+    const cardToRemove = randomCards.value[index];
+    const firstIndex = selectedCardNames.value.indexOf(cardToRemove);
+    selectedCardNames.value = selectedCardNames.value.filter(
+        (card, index) => index !== firstIndex
+    );
+};
+
+// When clicked, move a card up or down and add/remove from a list of selected card indexes and names
 const isSelected = (index) => selectedCards.value.includes(index);
 
 const toggleCard = (index) => {
@@ -46,9 +56,15 @@ const toggleCard = (index) => {
         selectedCards.value = selectedCards.value.filter(
             (cardIndex) => cardIndex !== index
         );
+        removeFirstInstanceOfCard(index);
     } else {
         selectedCards.value.push(index);
+        selectedCardNames.value.push(randomCards.value[index]);
     }
+};
+
+const showScore = () => {
+    console.log(selectedCardNames.value);
 };
 </script>
 
@@ -83,9 +99,9 @@ const toggleCard = (index) => {
 
                         <button
                             class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                            @click="drawFiveCards"
+                            @click="showScore"
                         >
-                            Draw 5 Cards
+                            Score
                         </button>
                     </div>
                 </main>
