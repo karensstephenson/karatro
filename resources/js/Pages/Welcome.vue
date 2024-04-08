@@ -40,7 +40,7 @@ const drawFiveCards = () => {
 
 drawFiveCards();
 
-const removeFirstInstanceOfCard = (index:number) => {
+const removeFirstInstanceOfCard = (index: number) => {
     const cardToRemove = randomCards.value[index];
     const firstIndex = selectedCardNames.value.indexOf(cardToRemove);
     selectedCardNames.value = selectedCardNames.value.filter(
@@ -49,17 +49,19 @@ const removeFirstInstanceOfCard = (index:number) => {
 };
 
 // When clicked, move a card up or down and add/remove from a list of selected card indexes and names
-const isSelected = (index:number) => selectedCards.value.includes(index);
+const isSelected = (index: number) => selectedCards.value.includes(index);
 
-const toggleCard = (index:number) => {
+const toggleCard = (index: number) => {
     if (isSelected(index)) {
         selectedCards.value = selectedCards.value.filter(
             (cardIndex) => cardIndex !== index
         );
         removeFirstInstanceOfCard(index);
     } else {
-        selectedCards.value.push(index);
-        selectedCardNames.value.push(randomCards.value[index]);
+        if (selectedCards.value.length < 5) {
+            selectedCards.value.push(index);
+            selectedCardNames.value.push(randomCards.value[index]);
+        }
     }
 };
 
@@ -92,7 +94,6 @@ const showScore = () => {
                                     selected: isSelected(index),
                                 }"
                                 @click="toggleCard(index)"
-                                
                             >
                                 <img :src="`cards/${card}.png`" :alt="card" />
                             </li>
