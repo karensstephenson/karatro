@@ -107,7 +107,7 @@ const showScore = () => {
                                 }"
                                 @click="toggleCard(index)"
                             >
-                                <img :src="`cards/${card}.png`" :alt="card" />
+                                <img :src="`card_svgs/${card}.svg`" :alt="card" />
                             </li>
                         </div>
 
