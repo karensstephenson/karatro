@@ -2,6 +2,7 @@
 import { defineProps, ref, computed, onMounted } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 import cards from "@/global/cards";
+import draggable from "vuedraggable";
 
 const props = defineProps<{
     canLogin?: boolean;
@@ -25,7 +26,11 @@ const selectedCardNames = ref<string[]>([]);
 const pickRandomCard = () => {
     const randomNumber = Math.floor(Math.random() * props.cardList.length);
     const randomCard = props.cardList[randomNumber];
-    return {name: randomCard.name, rank: randomCard.rank, value: randomCard.value};
+    return {
+        name: randomCard.name,
+        rank: randomCard.rank,
+        value: randomCard.value,
+    };
 };
 
 // Create array of five random cards
@@ -41,14 +46,33 @@ const drawTenCards = () => {
     while (i < 10) {
         card = pickRandomCard();
 
-        if (!randomCards.value.includes(card)) {
+        if (
+            !randomCards.value.some(
+                (chosenCard) => chosenCard.name === card.name
+            )
+        ) {
             randomCards.value.push(card);
             i++;
         }
     }
-    const requiredOrder = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
-    randomCards.value.sort((a,b) => requiredOrder.indexOf(a.rank) - requiredOrder.indexOf(b.rank))
-    
+    const requiredOrder = [
+        "A",
+        "K",
+        "Q",
+        "J",
+        "10",
+        "9",
+        "8",
+        "7",
+        "6",
+        "5",
+        "4",
+        "3",
+        "2",
+    ];
+    randomCards.value.sort(
+        (a, b) => requiredOrder.indexOf(a.rank) - requiredOrder.indexOf(b.rank)
+    );
 };
 
 drawTenCards();
@@ -76,16 +100,16 @@ const toggleCard = (index: number) => {
             selectedCardNames.value.push(randomCards.value[index]);
         }
     }
-    
 };
 
 // Calculates the score of the selected cards when the score button is clicked
 const showScore = () => {
-    let cardValues = selectedCardNames.value.map((card) => card.value);
-    console.log(cardValues)
+    let cardValues = selectedCards.value.map((cardName) => {
+        let card = props.cardList.find((card) => card.name === cardName);
+        return card.value;
+    });
     let totalScore = cardValues.reduce((total, value) => total + value, 0);
     console.log(totalScore);
-    
 };
 </script>
 
@@ -100,19 +124,27 @@ const showScore = () => {
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main class="mt-6 flex items-center justify-center">
                     <div class="flex flex-col items-center">
-                        <div class="flex justify-center gap-3 list-none">
-                            <li
-                                v-for="(card, index) in randomCards"
-                                :key="index"
-                                class="card"
-                                :class="{
-                                    selected: isSelected(index),
-                                }"
-                                @click="toggleCard(index)"
-                            >
-                                <img :src="`card_svgs/${card.name}.svg`" :alt="card.name" />
-                            </li>
-                        </div>
+                        <draggable
+                            class="flex justify-center gap-3 list-none"
+                            v-model="randomCards"
+                            :item-key="(item) => item.id"
+                        >
+                            <template #item="{ element }">
+                                <li
+                                    :key="element.index"
+                                    class="card"
+                                    :class="{
+                                        selected: isSelected(element.name),
+                                    }"
+                                    @click="toggleCard(element.name)"
+                                >
+                                    <img
+                                        :src="`card_svgs/${element.name}.svg`"
+                                        :alt="element.name"
+                                    />
+                                </li>
+                            </template>
+                        </draggable>
 
                         <button
                             class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
