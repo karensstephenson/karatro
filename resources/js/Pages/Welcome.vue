@@ -72,7 +72,9 @@ const showScore = () => {
 
 <template>
     <Head title="Welcome" />
-    <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 bg-[#00796B] dark:bg-[#00796B]">
+    <div
+        class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 bg-custom-green"
+    >
         <div
             class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
         >
