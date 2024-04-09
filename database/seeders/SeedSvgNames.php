@@ -19,9 +19,9 @@ class SeedSvgNames extends Seeder
     {
         foreach (Card::all() as $card) {
             if (in_array($card->rank, $this->faceCards)) {
-                $card->rank = $this->faceMap[$card->rank];
+                $rank = $this->faceMap[$card->rank];
 
-                $card->name = $card->rank . '_of_' . $card->suit;
+                $card->name = $rank . '_of_' . $card->suit;
             } elseif ($card->rank === 'A') {
                 $card->name = 'ace_of_' . $card->suit;
             } else {    
