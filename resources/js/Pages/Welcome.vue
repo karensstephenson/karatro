@@ -62,6 +62,7 @@ const removeFirstInstanceOfCard = (index: number) => {
 const isSelected = (index: number) => selectedCards.value.includes(index);
 
 const toggleCard = (index: number) => {
+    console.log(index);
     if (isSelected(index)) {
         selectedCards.value = selectedCards.value.filter(
             (cardIndex) => cardIndex !== index
@@ -90,7 +91,7 @@ const showScore = () => {
 <template>
     <Head title="Welcome" />
     <div
-        class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 bg-[#00796B] dark:bg-[#00796B]"
+        class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 green-bg"
     >
         <div
             class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
@@ -132,5 +133,9 @@ const showScore = () => {
 
 .card:hover {
     cursor: pointer;
+}
+
+.green-bg {
+    background-color: #00796B;
 }
 </style>
