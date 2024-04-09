@@ -31,14 +31,14 @@ const pickRandomCard = () => {
 // Create array of five random cards
 let randomCards = ref<string[]>([]);
 
-const drawSevenCards = () => {
+const drawTenCards = () => {
     randomCards.value = [];
     selectedCards.value = [];
     selectedCardNames.value = [];
 
     let i = 0;
     let card;
-    while (i < 7) {
+    while (i < 10) {
         card = pickRandomCard();
 
         if (!randomCards.value.includes(card)) {
@@ -48,7 +48,7 @@ const drawSevenCards = () => {
     }
 };
 
-drawSevenCards();
+drawTenCards();
 
 const removeFirstInstanceOfCard = (index: number) => {
     const cardToRemove = randomCards.value[index];
@@ -62,7 +62,6 @@ const removeFirstInstanceOfCard = (index: number) => {
 const isSelected = (index: number) => selectedCards.value.includes(index);
 
 const toggleCard = (index: number) => {
-    console.log(index);
     if (isSelected(index)) {
         selectedCards.value = selectedCards.value.filter(
             (cardIndex) => cardIndex !== index
@@ -85,7 +84,6 @@ const showScore = () => {
     let totalScore = cardValues.reduce((total, value) => total + value, 0);
     console.log(totalScore);
 };
-
 </script>
 
 <template>
@@ -119,6 +117,12 @@ const showScore = () => {
                         >
                             Score
                         </button>
+                        <button
+                            class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                            @click="drawTenCards"
+                        >
+                            Draw 10 Cards
+                        </button>
                     </div>
                 </main>
             </div>
@@ -136,6 +140,6 @@ const showScore = () => {
 }
 
 .green-bg {
-    background-color: #00796B;
+    background-color: #00796b;
 }
 </style>
