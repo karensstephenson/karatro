@@ -76,14 +76,16 @@ const toggleCard = (index: number) => {
     }
 };
 
+// Calculates the score of the selected cards when the score button is clicked
 const showScore = () => {
-    console.log(selectedCardNames.value);
-
-    console.log(selectedCardNames.value.map((name) => {
-        let card = props.cardList.find(card => card.name === name)
-        return card.value
-    }));
+    let cardValues = selectedCardNames.value.map((name) => {
+        let card = props.cardList.find((card) => card.name === name);
+        return card.value;
+    });
+    let totalScore = cardValues.reduce((total, value) => total + value, 0);
+    console.log(totalScore);
 };
+
 </script>
 
 <template>
