@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { defineProps, ref, computed } from "vue";
+import { defineProps, ref, computed, onMounted } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 import cards from "@/global/cards";
 
-defineProps<{
+const props = defineProps<{
     canLogin?: boolean;
     canRegister?: boolean;
     laravelVersion: string;
     phpVersion: string;
+    cardList: any[];
 }>();
 
 function handleImageError() {
@@ -22,23 +23,32 @@ const selectedCardNames = ref<string[]>([]);
 
 // Choose one random card
 const pickRandomCard = () => {
-    const randomNumber = Math.floor(Math.random() * cards.length);
-    const randomCard = cards[randomNumber];
+    const randomNumber = Math.floor(Math.random() * props.cardList.length);
+    const randomCard = props.cardList[randomNumber].name;
     return randomCard;
 };
 
 // Create array of five random cards
 let randomCards = ref<string[]>([]);
-const drawFiveCards = () => {
+
+const drawSevenCards = () => {
     randomCards.value = [];
     selectedCards.value = [];
     selectedCardNames.value = [];
-    for (let i = 0; i < 7; i++) {
-        randomCards.value.push(pickRandomCard());
+
+    let i = 0;
+    let card;
+    while (i < 7) {
+        card = pickRandomCard();
+
+        if (!randomCards.value.includes(card)) {
+            randomCards.value.push(card);
+            i++;
+        }
     }
 };
 
-drawFiveCards();
+drawSevenCards();
 
 const removeFirstInstanceOfCard = (index: number) => {
     const cardToRemove = randomCards.value[index];
@@ -52,6 +62,7 @@ const removeFirstInstanceOfCard = (index: number) => {
 const isSelected = (index: number) => selectedCards.value.includes(index);
 
 const toggleCard = (index: number) => {
+    console.log(index);
     if (isSelected(index)) {
         selectedCards.value = selectedCards.value.filter(
             (cardIndex) => cardIndex !== index
@@ -67,6 +78,11 @@ const toggleCard = (index: number) => {
 
 const showScore = () => {
     console.log(selectedCardNames.value);
+
+    console.log(selectedCardNames.value.map((name) => {
+        let card = props.cardList.find(card => card.name === name)
+        return card.value
+    }));
 };
 </script>
 
