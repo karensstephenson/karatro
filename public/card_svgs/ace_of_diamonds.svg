@@ -111,10 +111,10 @@
          offset="1"
          id="stop3788-6-6" /></linearGradient><linearGradient
        id="linearGradient3768"><stop
-         style="stop-color:#df0000;stop-opacity:1;"
+         style="stop-color:AF7200;stop-opacity:1;"
          offset="0"
          id="stop3770" /><stop
-         style="stop-color:#df0000;stop-opacity:0.67175573;"
+         style="stop-color:AF7200;stop-opacity:0.67175573;"
          offset="1"
          id="stop3772" /></linearGradient><linearGradient
        id="linearGradient3784-4-6"><stop
@@ -142,10 +142,10 @@
          offset="1"
          id="stop3788-6-5" /></linearGradient><linearGradient
        id="linearGradient2984"><stop
-         style="stop-color:#df0000;stop-opacity:1;"
+         style="stop-color:AF7200;stop-opacity:1;"
          offset="0"
          id="stop2986" /><stop
-         style="stop-color:#df0000;stop-opacity:0.64122134;"
+         style="stop-color:AF7200;stop-opacity:0.64122134;"
          offset="1"
          id="stop2988" /></linearGradient><linearGradient
        id="linearGradient3784-4-4"><stop
@@ -191,7 +191,7 @@
        id="g31"><g
          id="g33" /></g></g><text
      xml:space="preserve"
-     style="font-size:32px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#df0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-size:32px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#AF7200;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
      x="6.2456665"
      y="28.013288"
      id="text3788"
@@ -200,10 +200,10 @@
        id="tspan3790"
        x="6.2456665"
        y="28.013288"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#df0000;fill-opacity:1">A</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial;fill:#AF7200;fill-opacity:1">A</tspan></text>
 <text
      xml:space="preserve"
-     style="font-size:32px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#df0000;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
+     style="font-size:32px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#AF7200;fill-opacity:1;stroke:none;font-family:Bitstream Vera Sans"
      x="-161.08786"
      y="-213.51517"
      id="text3788-4"
@@ -213,7 +213,7 @@
        id="tspan3790-3"
        x="-161.08786"
        y="-213.51517"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#df0000;fill-opacity:1;font-family:Arial;-inkscape-font-specification:Arial">A</tspan></text>
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#AF7200;fill-opacity:1;font-family:Arial;-inkscape-font-specification:Arial">A</tspan></text>
 <g
      transform="matrix(0.17001436,0,0,0.17001436,19.517107,29.794341)"
      id="g3011"><g
@@ -223,17 +223,17 @@
          d="M 3.2433274,-4.7253274 C 1.1263274,-7.5893274 0,-10.5 0,-10.5 c 0,0 -1.1263274,2.9106726 -3.2433274,5.7746726 C -5.3613274,-1.8623274 -8,0 -8,0 -8,0 -5.3613274,1.8613274 -3.2433274,4.7263274 -1.1263274,7.5893274 0,10.5 0,10.5 0,10.5 1.1263274,7.5893274 3.2433274,4.7263274 5.3613274,1.8613274 8,0 8,0 8,0 5.3613274,-1.8623274 3.2433274,-4.7253274 z"
          id="dl"
          inkscape:connector-curvature="0"
-         style="fill:#df0000;fill-opacity:1" /></g></g><g
+         style="fill:#AF7200;fill-opacity:1" /></g></g><g
      transform="matrix(1.4769065,0,0,1.4769065,16.968095,44.236162)"
      id="layer1-2-6"><path
-       style="fill:#df0000"
+       style="fill:#AF7200"
        inkscape:connector-curvature="0"
        id="dl-6"
        d="M 3.2433274,-4.7253274 C 1.1263274,-7.5893274 0,-10.5 0,-10.5 c 0,0 -1.1263274,2.9106726 -3.2433274,5.7746726 C -5.3613274,-1.8623274 -8,0 -8,0 -8,0 -5.3613274,1.8613274 -3.2433274,4.7263274 -1.1263274,7.5893274 0,10.5 0,10.5 0,10.5 1.1263274,7.5893274 3.2433274,4.7263274 5.3613274,1.8613274 8,0 8,0 8,0 5.3613274,-1.8623274 3.2433274,-4.7253274 z"
        sodipodi:nodetypes="ccccccccc" /></g><g
      transform="matrix(1.4769065,0,0,1.4769065,150.62089,198.50346)"
      id="layer1-2-6-4"><path
-       style="fill:#df0000"
+       style="fill:#AF7200"
        inkscape:connector-curvature="0"
        id="dl-6-9"
        d="M 3.2433274,-4.7253274 C 1.1263274,-7.5893274 0,-10.5 0,-10.5 c 0,0 -1.1263274,2.9106726 -3.2433274,5.7746726 C -5.3613274,-1.8623274 -8,0 -8,0 -8,0 -5.3613274,1.8613274 -3.2433274,4.7263274 -1.1263274,7.5893274 0,10.5 0,10.5 0,10.5 1.1263274,7.5893274 3.2433274,4.7263274 5.3613274,1.8613274 8,0 8,0 8,0 5.3613274,-1.8623274 3.2433274,-4.7253274 z"
