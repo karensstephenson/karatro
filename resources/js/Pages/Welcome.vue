@@ -24,12 +24,12 @@ const selectedCardNames = ref<string[]>([]);
 // Choose one random card
 const pickRandomCard = () => {
     const randomNumber = Math.floor(Math.random() * props.cardList.length);
-    const randomCard = props.cardList[randomNumber].name;
-    return randomCard;
+    const randomCard = props.cardList[randomNumber];
+    return {name: randomCard.name, rank: randomCard.rank, value: randomCard.value};
 };
 
 // Create array of five random cards
-let randomCards = ref<string[]>([]);
+let randomCards = ref<any[]>([]);
 
 const drawTenCards = () => {
     randomCards.value = [];
@@ -46,6 +46,9 @@ const drawTenCards = () => {
             i++;
         }
     }
+    const requiredOrder = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2']
+    randomCards.value.sort((a,b) => requiredOrder.indexOf(a.rank) - requiredOrder.indexOf(b.rank))
+    
 };
 
 drawTenCards();
@@ -73,16 +76,16 @@ const toggleCard = (index: number) => {
             selectedCardNames.value.push(randomCards.value[index]);
         }
     }
+    
 };
 
 // Calculates the score of the selected cards when the score button is clicked
 const showScore = () => {
-    let cardValues = selectedCardNames.value.map((name) => {
-        let card = props.cardList.find((card) => card.name === name);
-        return card.value;
-    });
+    let cardValues = selectedCardNames.value.map((card) => card.value);
+    console.log(cardValues)
     let totalScore = cardValues.reduce((total, value) => total + value, 0);
     console.log(totalScore);
+    
 };
 </script>
 
@@ -107,7 +110,7 @@ const showScore = () => {
                                 }"
                                 @click="toggleCard(index)"
                             >
-                                <img :src="`cards/${card}.png`" :alt="card" />
+                                <img :src="`cards/${card.name}.png`" :alt="card" />
                             </li>
                         </div>
 
