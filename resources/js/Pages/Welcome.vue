@@ -4,6 +4,14 @@ import { Head, Link } from "@inertiajs/vue3";
 import cards from "@/global/cards";
 import draggable from "vuedraggable";
 
+import { useGameStore } from '@/store/game';
+
+const gameStore = useGameStore();
+
+onMounted(() => {
+    gameStore.cards = props.cardList;
+});
+
 const props = defineProps<{
     canLogin?: boolean;
     canRegister?: boolean;

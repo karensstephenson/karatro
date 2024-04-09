@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "vue-draggable": "^2.0.6",
-        "vuedraggable": "^4.1.0"
+        "vuedraggable": "^4.1.0",
+        "pinia": "^2.1.7"
     }
 }
