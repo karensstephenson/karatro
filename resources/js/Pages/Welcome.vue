@@ -201,13 +201,6 @@ const discardCards = () => {
                             </button>
                         </div>
 
-                        <button
-                            class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                            @click="drawCards"
-                        >
-                            Draw 10 Cards
-                        </button>
-
                         <div
                             class="flex flex-col items-center justify-center mt-10 border-double border-4 rounded-xl p-3"
                         >
