@@ -88,7 +88,7 @@ const drawCards = () => {
     );
 };
 
-// Sort cards by rank 
+// Sort cards by rank
 const sortByRank = () => {
     gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
@@ -127,8 +127,12 @@ const toggleCard = (index: number) => {
     }
 };
 
-const removePlayedCardsFromHand = () => {
-    gameStore.hand = gameStore.hand.filter(card => !selectedCards.value.includes(card.name));
+const removeSelectedCardsFromHand = () => {
+    gameStore.hand = gameStore.hand.filter(
+        (card) => !selectedCards.value.includes(card.name)
+    );
+    selectedCards.value = [];
+    drawCards();
 };
 
 // Calculates the score of the selected cards when the score button is clicked and replaces cards
@@ -139,9 +143,13 @@ const showScore = () => {
     });
     let totalScore = cardValues.reduce((total, value) => total + value, 0);
     console.log(totalScore);
-    removePlayedCardsFromHand();
-    selectedCards.value = [];
-    drawCards()
+    removeSelectedCardsFromHand();
+};
+
+// Discards selected cards from the hand and adds to discards array
+const discardCards = () => {
+    gameStore.discards = gameStore.discards.concat(selectedCards.value);
+    removeSelectedCardsFromHand();
 };
 </script>
 
@@ -178,12 +186,21 @@ const showScore = () => {
                             </template>
                         </draggable>
 
-                        <button
-                            class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                            @click="showScore"
-                        >
-                            Score
-                        </button>
+                        <div class="flex gap-3">
+                            <button
+                                class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                                @click="showScore"
+                            >
+                                Play Hand
+                            </button>
+                            <button
+                                class="mt-6 px-4 py-2 text-white bg-red-600 rounded-md hover:bg-indigo-700"
+                                @click="discardCards"
+                            >
+                                Discard
+                            </button>
+                        </div>
+
                         <button
                             class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
                             @click="drawCards"
