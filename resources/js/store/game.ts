@@ -9,9 +9,6 @@ export const useGameStore = defineStore({
         playedHands: [],
         totalPoints: 0,
     }),
-    getters: {
-        remainingDeck(): Card[] {
-            return this.cards.filter(card => !this.hand.includes(card) && !this.discards.includes(card))
-        }
-    },
 })
+
+

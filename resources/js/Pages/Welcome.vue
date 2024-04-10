@@ -10,6 +10,7 @@ const gameStore = useGameStore();
 
 onMounted(() => {
     gameStore.cards = props.cardList;
+    drawCards();
 });
 
 const props = defineProps<{
@@ -32,8 +33,8 @@ const selectedCardNames = ref<string[]>([]);
 
 // Choose one random card
 const pickRandomCard = () => {
-    const randomNumber = Math.floor(Math.random() * props.cardList.length);
-    const randomCard = props.cardList[randomNumber];
+    const randomNumber = Math.floor(Math.random() * gameStore.cards.length);
+    const randomCard = gameStore.cards[randomNumber];
     return {
         name: randomCard.name,
         rank: randomCard.rank,
@@ -63,41 +64,40 @@ const rankOrder = [
 
 const suitOrder = ["diamonds", "clubs", "hearts", "spades"];
 
-const drawTenCards = () => {
+const drawCards = () => {
     randomCards.value = [];
     selectedCards.value = [];
     selectedCardNames.value = [];
 
-    let i = 0;
     let card: any;
-    while (i < 10) {
-        card = pickRandomCard();
 
-        if (
-            !randomCards.value.some(
-                (chosenCard) => chosenCard.name === card.name
-            )
-        ) {
-            randomCards.value.push(card);
-            i++;
-        }
+    let i = 0;  
+
+    while (i < 10 && gameStore.hand.length < 10) {
+        card = pickRandomCard();
+        gameStore.hand.push(card);
+
+        gameStore.cards = gameStore.cards.filter((chosenCard: any) => {
+            return chosenCard.name !== card.name;
+        });
+        i++;
     }
 
-    randomCards.value.sort(
+    gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
 };
 
-drawTenCards();
+ 
 
 const sortByRank = () => {
-    randomCards.value.sort(
+    gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
 };
 
 const sortBySuit = () => {
-    randomCards.value.sort(
+    gameStore.hand.sort(
         (a, b) => suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit)
     );
 };
@@ -151,7 +151,7 @@ const showScore = () => {
                     <div class="flex flex-col items-center">
                         <draggable
                             class="flex justify-center gap-3 list-none"
-                            v-model="randomCards"
+                            v-model="gameStore.hand"
                             :item-key="(item) => item.id"
                         >
                             <template #item="{ element }">
@@ -179,7 +179,7 @@ const showScore = () => {
                         </button>
                         <button
                             class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                            @click="drawTenCards"
+                            @click="drawCards"
                         >
                             Draw 10 Cards
                         </button>
