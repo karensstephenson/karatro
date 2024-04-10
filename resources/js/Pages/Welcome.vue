@@ -43,7 +43,7 @@ const pickRandomCard = () => {
     };
 };
 
-// Create array of five random cards
+// Create array of random cards
 let randomCards = ref<any[]>([]);
 
 const rankOrder = [
@@ -83,18 +83,19 @@ const drawCards = () => {
         });
         i++;
     }
-
     gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
 };
 
+// Sort cards by rank 
 const sortByRank = () => {
     gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
 };
 
+// Sort cards by suit
 const sortBySuit = () => {
     gameStore.hand.sort(
         (a, b) => suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit)
@@ -121,23 +122,16 @@ const toggleCard = (index: number) => {
     } else {
         if (selectedCards.value.length < 5) {
             selectedCards.value.push(index);
-            // selectedCardNames.value.push(randomCards.value[index]);
+            selectedCardNames.value.push(randomCards.value[index]);
         }
     }
 };
 
-// const removePlayedCardsFromHand = () => {
-//     selectedCards.value.forEach((selectedCard) => {
-//         gameStore.hand = gameStore.hand.filter(
-//             (card, index:number) => card.name !== selectedCards[index]
-//         );
-//     });
-// };
 const removePlayedCardsFromHand = () => {
     gameStore.hand = gameStore.hand.filter(card => !selectedCards.value.includes(card.name));
 };
 
-// Calculates the score of the selected cards when the score button is clicked
+// Calculates the score of the selected cards when the score button is clicked and replaces cards
 const showScore = () => {
     let cardValues = selectedCards.value.map((cardName) => {
         let card = props.cardList.find((card) => card.name === cardName);
@@ -145,8 +139,6 @@ const showScore = () => {
     });
     let totalScore = cardValues.reduce((total, value) => total + value, 0);
     console.log(totalScore);
-    console.log(gameStore.hand);
-    console.log(selectedCards.value);
     removePlayedCardsFromHand();
     selectedCards.value = [];
     drawCards()
