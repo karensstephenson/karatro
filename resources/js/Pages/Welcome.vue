@@ -50,7 +50,7 @@ const drawTenCards = () => {
     selectedCardNames.value = [];
 
     let i = 0;
-    let card;
+    let card: any;
     while (i < 10) {
         card = pickRandomCard();
 
