@@ -76,7 +76,7 @@ const drawCards = () => {
     while (i < 10 && gameStore.hand.length < 10) {
         card = pickRandomCard();
         gameStore.hand.push(card);
-        //gameStore.cards = gameStore.remainingDeck;
+
         gameStore.cards = gameStore.cards.filter((chosenCard: any) => {
             return chosenCard.name !== card.name;
         });
@@ -88,7 +88,7 @@ const drawCards = () => {
     );
 };
 
-
+ 
 
 const sortByRank = () => {
     gameStore.hand.sort(
