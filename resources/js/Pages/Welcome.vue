@@ -10,6 +10,7 @@ const gameStore = useGameStore();
 
 onMounted(() => {
     gameStore.cards = props.cardList;
+    drawTenCards();
 });
 
 const props = defineProps<{
@@ -32,8 +33,8 @@ const selectedCardNames = ref<string[]>([]);
 
 // Choose one random card
 const pickRandomCard = () => {
-    const randomNumber = Math.floor(Math.random() * props.cardList.length);
-    const randomCard = props.cardList[randomNumber];
+    const randomNumber = Math.floor(Math.random() * gameStore.cards.length);
+    const randomCard = gameStore.cards[randomNumber];
     return {
         name: randomCard.name,
         rank: randomCard.rank,
@@ -68,36 +69,35 @@ const drawTenCards = () => {
     selectedCards.value = [];
     selectedCardNames.value = [];
 
-    let i = 0;
     let card: any;
+
+    let i = 0;
+
     while (i < 10) {
         card = pickRandomCard();
-
-        if (
-            !randomCards.value.some(
-                (chosenCard) => chosenCard.name === card.name
-            )
-        ) {
-            randomCards.value.push(card);
-            i++;
-        }
+        gameStore.hand.push(card);
+        //gameStore.cards = gameStore.remainingDeck;
+        gameStore.cards = gameStore.cards.filter((chosenCard: any) => {
+            return chosenCard.name !== card.name;
+        });
+        i++;
     }
 
-    randomCards.value.sort(
+    gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
 };
 
-drawTenCards();
+//drawTenCards();
 
 const sortByRank = () => {
-    randomCards.value.sort(
+    gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
 };
 
 const sortBySuit = () => {
-    randomCards.value.sort(
+    gameStore.hand.sort(
         (a, b) => suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit)
     );
 };
@@ -151,7 +151,7 @@ const showScore = () => {
                     <div class="flex flex-col items-center">
                         <draggable
                             class="flex justify-center gap-3 list-none"
-                            v-model="randomCards"
+                            v-model="gameStore.hand"
                             :item-key="(item) => item.id"
                         >
                             <template #item="{ element }">
