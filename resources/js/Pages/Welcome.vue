@@ -88,8 +88,6 @@ const drawTenCards = () => {
     );
 };
 
-//drawTenCards();
-
 const sortByRank = () => {
     gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
