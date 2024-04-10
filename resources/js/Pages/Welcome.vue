@@ -46,20 +46,20 @@ const pickRandomCard = () => {
 let randomCards = ref<any[]>([]);
 
 const rankOrder = [
-        "A",
-        "K",
-        "Q",
-        "J",
-        "10",
-        "9",
-        "8",
-        "7",
-        "6",
-        "5",
-        "4",
-        "3",
-        "2",
-    ];
+    "A",
+    "K",
+    "Q",
+    "J",
+    "10",
+    "9",
+    "8",
+    "7",
+    "6",
+    "5",
+    "4",
+    "3",
+    "2",
+];
 
 const suitOrder = ["diamonds", "clubs", "hearts", "spades"];
 
@@ -82,7 +82,7 @@ const drawTenCards = () => {
             i++;
         }
     }
-    
+
     randomCards.value.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
@@ -94,15 +94,13 @@ const sortByRank = () => {
     randomCards.value.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
-}
+};
 
 const sortBySuit = () => {
     randomCards.value.sort(
         (a, b) => suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit)
     );
-}
-
-
+};
 
 const removeFirstInstanceOfCard = (index: number) => {
     const cardToRemove = randomCards.value[index];
@@ -186,26 +184,26 @@ const showScore = () => {
                             Draw 10 Cards
                         </button>
 
-                        <div class="flex flex-col items-center justify-center mt-10 border-double border-4 rounded-xl p-3">
+                        <div
+                            class="flex flex-col items-center justify-center mt-10 border-double border-4 rounded-xl p-3"
+                        >
                             <p class="text-white text-lg">Sort Hand</p>
-                            
-                           <div class="flex gap-3">
-                            
-                            <button
-                                class="mt-6 px-4 py-2 text-white bg-amber-600 rounded-md hover:bg-indigo-700"
-                                @click="sortByRank"
-                            >
-                                Rank
-                            </button>
-                            <button
-                                class="mt-6 px-4 py-2 text-white bg-amber-600 rounded-md hover:bg-indigo-700"
-                                @click="sortBySuit"
-                            >
-                                Suit
-                            </button>
-                        </div> 
+
+                            <div class="flex gap-3">
+                                <button
+                                    class="mt-6 px-4 py-2 text-white bg-amber-600 rounded-md hover:bg-indigo-700"
+                                    @click="sortByRank"
+                                >
+                                    Rank
+                                </button>
+                                <button
+                                    class="mt-6 px-4 py-2 text-white bg-amber-600 rounded-md hover:bg-indigo-700"
+                                    @click="sortBySuit"
+                                >
+                                    Suit
+                                </button>
+                            </div>
                         </div>
-                        
                     </div>
                 </main>
             </div>
