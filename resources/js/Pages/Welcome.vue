@@ -10,7 +10,7 @@ const gameStore = useGameStore();
 
 onMounted(() => {
     gameStore.cards = props.cardList;
-    drawTenCards();
+    drawCards();
 });
 
 const props = defineProps<{
@@ -64,16 +64,16 @@ const rankOrder = [
 
 const suitOrder = ["diamonds", "clubs", "hearts", "spades"];
 
-const drawTenCards = () => {
+const drawCards = () => {
     randomCards.value = [];
     selectedCards.value = [];
     selectedCardNames.value = [];
 
     let card: any;
 
-    let i = 0;
+    let i = 0;  
 
-    while (i < 10) {
+    while (i < 10 && gameStore.hand.length < 10) {
         card = pickRandomCard();
         gameStore.hand.push(card);
         //gameStore.cards = gameStore.remainingDeck;
@@ -88,7 +88,7 @@ const drawTenCards = () => {
     );
 };
 
-//drawTenCards();
+
 
 const sortByRank = () => {
     gameStore.hand.sort(
@@ -179,7 +179,7 @@ const showScore = () => {
                         </button>
                         <button
                             class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                            @click="drawTenCards"
+                            @click="drawCards"
                         >
                             Draw 10 Cards
                         </button>
