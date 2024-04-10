@@ -28,7 +28,7 @@ function handleImageError() {
     document.getElementById("background")?.classList.add("!hidden");
 }
 
-const selectedCards = ref<number[]>([]);
+const selectedCards = ref<any[]>([]);
 const selectedCardNames = ref<string[]>([]);
 
 // Choose one random card
@@ -43,7 +43,7 @@ const pickRandomCard = () => {
     };
 };
 
-// Create array of five random cards
+// Create array of random cards
 let randomCards = ref<any[]>([]);
 
 const rankOrder = [
@@ -71,9 +71,10 @@ const drawCards = () => {
 
     let card: any;
 
-    let i = 0;  
+    let i = 0;
+    const handSize = 10;
 
-    while (i < 10 && gameStore.hand.length < 10) {
+    while (i < handSize && gameStore.hand.length < 10) {
         card = pickRandomCard();
         gameStore.hand.push(card);
 
@@ -82,20 +83,19 @@ const drawCards = () => {
         });
         i++;
     }
-
     gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
 };
 
- 
-
+// Sort cards by rank 
 const sortByRank = () => {
     gameStore.hand.sort(
         (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
     );
 };
 
+// Sort cards by suit
 const sortBySuit = () => {
     gameStore.hand.sort(
         (a, b) => suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit)
@@ -127,7 +127,11 @@ const toggleCard = (index: number) => {
     }
 };
 
-// Calculates the score of the selected cards when the score button is clicked
+const removePlayedCardsFromHand = () => {
+    gameStore.hand = gameStore.hand.filter(card => !selectedCards.value.includes(card.name));
+};
+
+// Calculates the score of the selected cards when the score button is clicked and replaces cards
 const showScore = () => {
     let cardValues = selectedCards.value.map((cardName) => {
         let card = props.cardList.find((card) => card.name === cardName);
@@ -135,6 +139,9 @@ const showScore = () => {
     });
     let totalScore = cardValues.reduce((total, value) => total + value, 0);
     console.log(totalScore);
+    removePlayedCardsFromHand();
+    selectedCards.value = [];
+    drawCards()
 };
 </script>
 
