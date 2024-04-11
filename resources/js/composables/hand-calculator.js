@@ -6,29 +6,13 @@ export function useHandCalculator() {
     // All of the functions below should return a boolean value, true if the hand is that type, false otherwise.
 
     const sortCards = (cards) => cards.sort((a, b) => a.rank - b.rank);
-        
-    const rankOrder = [
-        "14",
-        "13",
-        "12",
-        "11",
-        "10",
-        "9",
-        "8",
-        "7",
-        "6",
-        "5",
-        "4",
-        "3",
-        "2",
-    ];
 
     // Straight flush: Five cards in a sequence, all in the same suit.
     const isStraightFlush = (cards) => {
         if (!cards.every((card) => card.suit === cards[0].suit)) {
             return false;
         }
-        sortCards(cards)
+        sortCards(cards);
 
         //Checks for low ace
         if (
@@ -42,14 +26,12 @@ export function useHandCalculator() {
             return true;
         }
 
-        for (let i = 1; i < cards.length; i++) {
-            if (cards[i].rank !== cards[i - 1].rank + 1) {
-                return false;
-            } else {
-                return true
+        return cards.every((card, index) => {
+            if (index > 0) {
+                return card.rank === cards[index - 1].rank + 1;
             }
-        }
-        
+            return true;
+        });
     };
 
     // Four of a kind: Four cards of the same rank
@@ -66,16 +48,11 @@ export function useHandCalculator() {
             if (rankCounts[rank] === 4) {
                 return true;
             }
-
-            return false;
         }
+        return false;
     };
 
     // Full house: Three cards of one rank and two cards of another rank.
-    const countEachRank = () => {
-        
-    }
-    
     const isFullHouse = (cards) => {
         const rankCounts = {};
         for (const card of cards) {
@@ -87,29 +64,30 @@ export function useHandCalculator() {
         }
         let hasPair = false;
         let hasThreeOfAKind = false;
+        let fullHouse = false;
         for (const key in rankCounts) {
-            if (rankCounts[key] === 2) {
-                hasPair = true;
-            }
-            if (rankCounts[key] === 3) {
-                hasThreeOfAKind = true;
+            if (!fullHouse) {
+                if (rankCounts[key] === 2) {
+                    hasPair = true;
+                }
+                if (rankCounts[key] === 3) {
+                    hasThreeOfAKind = true;
+                }
+                if (hasPair && hasThreeOfAKind) {
+                    fullHouse = true;
+                }
             }
         }
-        return hasPair && hasThreeOfAKind;
+        return fullHouse;
     };
 
     // Flush: Five cards of the same suit, not in sequence
-    const isFlush = (cards) => {
-        if (cards.every((card) => card.suit === cards[0].suit)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
+    const isFlush = (cards) =>
+        cards.every((card) => card.suit === cards[0].suit);
 
     // Straight: Five cards in a sequence, but not of the same suit.
     const isStraight = (cards) => {
-        sortCards(cards)
+        sortCards(cards);
 
         //Checks for low ace
         if (
@@ -145,9 +123,8 @@ export function useHandCalculator() {
             if (rankCounts[rank] === 3) {
                 return true;
             }
-
-            return false;
         }
+        return false;
     };
 
     // Two pair: Two cards of one rank and two cards of another rank
@@ -160,7 +137,7 @@ export function useHandCalculator() {
                 rankCounts[card.rank] = 1;
             }
         }
-        
+
         let pairs = 0;
         for (const key in rankCounts) {
             if (rankCounts[key] === 2) {
@@ -189,7 +166,7 @@ export function useHandCalculator() {
 
     // High card: Highest value card (last ditch saloon, if none of those above apply, this one will)
     const isHighCard = (cards) => {
-        sortCards(cards)
+        sortCards(cards);
         console.log(cards[0]);
         return true;
     };
@@ -211,9 +188,9 @@ export function useHandCalculator() {
             return "Two Pair";
         } else if (isPair(cards)) {
             return "Pair";
-        } else if (isHighCard(cards)) {
-            return "High Card";
         }
+
+        return "High Card";
     };
 
     return {
