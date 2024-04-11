@@ -3,6 +3,8 @@ import { defineProps, ref, computed, onMounted } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 import cards from "@/global/cards";
 import draggable from "vuedraggable";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 import { useGameStore } from "@/store/game";
 
@@ -136,12 +138,15 @@ const removeSelectedCardsFromHand = () => {
 };
 
 // Calculates the score of the selected cards when the score button is clicked and replaces cards
+let multiplier = 1;
+const totalScore = ref(0);
+
 const showScore = () => {
     let cardValues = selectedCards.value.map((cardName) => {
         let card = props.cardList.find((card) => card.name === cardName);
         return card.value;
     });
-    let totalScore = cardValues.reduce((total, value) => total + value, 0);
+    totalScore.value = cardValues.reduce((total, value) => total + value, 0);
     console.log(totalScore);
     removeSelectedCardsFromHand();
 };
@@ -162,7 +167,23 @@ const discardCards = () => {
             class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                <main class="mt-6 flex items-center justify-center">
+                <main class="mt-6 flex flex-col items-center justify-center">
+                    <div class="mb-20 flex gap-5">
+                        <div
+                            class="flex justify-center w-24 mt-10 bg-indigo-600 text-white border rounded p-3"
+                        >
+                            {{ totalScore }}
+                        </div>
+                        <FontAwesomeIcon
+                            :icon="faX"
+                            class="text-white self-center mt-10"
+                        />
+                        <div
+                            class="flex justify-center w-24 mt-10 bg-red-600 text-white border rounded p-3"
+                        >
+                            {{ multiplier }}
+                        </div>
+                    </div>
                     <div class="flex flex-col items-center">
                         <draggable
                             class="flex justify-center gap-3 list-none"
