@@ -3,6 +3,8 @@ export function useHandCalculator() {
     // Each function listed below is in order of important, e.g. a 4 of a kind would override a full house
     // because four of a kind is deemed to be a better hand.
 
+    // All of the functions below should return a boolean value, true if the hand is that type, false otherwise.
+
     // Straight flush: Five cards in a sequence, all in the same suit.
     const isStraightFlush = (cards) => {}
 
