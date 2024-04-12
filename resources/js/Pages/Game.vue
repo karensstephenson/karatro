@@ -25,7 +25,6 @@ const props = defineProps<{
 }>();
 
 const selectedCards = ref<any[]>([]);
-const selectedCardNames = ref<string[]>([]);
 
 // Choose one random card
 const pickRandomCard = () => {
@@ -39,23 +38,15 @@ const pickRandomCard = () => {
     };
 };
 
-// Create array of random cards
-let randomCards = ref<any[]>([]);
-
 const drawCards = () => {
-    randomCards.value = [];
     selectedCards.value = [];
-    selectedCardNames.value = [];
-
     let card: any;
-
     let i = 0;
     const handSize = 10;
 
     while (i < handSize && gameStore.hand.length < 10) {
         card = pickRandomCard();
         gameStore.hand.push(card);
-
         gameStore.cards = gameStore.cards.filter((chosenCard: any) => {
             return chosenCard.name !== card.name;
         });
@@ -78,14 +69,6 @@ const sortBySuit = () => {
     );
 };
 
-const removeFirstInstanceOfCard = (index: number) => {
-    const cardToRemove = randomCards.value[index];
-    const firstIndex = selectedCardNames.value.indexOf(cardToRemove);
-    selectedCardNames.value = selectedCardNames.value.filter(
-        (card, index) => index !== firstIndex
-    );
-};
-
 // When clicked, move a card up or down and add/remove from a list of selected card indexes and names
 const isSelected = (index: number) => selectedCards.value.includes(index);
 
@@ -94,11 +77,9 @@ const toggleCard = (index: number) => {
         selectedCards.value = selectedCards.value.filter(
             (cardIndex) => cardIndex !== index
         );
-        removeFirstInstanceOfCard(index);
     } else {
         if (selectedCards.value.length < 5) {
             selectedCards.value.push(index);
-            selectedCardNames.value.push(randomCards.value[index]);
         }
     }
 };
@@ -142,7 +123,10 @@ const discardCards = () => {
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main class="mt-6 flex flex-col items-center justify-center">
-                    <GameScore :totalScore="totalScore" :multiplier="multiplier"/>
+                    <GameScore
+                        :totalScore="totalScore"
+                        :multiplier="multiplier"
+                    />
                     
                     <div class="flex flex-col items-center">
                         <draggable
