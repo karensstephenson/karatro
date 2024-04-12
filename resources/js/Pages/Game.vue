@@ -3,12 +3,12 @@ import { defineProps, ref, computed, onMounted } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 import cards from "@/global/cards";
 import draggable from "vuedraggable";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
+
 
 import { useGameStore } from "@/stores/game";
 
 import HandSort from "../Components/HandSort.vue";
+import GameScore from "../Components/GameScore.vue";
 
 const gameStore = useGameStore();
 
@@ -42,7 +42,6 @@ const pickRandomCard = () => {
 
 // Create array of random cards
 let randomCards = ref<any[]>([]);
-
 
 const drawCards = () => {
     randomCards.value = [];
@@ -114,7 +113,7 @@ const removeSelectedCardsFromHand = () => {
 };
 
 // Calculates the score of the selected cards when the score button is clicked and replaces cards
-let multiplier = 1;
+const multiplier = ref(1);
 const totalScore = ref(0);
 
 const showScore = () => {
@@ -144,22 +143,8 @@ const discardCards = () => {
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main class="mt-6 flex flex-col items-center justify-center">
-                    <div class="mb-20 flex gap-5">
-                        <div
-                            class="flex justify-center w-24 mt-10 bg-indigo-600 text-white border rounded p-3"
-                        >
-                            {{ totalScore }}
-                        </div>
-                        <FontAwesomeIcon
-                            :icon="faX"
-                            class="text-white self-center mt-10"
-                        />
-                        <div
-                            class="flex justify-center w-24 mt-10 bg-red-600 text-white border rounded p-3"
-                        >
-                            {{ multiplier }}
-                        </div>
-                    </div>
+                    <GameScore :totalScore="totalScore" :multiplier="multiplier"/>
+                    
                     <div class="flex flex-col items-center">
                         <draggable
                             class="flex justify-center gap-3 list-none"
