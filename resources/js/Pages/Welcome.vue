@@ -41,22 +41,6 @@ const pickRandomCard = () => {
 // Create array of random cards
 let randomCards = ref<any[]>([]);
 
-const rankOrder = [
-    "A",
-    "K",
-    "Q",
-    "J",
-    "10",
-    "9",
-    "8",
-    "7",
-    "6",
-    "5",
-    "4",
-    "3",
-    "2",
-];
-
 const suitOrder = ["diamonds", "clubs", "hearts", "spades"];
 
 const drawCards = () => {
@@ -78,16 +62,12 @@ const drawCards = () => {
         });
         i++;
     }
-    gameStore.hand.sort(
-        (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
-    );
+    gameStore.hand.sort((a, b) => b.rank - a.rank)
 };
 
 // Sort cards by rank
 const sortByRank = () => {
-    gameStore.hand.sort(
-        (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
-    );
+    gameStore.hand.sort((a, b) => b.rank - a.rank)
 };
 
 // Sort cards by suit
