@@ -23,8 +23,6 @@ const props = defineProps<{
     laravelVersion: string;
     phpVersion: string;
     cardList: any[];
-    multiplier: number;
-    totalScore: number;
 }>();
 
 const selectedCards = ref<any[]>([]);
