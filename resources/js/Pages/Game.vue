@@ -4,7 +4,6 @@ import { Head, Link } from "@inertiajs/vue3";
 import cards from "@/global/cards";
 import draggable from "vuedraggable";
 
-
 import { useGameStore } from "@/stores/game";
 
 import HandSort from "../Components/HandSort.vue";
