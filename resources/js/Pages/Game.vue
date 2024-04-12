@@ -13,7 +13,7 @@ const gameStore = useGameStore();
 
 onMounted(() => {
     gameStore.cards = props.cardList;
-    drawCards();
+    gameStore.drawCards();
 });
 
 const props = defineProps<{
@@ -25,35 +25,6 @@ const props = defineProps<{
 }>();
 
 const selectedCards = ref<any[]>([]);
-
-// Choose one random card
-const pickRandomCard = () => {
-    const randomNumber = Math.floor(Math.random() * gameStore.cards.length);
-    const randomCard = gameStore.cards[randomNumber];
-    return {
-        name: randomCard.name,
-        rank: randomCard.rank,
-        value: randomCard.value,
-        suit: randomCard.suit,
-    };
-};
-
-const drawCards = () => {
-    selectedCards.value = [];
-    let card: any;
-    let i = 0;
-    const handSize = 10;
-
-    while (i < handSize && gameStore.hand.length < 10) {
-        card = pickRandomCard();
-        gameStore.hand.push(card);
-        gameStore.cards = gameStore.cards.filter((chosenCard: any) => {
-            return chosenCard.name !== card.name;
-        });
-        i++;
-    }
-    gameStore.hand.sort((a, b) => b.rank - a.rank);
-};
 
 // Sort cards by rank
 const sortByRank = () => {
@@ -89,7 +60,7 @@ const removeSelectedCardsFromHand = () => {
         (card) => !selectedCards.value.includes(card.name)
     );
     selectedCards.value = [];
-    drawCards();
+    gameStore.drawCards();
 };
 
 // Calculates the score of the selected cards when the score button is clicked and replaces cards
@@ -106,7 +77,7 @@ const showScore = () => {
     removeSelectedCardsFromHand();
 };
 
-// Discards selected cards from the hand and adds to discards array
+//Discards selected cards from the hand and adds to discards array
 const discardCards = () => {
     gameStore.discards = gameStore.discards.concat(selectedCards.value);
     removeSelectedCardsFromHand();
@@ -127,7 +98,7 @@ const discardCards = () => {
                         :totalScore="totalScore"
                         :multiplier="multiplier"
                     />
-                    
+
                     <div class="flex flex-col items-center">
                         <draggable
                             class="flex justify-center gap-3 list-none"
