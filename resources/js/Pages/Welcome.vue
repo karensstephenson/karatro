@@ -6,7 +6,7 @@ import draggable from "vuedraggable";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
-import { useGameStore } from "@/store/game";
+import { useGameStore } from "@/stores/game";
 
 const gameStore = useGameStore();
 
