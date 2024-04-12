@@ -2,6 +2,6 @@
 interface Card {
     name: string
     suit: string
-    rank: string
+    rank: number
     value: number
 }

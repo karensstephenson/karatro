@@ -8,6 +8,8 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 
 import { useGameStore } from "@/stores/game";
 
+import HandSort from "../Components/HandSort.vue";
+
 const gameStore = useGameStore();
 
 onMounted(() => {
@@ -41,23 +43,6 @@ const pickRandomCard = () => {
 // Create array of random cards
 let randomCards = ref<any[]>([]);
 
-const rankOrder = [
-    "A",
-    "K",
-    "Q",
-    "J",
-    "10",
-    "9",
-    "8",
-    "7",
-    "6",
-    "5",
-    "4",
-    "3",
-    "2",
-];
-
-const suitOrder = ["diamonds", "clubs", "hearts", "spades"];
 
 const drawCards = () => {
     randomCards.value = [];
@@ -78,19 +63,17 @@ const drawCards = () => {
         });
         i++;
     }
-    gameStore.hand.sort(
-        (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
-    );
+    gameStore.hand.sort((a, b) => b.rank - a.rank);
 };
 
 // Sort cards by rank
 const sortByRank = () => {
-    gameStore.hand.sort(
-        (a, b) => rankOrder.indexOf(a.rank) - rankOrder.indexOf(b.rank)
-    );
+    gameStore.hand.sort((a, b) => b.rank - a.rank);
 };
 
 // Sort cards by suit
+const suitOrder = ["diamonds", "clubs", "hearts", "spades"];
+
 const sortBySuit = () => {
     gameStore.hand.sort(
         (a, b) => suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit)
@@ -215,26 +198,10 @@ const discardCards = () => {
                             </button>
                         </div>
 
-                        <div
-                            class="flex flex-col items-center justify-center mt-10 border-double border-4 rounded-xl p-3"
-                        >
-                            <p class="text-white text-lg">Sort Hand</p>
-
-                            <div class="flex gap-3">
-                                <button
-                                    class="mt-6 px-4 py-2 text-white bg-amber-600 rounded-md hover:bg-indigo-700"
-                                    @click="sortByRank"
-                                >
-                                    Rank
-                                </button>
-                                <button
-                                    class="mt-6 px-4 py-2 text-white bg-amber-600 rounded-md hover:bg-indigo-700"
-                                    @click="sortBySuit"
-                                >
-                                    Suit
-                                </button>
-                            </div>
-                        </div>
+                        <HandSort
+                            @sortByRank="sortByRank"
+                            @sortBySuit="sortBySuit"
+                        />
                     </div>
                 </main>
             </div>
