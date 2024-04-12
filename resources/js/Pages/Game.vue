@@ -4,7 +4,7 @@ import { Head, Link } from "@inertiajs/vue3";
 import cards from "@/global/cards";
 import draggable from "vuedraggable";
 
-import { useGameStore } from "@/store/game";
+import { useGameStore } from "@/stores/game";
 
 import HandSort from "../Components/HandSort.vue";
 import GameScore from "../Components/GameScore.vue";
@@ -38,7 +38,6 @@ const pickRandomCard = () => {
     };
 };
 
-// Create array of random cards
 const drawCards = () => {
     selectedCards.value = [];
     let card: any;
@@ -128,7 +127,7 @@ const discardCards = () => {
                         :totalScore="totalScore"
                         :multiplier="multiplier"
                     />
-
+                    
                     <div class="flex flex-col items-center">
                         <draggable
                             class="flex justify-center gap-3 list-none"
