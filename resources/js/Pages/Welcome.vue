@@ -17,7 +17,7 @@ import { Head, Link } from "@inertiajs/vue3";
                     <div class="flex flex-col items-center">
                         <div class="flex gap-3">
                             <Link
-                                :href="route('game')"
+                                :href="route('game', 'gameId')"
                                 class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
                                 >New Game</Link
                             >

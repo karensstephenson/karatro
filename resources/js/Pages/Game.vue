@@ -59,7 +59,7 @@ const multiplier = ref(1);
                                     @click="gameStore.toggleCard(element)"
                                 >
                                     <img
-                                        :src="`card_svgs/${element.name}.svg`"
+                                        :src="`../card_svgs/${element.name}.svg`"
                                         :alt="element.name"
                                     />
                                 </li>
