@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import { router } from "@inertiajs/vue3";
+
 import { Head, Link } from "@inertiajs/vue3";
+
+const newGame = () => {
+    router.post(route("game.create"));
+};
 </script>
 
 <template>
@@ -17,10 +23,11 @@ import { Head, Link } from "@inertiajs/vue3";
                     <div class="flex flex-col items-center">
                         <div class="flex gap-3">
                             <Link
-                                :href="route('game.create')"
+                                @click="newGame"
                                 class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                                >New Game</Link
                             >
+                                New Game
+                            </Link>
                         </div>
                     </div>
                 </main>
