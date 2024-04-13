@@ -24,7 +24,7 @@ const props = defineProps<{
     cardList: any[];
 }>();
 
-const selectedCards = ref<any[]>([]);
+const multiplier = ref(1);
 
 // Sort cards by rank
 const sortByRank = () => {
@@ -41,46 +41,18 @@ const sortBySuit = () => {
 };
 
 // When clicked, move a card up or down and add/remove from a list of selected card indexes and names
-const isSelected = (index: number) => selectedCards.value.includes(index);
+const isSelected = (index: number) => gameStore.selectedCards.includes(index);
 
 const toggleCard = (index: number) => {
     if (isSelected(index)) {
-        selectedCards.value = selectedCards.value.filter(
+        gameStore.selectedCards = gameStore.selectedCards.filter(
             (cardIndex) => cardIndex !== index
         );
     } else {
-        if (selectedCards.value.length < 5) {
-            selectedCards.value.push(index);
+        if (gameStore.selectedCards.length < 5) {
+            gameStore.selectedCards.push(index);
         }
     }
-};
-
-const removeSelectedCardsFromHand = () => {
-    gameStore.hand = gameStore.hand.filter(
-        (card) => !selectedCards.value.includes(card.name)
-    );
-    selectedCards.value = [];
-    gameStore.drawCards();
-};
-
-// Calculates the score of the selected cards when the score button is clicked and replaces cards
-const multiplier = ref(1);
-const totalScore = ref(0);
-
-const showScore = () => {
-    let cardValues = selectedCards.value.map((cardName) => {
-        let card = props.cardList.find((card) => card.name === cardName);
-        return card.value;
-    });
-    totalScore.value = cardValues.reduce((total, value) => total + value, 0);
-    console.log(totalScore);
-    removeSelectedCardsFromHand();
-};
-
-//Discards selected cards from the hand and adds to discards array
-const discardCards = () => {
-    gameStore.discards = gameStore.discards.concat(selectedCards.value);
-    removeSelectedCardsFromHand();
 };
 </script>
 
@@ -95,7 +67,7 @@ const discardCards = () => {
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main class="mt-6 flex flex-col items-center justify-center">
                     <GameScore
-                        :totalScore="totalScore"
+                        :totalScore="gameStore.totalScore"
                         :multiplier="multiplier"
                     />
 
@@ -107,12 +79,12 @@ const discardCards = () => {
                         >
                             <template #item="{ element }">
                                 <li
-                                    :key="element.index"
+                                    :key="element"
                                     class="card"
                                     :class="{
-                                        selected: isSelected(element.name),
+                                        selected: isSelected(element),
                                     }"
-                                    @click="toggleCard(element.name)"
+                                    @click="toggleCard(element)"
                                 >
                                     <img
                                         :src="`card_svgs/${element.name}.svg`"
@@ -125,13 +97,13 @@ const discardCards = () => {
                         <div class="flex gap-3">
                             <button
                                 class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
-                                @click="showScore"
+                                @click="gameStore.showScore"
                             >
                                 Play Hand
                             </button>
                             <button
                                 class="mt-6 px-4 py-2 text-white bg-red-600 rounded-md hover:bg-indigo-700"
-                                @click="discardCards"
+                                @click="gameStore.discardCards"
                             >
                                 Discard
                             </button>
