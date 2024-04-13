@@ -21,14 +21,14 @@ Route::post('/game', function () {
     // scaffold new game instance
     $game = new Game();
     $game->save();
-    
+
     return redirect()->route('game', ['gameId' => $game->id]);
 })->name('game.create');
 
 Route::get('/game/{gameId}', function ($gameId) {
 
     $game = Game::find($gameId);
-    dd($game);
+
     return Inertia::render('Game', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
