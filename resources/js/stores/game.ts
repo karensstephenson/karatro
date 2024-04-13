@@ -62,5 +62,19 @@ export const useGameStore = defineStore({
             this.discards = this.discards.concat(this.selectedCards);
             this.removeSelectedCardsFromHand();
         },
+        isSelected(index: number) {
+            return this.selectedCards.includes(index);
+        },
+        toggleCard(index: number) {
+            if (this.isSelected(index)) {
+                this.selectedCards = this.selectedCards.filter(
+                    (cardIndex) => cardIndex !== index
+                );
+            } else {
+                if (this.selectedCards.length < 5) {
+                    this.selectedCards.push(index);
+                }
+            }
+        }
     },
 });

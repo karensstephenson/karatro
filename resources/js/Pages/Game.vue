@@ -39,21 +39,6 @@ const sortBySuit = () => {
         (a, b) => suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit)
     );
 };
-
-// When clicked, move a card up or down and add/remove from a list of selected card indexes and names
-const isSelected = (index: number) => gameStore.selectedCards.includes(index);
-
-const toggleCard = (index: number) => {
-    if (isSelected(index)) {
-        gameStore.selectedCards = gameStore.selectedCards.filter(
-            (cardIndex) => cardIndex !== index
-        );
-    } else {
-        if (gameStore.selectedCards.length < 5) {
-            gameStore.selectedCards.push(index);
-        }
-    }
-};
 </script>
 
 <template>
@@ -82,9 +67,9 @@ const toggleCard = (index: number) => {
                                     :key="element"
                                     class="card"
                                     :class="{
-                                        selected: isSelected(element),
+                                        selected: gameStore.isSelected(element),
                                     }"
-                                    @click="toggleCard(element)"
+                                    @click="gameStore.toggleCard(element)"
                                 >
                                     <img
                                         :src="`card_svgs/${element.name}.svg`"
