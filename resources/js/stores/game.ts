@@ -10,6 +10,7 @@ export const useGameStore = defineStore({
         totalPoints: 0,
         selectedCards: [] as String[],
         totalScore: 0,
+        suitOrder: ["diamonds", "clubs", "hearts", "spades"],
     }),
     actions: {
         drawCards() {
@@ -75,6 +76,14 @@ export const useGameStore = defineStore({
                     this.selectedCards.push(index);
                 }
             }
+        },
+        sortBySuit() {
+            this.hand.sort(
+                (a, b) => this.suitOrder.indexOf(a.suit) - this.suitOrder.indexOf(b.suit)
+            );
+        },
+        sortByRank() {
+            this.hand.sort((a, b) => b.rank - a.rank);
         }
     },
 });

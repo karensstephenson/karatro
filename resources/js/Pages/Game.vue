@@ -26,19 +26,6 @@ const props = defineProps<{
 
 const multiplier = ref(1);
 
-// Sort cards by rank
-const sortByRank = () => {
-    gameStore.hand.sort((a, b) => b.rank - a.rank);
-};
-
-// Sort cards by suit
-const suitOrder = ["diamonds", "clubs", "hearts", "spades"];
-
-const sortBySuit = () => {
-    gameStore.hand.sort(
-        (a, b) => suitOrder.indexOf(a.suit) - suitOrder.indexOf(b.suit)
-    );
-};
 </script>
 
 <template>
@@ -95,8 +82,8 @@ const sortBySuit = () => {
                         </div>
 
                         <HandSort
-                            @sortByRank="sortByRank"
-                            @sortBySuit="sortBySuit"
+                            @sortByRank="gameStore.sortByRank"
+                            @sortBySuit="gameStore.sortBySuit"
                         />
                     </div>
                 </main>
