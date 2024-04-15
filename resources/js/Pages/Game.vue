@@ -41,6 +41,7 @@ const multiplier = ref(1);
                     <GameScore
                         :totalScore="gameStore.totalScore"
                         :multiplier="multiplier"
+                        :playerHand="gameStore.playerHand"
                     />
 
                     <div class="flex flex-col items-center">
