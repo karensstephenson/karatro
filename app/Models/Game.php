@@ -13,7 +13,6 @@ class Game extends Model
         'uuid',
         'round',
         'status',
-        'hands',
-        'discards',
+        'deck_id',
     ];
 }
