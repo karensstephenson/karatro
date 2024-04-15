@@ -24,7 +24,9 @@ class GameTest extends TestCase
 
     public function testEndUpOnGameId(): void
     {
-        $response = $this->get('/game/{gameId');
+        $game = Game::first();
+        
+        $response = $this->get(route('game', ['gameId' => $game->id]));
 
         $response->assertStatus(200);
 
