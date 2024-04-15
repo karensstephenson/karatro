@@ -60,6 +60,9 @@ export const useGameStore = defineStore({
                 0
             );
             this.removeSelectedCardsFromHand();
+            this.playerHand = useHandCalculator().getHandName(
+                this.selectedCards
+            );
         },
         discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
