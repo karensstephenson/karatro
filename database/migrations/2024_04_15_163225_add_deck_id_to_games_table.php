@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('games', function (Blueprint $table) {
             $table->unsignedBigInteger('deck_id')->default(1);
+            $table->foreign('deck_id')->references('id')->on('decks');
         });
     }
 
