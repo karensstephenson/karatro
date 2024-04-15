@@ -15,5 +15,6 @@ class Game extends Model
         'status',
         'hands',
         'discards',
+        'deck_id',
     ];
 }
