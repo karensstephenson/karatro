@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Game_Round extends Model
 {
-    protected $table = 'game-rounds';
+    protected $table = 'game_rounds';
 
     protected $fillable = [
         'id',
