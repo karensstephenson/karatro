@@ -64,6 +64,9 @@ export const useGameStore = defineStore({
         discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
             this.removeSelectedCardsFromHand();
+            this.playerHand = useHandCalculator().getHandName(
+                this.selectedCards
+            );
         },
         isSelected(index: number) {
             return this.selectedCards.includes(index);
