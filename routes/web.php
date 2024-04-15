@@ -9,10 +9,7 @@ use Illuminate\Support\Str;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        j,
-        'cardList' => Card::all(),
-    ]);
+    return Inertia::render('Welcome');
 });
 
 Route::post('/game', function () {
