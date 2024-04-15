@@ -5,6 +5,7 @@ use App\Models\Game;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Str;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
@@ -19,15 +20,15 @@ Route::get('/', function () {
 
 Route::post('/game', function () {
     // scaffold new game instance
-    $game = new Game();
+    $game = new Game(['uuid' => Str::uuid()->toString()]);
     $game->save();
 
-    return redirect()->route('game', ['gameId' => $game->id]);
+    return redirect()->route('game', ['gameUuid' => $game->uuid]);
 })->name('game.create');
 
-Route::get('/game/{gameId}', function ($gameId) {
+Route::get('/game/{gameUuid}', function ($gameUuid) {
 
-    $game = Game::find($gameId);
+    $game = Game::find($gameUuid);
 
     return Inertia::render('Game', [
         'canLogin' => Route::has('login'),
@@ -36,7 +37,7 @@ Route::get('/game/{gameId}', function ($gameId) {
         'phpVersion' => PHP_VERSION,
         'cardList' => Card::all(),
         'game' => $game,
-        'gameId' => $gameId,
+        'gameUuid' => $gameUuid,
     ]);
 })->name('game');
 

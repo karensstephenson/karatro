@@ -10,6 +10,7 @@ class Game extends Model
 
     protected $fillable = [
         'id',
+        'uuid',
         'round',
         'hands',
         'discards',
