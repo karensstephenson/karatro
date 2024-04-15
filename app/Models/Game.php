@@ -12,6 +12,7 @@ class Game extends Model
         'id',
         'uuid',
         'round',
+        'status',
         'hands',
         'discards',
     ];
