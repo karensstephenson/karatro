@@ -26,12 +26,14 @@ export function useHandCalculator() {
             return true;
         }
 
-        return cards.every((card, index) => {
-            if (index > 0) {
-                return card.rank === cards[index - 1].rank + 1;
-            }
-            return true;
-        });
+        if (cards.length === 5)
+            cards.every((card, index) => {
+                if (index > 0) {
+                    return card.rank === cards[index - 1].rank + 1;
+                }
+                return true;
+            });
+        return false;
     };
 
     // Four of a kind: Four cards of the same rank
@@ -83,7 +85,8 @@ export function useHandCalculator() {
 
     // Flush: Five cards of the same suit, not in sequence
     const isFlush = (cards) =>
-        cards.every((card) => card.suit === cards[0].suit);
+        cards.every((card) => card.suit === cards[0].suit) &&
+        cards.length === 5;
 
     // Straight: Five cards in a sequence, but not of the same suit.
     const isStraight = (cards) => {
@@ -101,12 +104,15 @@ export function useHandCalculator() {
             return true;
         }
 
-        for (let i = 1; i < cards.length; i++) {
-            if (cards[i].rank !== cards[i - 1].rank + 1) {
-                return false;
+        if (cards.length === 5) {
+            for (let i = 1; i < cards.length; i++) {
+                if (cards[i].rank !== cards[i - 1].rank + 1) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+        return false;
     };
 
     // Three of a kind: Three cards of the same rank
@@ -164,13 +170,6 @@ export function useHandCalculator() {
         return false;
     };
 
-    // High card: Highest value card (last ditch saloon, if none of those above apply, this one will)
-    const isHighCard = (cards) => {
-        sortCards(cards);
-        console.log(cards[0]);
-        return true;
-    };
-
     const getHandName = (cards) => {
         if (isStraightFlush(cards)) {
             return "Straight Flush";
@@ -188,9 +187,9 @@ export function useHandCalculator() {
             return "Two Pair";
         } else if (isPair(cards)) {
             return "Pair";
+        } else if (cards.length >= 1) {
+            return "High Card";
         }
-
-        return "High Card";
     };
 
     return {

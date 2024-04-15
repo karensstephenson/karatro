@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useHandCalculator } from "../composables/hand-calculator";
 
 export const useGameStore = defineStore({
     id: "game",
@@ -11,6 +12,7 @@ export const useGameStore = defineStore({
         selectedCards: [] as String[],
         totalScore: 0,
         suitOrder: ["diamonds", "clubs", "hearts", "spades"],
+        playerHand: null,
     }),
     actions: {
         drawCards() {
@@ -58,10 +60,16 @@ export const useGameStore = defineStore({
                 0
             );
             this.removeSelectedCardsFromHand();
+            this.playerHand = useHandCalculator().getHandName(
+                this.selectedCards
+            );
         },
         discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
             this.removeSelectedCardsFromHand();
+            this.playerHand = useHandCalculator().getHandName(
+                this.selectedCards
+            );
         },
         isSelected(index: number) {
             return this.selectedCards.includes(index);
@@ -76,14 +84,19 @@ export const useGameStore = defineStore({
                     this.selectedCards.push(index);
                 }
             }
+            this.playerHand = useHandCalculator().getHandName(
+                this.selectedCards
+            );
         },
         sortBySuit() {
             this.hand.sort(
-                (a, b) => this.suitOrder.indexOf(a.suit) - this.suitOrder.indexOf(b.suit)
+                (a, b) =>
+                    this.suitOrder.indexOf(a.suit) -
+                    this.suitOrder.indexOf(b.suit)
             );
         },
         sortByRank() {
             this.hand.sort((a, b) => b.rank - a.rank);
-        }
+        },
     },
 });
