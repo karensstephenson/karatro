@@ -8,7 +8,6 @@ import { useGameStore } from "@/stores/game";
 
 import HandSort from "../Components/HandSort.vue";
 import GameScore from "../Components/GameScore.vue";
-import HandsAndDiscards from "@/Components/HandsAndDiscards.vue";
 
 const gameStore = useGameStore();
 
@@ -26,6 +25,7 @@ const props = defineProps<{
 }>();
 
 const multiplier = ref(1);
+
 </script>
 
 <template>
@@ -82,15 +82,10 @@ const multiplier = ref(1);
                             </button>
                         </div>
 
-                        <div class="flex gap-10">
-                            <HandSort
-                                @sortByRank="gameStore.sortByRank"
-                                @sortBySuit="gameStore.sortBySuit"
-                                class="self-center"
-                            />
-
-                            <HandsAndDiscards />
-                        </div>
+                        <HandSort
+                            @sortByRank="gameStore.sortByRank"
+                            @sortBySuit="gameStore.sortBySuit"
+                        />
                     </div>
                 </main>
             </div>
