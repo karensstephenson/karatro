@@ -14,5 +14,7 @@ class Game_Round extends Model
         'game_id',
         'remaining_hands',
         'remaining_discards',
+        'cash',
+        'total_points',
     ];
 }

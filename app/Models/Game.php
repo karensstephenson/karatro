@@ -11,8 +11,10 @@ class Game extends Model
     protected $fillable = [
         'id',
         'uuid',
-        'round',
-        'status',
         'deck_id',
+        'status',
+        'round',
+        'total_point',
+        'cash',
     ];
 }
