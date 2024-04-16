@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        {
-            Schema::table('games', function (Blueprint $table) {
-                $table->integer('cash')->default(4)->after('round')->change();
-                $table->integer('total_points')->default(0)->after('round')->change();
-                $table->unsignedBigInteger('deck_id')->default(1)->after('uuid')->change();
-            });
-        }
+        Schema::table('games', function (Blueprint $table) {
+            $table->integer('cash')->default(4)->after('round');
+            $table->integer('total_points')->default(0)->after('round');
+            $table->unsignedBigInteger('deck_id')->default(1)->after('uuid')->change();
+        });
     }
 
     /**
@@ -25,6 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('games', function (Blueprint $table) {
+            $table->dropColumn('cash');
+            $table->dropColumn('total_points');
+        });
     }
 };
