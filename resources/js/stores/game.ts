@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useHandCalculator } from "../composables/hand-calculator";
+import { handDetails } from "../composables/hand-calculator";
 
 export const useGameStore = defineStore({
     id: "game",
@@ -12,7 +13,10 @@ export const useGameStore = defineStore({
         selectedCards: [] as String[],
         totalScore: 0,
         suitOrder: ["diamonds", "clubs", "hearts", "spades"],
-        playerHand: null,
+        playerHand: "",
+        showPlayerHand: "",
+        multiplier: 0,
+        chips: 0,
     }),
     actions: {
         drawCards() {
@@ -60,16 +64,12 @@ export const useGameStore = defineStore({
                 0
             );
             this.removeSelectedCardsFromHand();
-            this.playerHand = useHandCalculator().getHandName(
-                this.selectedCards
-            );
+            this.clearDisplay();
         },
         discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
             this.removeSelectedCardsFromHand();
-            this.playerHand = useHandCalculator().getHandName(
-                this.selectedCards
-            );
+            this.clearDisplay();
         },
         isSelected(index: number) {
             return this.selectedCards.includes(index);
@@ -84,9 +84,15 @@ export const useGameStore = defineStore({
                     this.selectedCards.push(index);
                 }
             }
+            if (this.selectedCards.length === 0) {
+                this.clearDisplay();
+            }
             this.playerHand = useHandCalculator().getHandName(
                 this.selectedCards
             );
+            this.showPlayerHand = handDetails[this.playerHand].name;
+            this.multiplier = handDetails[this.playerHand].mult;
+            this.totalScore = handDetails[this.playerHand].chips;
         },
         sortBySuit() {
             this.hand.sort(
@@ -97,6 +103,11 @@ export const useGameStore = defineStore({
         },
         sortByRank() {
             this.hand.sort((a, b) => b.rank - a.rank);
+        },
+        clearDisplay() {
+            this.showPlayerHand = "";
+            this.multiplier = 0;
+            this.totalScore = 0;
         },
     },
 });

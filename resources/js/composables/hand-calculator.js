@@ -172,23 +172,23 @@ export function useHandCalculator() {
 
     const getHandName = (cards) => {
         if (isStraightFlush(cards)) {
-            return "Straight Flush";
+            return "straightFlush";
         } else if (isFourOfAKind(cards)) {
-            return "Four of a Kind";
+            return "fourOfAKind";
         } else if (isFullHouse(cards)) {
-            return "Full House";
+            return "fullHouse";
         } else if (isFlush(cards)) {
-            return "Flush";
+            return "flush";
         } else if (isStraight(cards)) {
-            return "Straight";
+            return "straight";
         } else if (isThreeOfAKind(cards)) {
-            return "Three of a Kind";
+            return "threeOfAKind";
         } else if (isTwoPair(cards)) {
-            return "Two Pair";
+            return "twoPair";
         } else if (isPair(cards)) {
-            return "Pair";
+            return "pair";
         } else if (cards.length >= 1) {
-            return "High Card";
+            return "highCard";
         }
     };
 
@@ -196,3 +196,51 @@ export function useHandCalculator() {
         getHandName,
     };
 }
+
+export const handDetails = {
+    highCard: {
+        name: "High Card",
+        mult: 1,
+        chips: 5,
+    },
+    pair: {
+        name: "Pair",
+        mult: 2,
+        chips: 10,
+    },
+    twoPair: {
+        name: "Two Pair",
+        mult: 2,
+        chips: 20,
+    },
+    threeOfAKind: {
+        name: "Three of a Kind",
+        mult: 3,
+        chips: 30,
+    },
+    straight: {
+        name: "Straight",
+        mult: 4,
+        chips: 30,
+    },
+    flush: {
+        name: "Flush",
+        mult: 4,
+        chips: 35,
+    },
+    fullHouse: {
+        name: "Full House",
+        mult: 4,
+        chips: 40,
+    },
+    fourOfAKind: {
+        name: "Four of a Kind",
+        mult: 7,
+        chips: 60,
+    },
+    straightFlush: {
+        name: "Straight Flush",
+        mult: 8,
+        chips: 100,
+    },
+};

@@ -25,7 +25,6 @@ const props = defineProps<{
     cardList: any[];
 }>();
 
-const multiplier = ref(1);
 </script>
 
 <template>
@@ -40,8 +39,8 @@ const multiplier = ref(1);
                 <main class="mt-6 flex flex-col items-center justify-center">
                     <GameScore
                         :totalScore="gameStore.totalScore"
-                        :multiplier="multiplier"
-                        :playerHand="gameStore.playerHand"
+                        :multiplier="gameStore.multiplier"
+                        :showPlayerHand="gameStore.showPlayerHand"
                     />
 
                     <div class="flex flex-col items-center">
