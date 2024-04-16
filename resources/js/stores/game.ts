@@ -16,7 +16,6 @@ export const useGameStore = defineStore({
         playerHand: "",
         showPlayerHand: "",
         multiplier: 0,
-        chips: 0,
     }),
     actions: {
         drawCards() {
