@@ -14,7 +14,7 @@ class Game extends Model
         'deck_id',
         'status',
         'round',
-        'total_point',
+        'total_points',
         'cash',
     ];
 }

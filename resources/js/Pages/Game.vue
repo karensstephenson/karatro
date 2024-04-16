@@ -6,9 +6,10 @@ import draggable from "vuedraggable";
 
 import { useGameStore } from "@/stores/game";
 
-import HandSort from "../Components/HandSort.vue";
-import GameScore from "../Components/GameScore.vue";
+import HandSort from "@/Components/HandSort.vue";
+import GameScore from "@/Components/GameScore.vue";
 import HandsAndDiscards from "@/Components/HandsAndDiscards.vue";
+import CashAndTotalPoints from "@/Components/CashAndTotalPoints.vue";
 
 const gameStore = useGameStore();
 
@@ -23,6 +24,8 @@ const props = defineProps<{
     laravelVersion: string;
     phpVersion: string;
     cardList: any[];
+    cash: number;
+    totalPoints: number;
 }>();
 
 const multiplier = ref(1);
@@ -90,6 +93,11 @@ const multiplier = ref(1);
                             />
 
                             <HandsAndDiscards />
+                            
+                            <CashAndTotalPoints
+                                :cash="cash"
+                                :totalPoints="totalPoints"
+                            />
                         </div>
                     </div>
                 </main>
