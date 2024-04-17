@@ -19,6 +19,28 @@ export function useHandCalculator() {
         }
     };
 
+    const countNumOfEachRank = (cards, number) => {
+        const rankCounts = {};
+        for (const card of cards) {
+            if (rankCounts[card.rank]) {
+                rankCounts[card.rank] += 1;
+            } else {
+                rankCounts[card.rank] = 1;
+            }
+        }
+        for (const rank in rankCounts) {
+            if (rankCounts[rank] === number) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    // Five of a kind: Four cards of the same rank
+    const isFiveOfAKind = (cards, numOfrank) => {
+        countNumOfEachRank(cards, 5);
+    };
+
     // Royal flush: Five cards in a sequence, A,K,Q,J,10 all in the same suit.
     const isRoyalFlush = (cards) => {
         if (!cards.every((card) => card.suit === cards[0].suit)) {
@@ -62,20 +84,7 @@ export function useHandCalculator() {
 
     // Four of a kind: Four cards of the same rank
     const isFourOfAKind = (cards) => {
-        const rankCounts = {};
-        for (const card of cards) {
-            if (rankCounts[card.rank]) {
-                rankCounts[card.rank] += 1;
-            } else {
-                rankCounts[card.rank] = 1;
-            }
-        }
-        for (const rank in rankCounts) {
-            if (rankCounts[rank] === 4) {
-                return true;
-            }
-        }
-        return false;
+        return countNumOfEachRank(cards, 4);
     };
 
     // Full house: Three cards of one rank and two cards of another rank.
@@ -131,20 +140,7 @@ export function useHandCalculator() {
 
     // Three of a kind: Three cards of the same rank
     const isThreeOfAKind = (cards) => {
-        const rankCounts = {};
-        for (const card of cards) {
-            if (rankCounts[card.rank]) {
-                rankCounts[card.rank] += 1;
-            } else {
-                rankCounts[card.rank] = 1;
-            }
-        }
-        for (const rank in rankCounts) {
-            if (rankCounts[rank] === 3) {
-                return true;
-            }
-        }
-        return false;
+        return countNumOfEachRank(cards, 3);
     };
 
     // Two pair: Two cards of one rank and two cards of another rank
@@ -173,19 +169,13 @@ export function useHandCalculator() {
 
     // Pair: Two cards of the same rank
     const isPair = (cards) => {
-        const ranks = [];
-        for (const card of cards) {
-            if (ranks.includes(card.rank)) {
-                return true;
-            } else {
-                ranks.push(card.rank);
-            }
-        }
-        return false;
+        return countNumOfEachRank(cards, 2)
     };
 
     const getHandName = (cards) => {
-        if (isRoyalFlush(cards)) {
+        if (isFiveOfAKind(cards)) {
+            return "fiveOfAKind";
+        } else if (isRoyalFlush(cards)) {
             return "royalFlush";
         } else if (isStraightFlush(cards)) {
             return "straightFlush";
@@ -270,5 +260,10 @@ export const handDetails = {
         name: "Royal Flush",
         mult: 8,
         chips: 100,
+    },
+    fiveOfAKind: {
+        name: "Five of a Kind",
+        mult: 12,
+        chips: 120,
     },
 };
