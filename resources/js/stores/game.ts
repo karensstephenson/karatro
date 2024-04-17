@@ -83,9 +83,6 @@ export const useGameStore = defineStore({
                     this.selectedCards.push(index);
                 }
             }
-            if (this.selectedCards.length === 0) {
-                this.clearDisplay();
-            }
             this.playerHand = useHandCalculator().getHandName(
                 this.selectedCards
             );
