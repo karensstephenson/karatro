@@ -6,15 +6,7 @@ export function useHandCalculator() {
     // All of the functions below should return a boolean value, true if the hand is that type, false otherwise.
 
     const sortCards = (cards) => cards.sort((a, b) => a.rank - b.rank);
-
-    // Straight flush: Five cards in a sequence, all in the same suit.
-    const isStraightFlush = (cards) => {
-        if (!cards.every((card) => card.suit === cards[0].suit)) {
-            return false;
-        }
-        sortCards(cards);
-
-        //Checks for low ace
+    const lowAceCheck = (cards) => {
         if (
             cards.length === 5 &&
             cards[4].rank === 14 &&
@@ -25,14 +17,46 @@ export function useHandCalculator() {
         ) {
             return true;
         }
+    };
 
-        if (cards.length === 5)
-            cards.every((card, index) => {
-                if (index > 0) {
-                    return card.rank === cards[index - 1].rank + 1;
+    // Royal flush: Five cards in a sequence, A,K,Q,J,10 all in the same suit.
+    const isRoyalFlush = (cards) => {
+        if (!cards.every((card) => card.suit === cards[0].suit)) {
+            return false;
+        }
+        sortCards(cards);
+
+        if (
+            cards.length === 5 &&
+            cards[0].rank === 14 &&
+            cards[1].rank === 13 &&
+            cards[2].rank === 12 &&
+            cards[3].rank === 11 &&
+            cards[4].rank === 10
+        ) {
+            return true;
+        }
+        return false;
+    };
+
+    // Straight flush: Five cards in a sequence, all in the same suit.
+    const isStraightFlush = (cards) => {
+        if (!cards.every((card) => card.suit === cards[0].suit)) {
+            return false;
+        }
+        sortCards(cards);
+
+        lowAceCheck(cards);
+
+        if (cards.length === 5) {
+            for (let i = 1; i < cards.length; i++) {
+                if (cards[i].rank !== cards[i - 1].rank + 1) {
+                    return false;
                 }
-                return true;
-            });
+            }
+            return true;
+        }
+
         return false;
     };
 
@@ -92,17 +116,7 @@ export function useHandCalculator() {
     const isStraight = (cards) => {
         sortCards(cards);
 
-        //Checks for low ace
-        if (
-            cards.length === 5 &&
-            cards[4].rank === 14 &&
-            cards[0].rank === 2 &&
-            cards[1].rank === 3 &&
-            cards[2].rank === 4 &&
-            cards[3].rank === 5
-        ) {
-            return true;
-        }
+        lowAceCheck(cards);
 
         if (cards.length === 5) {
             for (let i = 1; i < cards.length; i++) {
@@ -171,7 +185,9 @@ export function useHandCalculator() {
     };
 
     const getHandName = (cards) => {
-        if (isStraightFlush(cards)) {
+        if (isRoyalFlush(cards)) {
+            return "royalFlush";
+        } else if (isStraightFlush(cards)) {
             return "straightFlush";
         } else if (isFourOfAKind(cards)) {
             return "fourOfAKind";
@@ -240,6 +256,11 @@ export const handDetails = {
     },
     straightFlush: {
         name: "Straight Flush",
+        mult: 8,
+        chips: 100,
+    },
+    royalFlush: {
+        name: "Royal Flush",
         mult: 8,
         chips: 100,
     },

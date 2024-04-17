@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest';
 const { getHandName } = useHandCalculator();
 
 describe('Hand calculator test suite', () => {
-  it('should return High Card when the only applicable card is that', () => {
+  it('should return highCard when the only applicable card is that', () => {
         const highCardHand = [
             { value: 2, suit: 'hearts', rank: 2 },
             { value: 3, suit: 'diamonds', rank: 3 },
@@ -14,10 +14,10 @@ describe('Hand calculator test suite', () => {
         ];
 
         const result = getHandName(highCardHand);
-        expect(result).toEqual('High Card');
+        expect(result).toEqual('highCard');
   });
 
-    it('should return Pair when the only applicable card is that', () => {
+    it('should return pair when the only applicable card is that', () => {
             const pairHand = [
                 { value: 2, suit: 'hearts', rank: 2 },
                 { value: 2, suit: 'diamonds', rank: 2 },
@@ -27,10 +27,10 @@ describe('Hand calculator test suite', () => {
             ];
     
             const result = getHandName(pairHand);
-            expect(result).toEqual('Pair');
+            expect(result).toEqual('pair');
     });
 
-    it('should return Two Pair when the only applicable card is that', () => {
+    it('should return twoPair when the only applicable card is that', () => {
             const twoPairHand = [
                 { value: 2, suit: 'hearts', rank: 2 },
                 { value: 2, suit: 'diamonds', rank: 2 },
@@ -39,10 +39,10 @@ describe('Hand calculator test suite', () => {
             ];
     
             const result = getHandName(twoPairHand);
-            expect(result).toEqual('Two Pair');
+            expect(result).toEqual('twoPair');
     });
 
-    it('should return Three of a Kind when the only applicable card is that', () => {
+    it('should return threeOfAKind when the only applicable card is that', () => {
             const threeOfAKindHand = [
                 { value: 2, suit: 'hearts', rank: 2 },
                 { value: 2, suit: 'diamonds', rank: 2 },
@@ -50,10 +50,10 @@ describe('Hand calculator test suite', () => {
             ];
     
             const result = getHandName(threeOfAKindHand);
-            expect(result).toEqual('Three of a Kind');
+            expect(result).toEqual('threeOfAKind');
     });
 
-    it('should return Straight when the only applicable card is that', () => {
+    it('should return straight when the only applicable card is that', () => {
             const straightHand = [
                 { value: 2, suit: 'hearts', rank: 2 },
                 { value: 3, suit: 'diamonds', rank: 3 },
@@ -63,10 +63,10 @@ describe('Hand calculator test suite', () => {
             ];
     
             const result = getHandName(straightHand);
-            expect(result).toEqual('Straight');
+            expect(result).toEqual('straight');
     });
 
-    it('should return Flush when the only applicable card is that', () => {
+    it('should return flush when the only applicable card is that', () => {
             const flushHand = [
                 { value: 2, suit: 'hearts', rank: 2 },
                 { value: 4, suit: 'hearts', rank: 4 },
@@ -76,10 +76,10 @@ describe('Hand calculator test suite', () => {
             ];
     
             const result = getHandName(flushHand);
-            expect(result).toEqual('Flush');
+            expect(result).toEqual('flush');
     });
 
-    it('should return Full House when the only applicable card is that', () => {
+    it('should return fullHouse when the only applicable card is that', () => {
             const fullHouseHand = [
                 { value: 2, suit: 'hearts', rank: 2 },
                 { value: 2, suit: 'diamonds', rank: 2 },
@@ -89,10 +89,10 @@ describe('Hand calculator test suite', () => {
             ];
     
             const result = getHandName(fullHouseHand);
-            expect(result).toEqual('Full House');
+            expect(result).toEqual('fullHouse');
     });
 
-    it('should return Four of a Kind when the only applicable card is that', () => {
+    it('should return fourOfAKind when the only applicable card is that', () => {
             const fourOfAKindHand = [
                 { value: 2, suit: 'hearts', rank: 2 },
                 { value: 2, suit: 'diamonds', rank: 2 },
@@ -101,10 +101,10 @@ describe('Hand calculator test suite', () => {
             ];
     
             const result = getHandName(fourOfAKindHand);
-            expect(result).toEqual('Four of a Kind');
+            expect(result).toEqual('fourOfAKind');
     });
 
-    it('should return Straight Flush when the only applicable card is that', () => {
+    it('should return straightFlush when the only applicable card is that', () => {
             const straightFlushHand = [
                 { value: 2, suit: 'hearts', rank: 2 },
                 { value: 3, suit: 'hearts', rank: 3 },
@@ -114,6 +114,19 @@ describe('Hand calculator test suite', () => {
             ];
     
             const result = getHandName(straightFlushHand);
-            expect(result).toEqual('Straight Flush');
+            expect(result).toEqual('straightFlush');
+    });
+
+    it('should return royalFlush when the only applicable card is that', () => {
+            const straightFlushHand = [
+                { value: 11, suit: 'hearts', rank: 14 },
+                { value: 10, suit: 'hearts', rank: 13 },
+                { value: 10, suit: 'hearts', rank: 12 },
+                { value: 10, suit: 'hearts', rank: 11 },
+                { value: 10, suit: 'hearts', rank: 10 },
+            ];
+    
+            const result = getHandName(straightFlushHand);
+            expect(result).toEqual('straightFlush');
     });
 });
