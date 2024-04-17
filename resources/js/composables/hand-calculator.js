@@ -205,6 +205,8 @@ export function useHandCalculator() {
             return "pair";
         } else if (cards.length >= 1) {
             return "highCard";
+        } else {
+            return "noCards";
         }
     };
 
@@ -214,6 +216,11 @@ export function useHandCalculator() {
 }
 
 export const handDetails = {
+    noCards: {
+        name: "",
+        mult: 0,
+        chips: 0,
+    },
     highCard: {
         name: "High Card",
         mult: 1,
