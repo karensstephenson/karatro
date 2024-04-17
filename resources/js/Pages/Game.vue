@@ -28,6 +28,7 @@ const props = defineProps<{
     totalPoints: number;
 }>();
 
+const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
 </script>
 
 <template>
@@ -71,12 +72,22 @@ const props = defineProps<{
 
                         <div class="flex gap-3">
                             <button
+                                :disabled="isButtonDisabled"
+                                :class="{
+                                    'opacity-50 cursor-not-allowed':
+                                        isButtonDisabled,
+                                }"
                                 class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
                                 @click="gameStore.showScore"
                             >
                                 Play Hand
                             </button>
                             <button
+                                :disabled="isButtonDisabled"
+                                :class="{
+                                    'opacity-50 cursor-not-allowed':
+                                        isButtonDisabled,
+                                }"
                                 class="mt-6 px-4 py-2 text-white bg-red-600 rounded-md hover:bg-indigo-700"
                                 @click="gameStore.discardCards"
                             >
@@ -92,7 +103,7 @@ const props = defineProps<{
                             />
 
                             <HandsAndDiscards />
-                            
+
                             <CashAndTotalPoints
                                 :cash="cash"
                                 :totalPoints="totalPoints"
