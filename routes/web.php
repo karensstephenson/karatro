@@ -22,7 +22,7 @@ Route::post('/game', function () {
 
 Route::get('/game/{gameUuid}', function ($gameUuid) {
 
-    $game = Game::find($gameUuid);
+    $game = Game::where('uuid', $gameUuid)->first();
 
     return Inertia::render('Game', [
         'canLogin' => Route::has('login'),
@@ -32,6 +32,8 @@ Route::get('/game/{gameUuid}', function ($gameUuid) {
         'cardList' => Card::all(),
         'game' => $game,
         'gameUuid' => $gameUuid,
+        'cash' => $game->cash,
+        'totalPoints' => $game->total_points,
     ]);
 })->name('game');
 
