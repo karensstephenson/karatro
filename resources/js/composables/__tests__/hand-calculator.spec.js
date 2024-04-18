@@ -118,7 +118,7 @@ describe('Hand calculator test suite', () => {
     });
 
     it('should return royalFlush when the only applicable card is that', () => {
-            const straightFlushHand = [
+            const royalFlushHand = [
                 { value: 11, suit: 'hearts', rank: 14 },
                 { value: 10, suit: 'hearts', rank: 13 },
                 { value: 10, suit: 'hearts', rank: 12 },
@@ -126,7 +126,7 @@ describe('Hand calculator test suite', () => {
                 { value: 10, suit: 'hearts', rank: 10 },
             ];
     
-            const result = getHandName(straightFlushHand);
-            expect(result).toEqual('straightFlush');
+            const result = getHandName(royalFlushHand);
+            expect(result).toEqual('royalFlush');
     });
 });
