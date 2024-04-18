@@ -1,12 +1,12 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Models\Card;
 use App\Models\Game;
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
-use App\Http\Controllers\ProfileController;
+use Inertia\Inertia;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -47,4 +47,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

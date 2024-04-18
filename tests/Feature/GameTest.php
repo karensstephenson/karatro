@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Game;
 
-use Tests\TestCase;
-
 use App\Models\Game;
 use Inertia\Testing\AssertableInertia;
+use Tests\TestCase;
 
 class GameTest extends TestCase
 {
@@ -25,7 +24,7 @@ class GameTest extends TestCase
     public function testEndUpOnGameId(): void
     {
         $game = Game::first();
-        
+
         $response = $this->get(route('game', ['gameId' => $game->id]));
 
         $response->assertStatus(200);
