@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Game_Round extends Model
+class GameRound extends Model
 {
     protected $table = 'game_rounds';
 
