@@ -29,6 +29,15 @@ const props = defineProps<{
 }>();
 
 const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
+
+// fetch api/hello
+const fetchHello = async () => {
+    const response = await fetch("/api/hello");
+    const {message} = await response.json();
+    console.log(message);
+};
+
+fetchHello();
 </script>
 
 <template>
