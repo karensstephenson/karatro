@@ -10,6 +10,7 @@ import HandSort from "@/Components/HandSort.vue";
 import GameScore from "@/Components/GameScore.vue";
 import HandsAndDiscards from "@/Components/HandsAndDiscards.vue";
 import CashAndTotalPoints from "@/Components/CashAndTotalPoints.vue";
+import PlayedCards from "@/Components/PlayedCards.vue";
 
 const gameStore = useGameStore();
 
@@ -56,6 +57,8 @@ fetchHello();
                         :showPlayerHand="gameStore.showPlayerHand"
                     />
 
+                    <PlayedCards v-if="gameStore.isPlayHandClicked"/>
+
                     <div class="flex flex-col items-center">
                         <draggable
                             class="flex justify-center gap-3 list-none"
@@ -63,19 +66,23 @@ fetchHello();
                             :item-key="(item) => item.id"
                         >
                             <template #item="{ element }">
-                                <li
-                                    :key="element"
-                                    class="card"
-                                    :class="{
-                                        selected: gameStore.isSelected(element),
-                                    }"
-                                    @click="gameStore.toggleCard(element)"
-                                >
-                                    <img
-                                        :src="`../card_svgs/${element.name}.svg`"
-                                        :alt="element.name"
-                                    />
-                                </li>
+                                <div>
+                                    <li
+                                        :key="element"
+                                        class="card"
+                                        :class="{
+                                            selected:
+                                                gameStore.isSelected(element),
+                                        }"
+                                        @click="gameStore.toggleCard(element)"
+                                    >
+                                        <img
+                                            :src="`../card_svgs/${element.name}.svg`"
+                                            :alt="element.name"
+                                            class="flex"
+                                        />
+                                    </li>
+                                </div>
                             </template>
                         </draggable>
 

@@ -6,21 +6,24 @@ export function useHandCalculator() {
     // All of the functions below should return a boolean value, true if the hand is that type, false otherwise.
 
     const sortCards = (cards) => cards.sort((a, b) => a.rank - b.rank);
-    const lowAceCheck = (cards) => {
-        if (
-            cards.length === 5 &&
-            cards[4].rank === 14 &&
-            cards[0].rank === 2 &&
-            cards[1].rank === 3 &&
-            cards[2].rank === 4 &&
-            cards[3].rank === 5
-        ) {
-            return true;
-        }
-    };
+    // const lowAceCheck = (cards) => {
+    //     if (
+    //         cards.length === 5 &&
+    //         cards[4].rank === 14 &&
+    //         cards[0].rank === 2 &&
+    //         cards[1].rank === 3 &&
+    //         cards[2].rank === 4 &&
+    //         cards[3].rank === 5
+    //     ) {
+    //         return true;
+    //     }
+    // };
+
+    let playableCards = [];
 
     const countNumOfEachRank = (cards, number) => {
         const rankCounts = {};
+
         for (const card of cards) {
             if (rankCounts[card.rank]) {
                 rankCounts[card.rank] += 1;
@@ -28,8 +31,14 @@ export function useHandCalculator() {
                 rankCounts[card.rank] = 1;
             }
         }
+
         for (const rank in rankCounts) {
             if (rankCounts[rank] === number) {
+                for (const card of cards) {
+                    if (card.rank === Number(rank)) {
+                        playableCards.push(card);
+                    }
+                }
                 return true;
             }
         }
@@ -50,12 +59,15 @@ export function useHandCalculator() {
 
         if (
             cards.length === 5 &&
-            cards[0].rank === 14 &&
-            cards[1].rank === 13 &&
-            cards[2].rank === 12 &&
-            cards[3].rank === 11 &&
-            cards[4].rank === 10
+            cards[0].rank == 10 &&
+            cards[1].rank == 11 &&
+            cards[2].rank == 12 &&
+            cards[3].rank == 13 &&
+            cards[4].rank == 14
         ) {
+            for (const card of cards) {
+                playableCards.push(card);
+            }
             return true;
         }
         return false;
@@ -68,13 +80,26 @@ export function useHandCalculator() {
         }
         sortCards(cards);
 
-        lowAceCheck(cards);
+        //lowAceCheck()
+        if (
+            cards.length === 5 &&
+            cards[4].rank === 14 &&
+            cards[0].rank === 2 &&
+            cards[1].rank === 3 &&
+            cards[2].rank === 4 &&
+            cards[3].rank === 5
+        ) {
+            return true;
+        }
 
         if (cards.length === 5) {
             for (let i = 1; i < cards.length; i++) {
                 if (cards[i].rank !== cards[i - 1].rank + 1) {
                     return false;
                 }
+            }
+            for (const card of cards) {
+                playableCards.push(card);
             }
             return true;
         }
@@ -113,25 +138,53 @@ export function useHandCalculator() {
                 }
             }
         }
+        if (fullHouse) {
+            for (const card of cards) {
+                playableCards.push(card);
+            }
+        }
+
         return fullHouse;
     };
 
     // Flush: Five cards of the same suit, not in sequence
-    const isFlush = (cards) =>
-        cards.every((card) => card.suit === cards[0].suit) &&
-        cards.length === 5;
+    const isFlush = (cards) => {
+        if (
+            cards.every((card) => card.suit === cards[0].suit) &&
+            cards.length === 5
+        ) {
+            for (const card of cards) {
+                playableCards.push(card);
+            }
+            return true;
+        }
+        return false;
+    };
 
     // Straight: Five cards in a sequence, but not of the same suit.
     const isStraight = (cards) => {
         sortCards(cards);
 
-        lowAceCheck(cards);
+        //lowAceCheck();
+        if (
+            cards.length === 5 &&
+            cards[4].rank === 14 &&
+            cards[0].rank === 2 &&
+            cards[1].rank === 3 &&
+            cards[2].rank === 4 &&
+            cards[3].rank === 5
+        ) {
+            return true;
+        }
 
         if (cards.length === 5) {
             for (let i = 1; i < cards.length; i++) {
                 if (cards[i].rank !== cards[i - 1].rank + 1) {
                     return false;
                 }
+            }
+            for (const card of cards) {
+                playableCards.push(card);
             }
             return true;
         }
@@ -155,11 +208,15 @@ export function useHandCalculator() {
         }
 
         let pairs = 0;
-        for (const key in rankCounts) {
-            if (rankCounts[key] === 2) {
+        for (const rank in rankCounts) {
+            if (rankCounts[rank] === 2) {
                 pairs++;
 
                 if (pairs === 2) {
+                    for (const card of cards) {
+                        if (rankCounts[card.rank] === 2)
+                            playableCards.push(card);
+                    }
                     return true;
                 }
             }
@@ -169,8 +226,13 @@ export function useHandCalculator() {
 
     // Pair: Two cards of the same rank
     const isPair = (cards) => {
-        return countNumOfEachRank(cards, 2)
+        return countNumOfEachRank(cards, 2);
     };
+
+    // const isHighCard = (cards) => {
+    //     sortCards(cards)
+    //     playableCards.push(cards[cards.length-1])
+    // }
 
     const getHandName = (cards) => {
         if (isFiveOfAKind(cards)) {
@@ -194,6 +256,7 @@ export function useHandCalculator() {
         } else if (isPair(cards)) {
             return "pair";
         } else if (cards.length >= 1) {
+            playableCards.push(cards[cards.length - 1]);
             return "highCard";
         } else {
             return "noCards";
@@ -202,6 +265,7 @@ export function useHandCalculator() {
 
     return {
         getHandName,
+        playableCards,
     };
 }
 
