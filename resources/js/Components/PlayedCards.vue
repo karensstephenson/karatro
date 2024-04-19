@@ -5,27 +5,29 @@ const gameStore = useGameStore();
 </script>
 
 <template>
-    <div class="mb-20 relative">
-        <ul class="flex gap-3 mb-20">
+    <div class="mb-20">
+        <ul class="flex gap-3">
             <li
                 v-for="(card, index) in gameStore.selectedCards"
                 :key="index"
                 class="flex flex-col relative"
             >
                 <p
-                    class="flex justify-center mb-3"
-                    v-if="index === gameStore.currentCardIndex && card.inPlayedHand"
+                    class="flex justify-center absolute w-full text-white"
+                    v-if="
+                        index === gameStore.currentCardIndex &&
+                        card.inPlayedHand
+                    "
                 >
                     {{ card.value }}
                 </p>
-                <div class="h-20 w-20 flex items-center justify-center">
-                   <img
-                    :src="`../card_svgs/${card.name}.svg`"
-                    :alt="card.name"
-                    class="flex mt-10"
-                /> 
+                <div class="pt-10">
+                    <img
+                        :src="`../card_svgs/${card.name}.svg`"
+                        :alt="card.name"
+                        class="flex h-24"
+                    />
                 </div>
-                
             </li>
         </ul>
     </div>
