@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GameRound extends Model
+class GamePlayedHands extends Model
 {
-    protected $table = 'game_rounds';
+    protected $table = 'game_played_hands';
 
     protected $fillable = [
         'id',
