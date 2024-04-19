@@ -8,13 +8,13 @@ const gameStore = useGameStore();
     <div class="mb-20 relative">
         <ul class="flex gap-3 mb-20">
             <li
-                v-for="(card, index) in gameStore.playableCards"
+                v-for="(card, index) in gameStore.selectedCards"
                 :key="index"
                 class="flex flex-col relative"
             >
                 <p
                     class="flex justify-center mb-3"
-                    v-if="index === gameStore.currentCardIndex"
+                    v-if="index === gameStore.currentCardIndex && card.inPlayedHand"
                 >
                     {{ card.value }}
                 </p>

@@ -38,7 +38,7 @@ const fetchHello = async () => {
     console.log(message);
 };
 
-fetchHello();
+//fetchHello();
 </script>
 
 <template>
