@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Deck;
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Support\Str;
 
 class SeedDecks extends Seeder
 {
@@ -31,6 +30,6 @@ class SeedDecks extends Seeder
 
         foreach ($decks as $deck) {
             Deck::create($deck);
-        };
+        }
     }
 }

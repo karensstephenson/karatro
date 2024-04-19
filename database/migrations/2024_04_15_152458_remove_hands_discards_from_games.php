@@ -15,7 +15,7 @@ return new class extends Migration
             $table->dropColumn('hands');
             $table->dropColumn('discards');
         });
-        
+
     }
 
     /**
