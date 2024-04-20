@@ -19,8 +19,6 @@ export function useHandCalculator() {
     //     }
     // };
 
-    let playableCards = [];
-
     const countNumOfEachRank = (cards, number) => {
         const rankCounts = {};
 
@@ -36,9 +34,9 @@ export function useHandCalculator() {
             if (rankCounts[rank] === number) {
                 for (const card of cards) {
                     if (card.rank === Number(rank)) {
-                        card.inPlayedHand = true;                        
+                        card.inPlayedHand = true;
                     } else {
-                        card.inPlayedHand = false; 
+                        card.inPlayedHand = false;
                     }
                 }
                 return true;
@@ -48,7 +46,7 @@ export function useHandCalculator() {
     };
 
     // Five of a kind: Four cards of the same rank
-    const isFiveOfAKind = (cards, numOfrank) => {
+    const isFiveOfAKind = (cards) => {
         countNumOfEachRank(cards, 5);
     };
 
@@ -68,7 +66,7 @@ export function useHandCalculator() {
             cards[4].rank == 14
         ) {
             for (const card of cards) {
-                card.inPlayedHand = true;;
+                card.inPlayedHand = true;
             }
             return true;
         }
@@ -91,6 +89,9 @@ export function useHandCalculator() {
             cards[2].rank === 4 &&
             cards[3].rank === 5
         ) {
+            for (const card of cards) {
+                card.inPlayedHand = true;
+            }
             return true;
         }
 
@@ -101,7 +102,7 @@ export function useHandCalculator() {
                 }
             }
             for (const card of cards) {
-                card.inPlayedHand = true;;
+                card.inPlayedHand = true;
             }
             return true;
         }
@@ -142,7 +143,7 @@ export function useHandCalculator() {
         }
         if (fullHouse) {
             for (const card of cards) {
-                card.inPlayedHand = true;;
+                card.inPlayedHand = true;
             }
         }
 
@@ -156,7 +157,7 @@ export function useHandCalculator() {
             cards.length === 5
         ) {
             for (const card of cards) {
-                card.inPlayedHand = true;;
+                card.inPlayedHand = true;
             }
             return true;
         }
@@ -176,6 +177,9 @@ export function useHandCalculator() {
             cards[2].rank === 4 &&
             cards[3].rank === 5
         ) {
+            for (const card of cards) {
+                card.inPlayedHand = true;;
+            }
             return true;
         }
 
@@ -186,7 +190,7 @@ export function useHandCalculator() {
                 }
             }
             for (const card of cards) {
-                card.inPlayedHand = true;;
+                card.inPlayedHand = true;
             }
             return true;
         }
@@ -217,11 +221,11 @@ export function useHandCalculator() {
                 if (pairs === 2) {
                     for (const card of cards) {
                         if (rankCounts[card.rank] === 2) {
-                        card.inPlayedHand = true;;
-                    } else {
-                        card.inPlayedHand = false; 
+                            card.inPlayedHand = true;
+                        } else {
+                            card.inPlayedHand = false;
+                        }
                     }
-                }
                     return true;
                 }
             }
@@ -270,7 +274,6 @@ export function useHandCalculator() {
 
     return {
         getHandName,
-        playableCards,
     };
 }
 
