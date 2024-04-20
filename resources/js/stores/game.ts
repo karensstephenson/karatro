@@ -9,8 +9,7 @@ export const useGameStore = defineStore({
         discards: [] as Card[],
         playedHands: [],
         totalPoints: 0,
-        selectedCards: [] as String[],
-        playedCards: [],
+        selectedCards: [],
         totalScore: 0,
         suitOrder: ["diamonds", "clubs", "hearts", "spades"],
         playerHand: "",
@@ -18,9 +17,7 @@ export const useGameStore = defineStore({
         multiplier: 0,
         currentCardIndex: -1,
         currentScore: 0,
-        playableCards: [] as any,
         isPlayHandClicked: false,
-        
     }),
 
     actions: {
@@ -48,6 +45,7 @@ export const useGameStore = defineStore({
                 rank: randomCard.rank,
                 value: randomCard.value,
                 suit: randomCard.suit,
+                inPlayedHand: false,
             };
         },
         removeSelectedCardsFromHand() {
@@ -57,16 +55,12 @@ export const useGameStore = defineStore({
                         (selectedCard) => selectedCard.name === card.name
                     )
             );
-            this.selectedCards = [];
         },
         showScore() {
-            this.isPlayHandClicked = !this.isPlayHandClicked
+            this.isPlayHandClicked = !this.isPlayHandClicked;
             this.removeSelectedCardsFromHand();
-            this.selectedCards = this.playedCards;
-            this.playedCards.sort((a, b) => b.rank - a.rank);
-
+            this.selectedCards.sort((a, b) => b.rank - a.rank);
             this.displayValueWithDelay();
-
         },
         discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
@@ -87,10 +81,10 @@ export const useGameStore = defineStore({
                     this.selectedCards.push(index);
                 }
             }
+            
             const handCalculator = useHandCalculator();
             this.playerHand = handCalculator.getHandName(this.selectedCards);
-            this.playableCards = handCalculator.playableCards;
-           
+
             this.showPlayerHand = handDetails[this.playerHand].name;
             this.multiplier = handDetails[this.playerHand].mult;
             this.totalScore = handDetails[this.playerHand].chips;
@@ -112,21 +106,21 @@ export const useGameStore = defineStore({
         },
         displayValueWithDelay() {
             this.currentCardIndex = -1;
-
+            this.currentScore = this.totalScore
             let intervalId = setInterval(() => {
-                if (this.currentCardIndex < this.playableCards.length - 1) {
+                if (this.currentCardIndex < this.selectedCards.length - 1) {
                     this.currentCardIndex++;
-
-                    this.currentScore = this.totalScore;
+                    const currentCard = this.selectedCards[this.currentCardIndex]
+                    if (currentCard.inPlayedHand) {                      
                     this.currentScore +=
-                        this.playableCards[this.currentCardIndex].value;
+                        this.selectedCards[this.currentCardIndex].value;  
+                    }
+                    
                     this.totalScore = this.currentScore;
                 } else {
                     clearInterval(intervalId);
-                    
-                    this.isPlayHandClicked = !this.isPlayHandClicked
+                    this.isPlayHandClicked = !this.isPlayHandClicked;
                     this.drawCards();
-                    this.playableCards = [];
                     this.clearDisplay();
                 }
             }, 1500);
