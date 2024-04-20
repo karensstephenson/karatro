@@ -11,6 +11,9 @@ const gameStore = useGameStore();
                 v-for="(card, index) in gameStore.selectedCards"
                 :key="index"
                 class="flex flex-col relative"
+                :class="{
+                    'in-played-hand shadow-xl': card.inPlayedHand,
+                }"
             >
                 <p
                     class="flex justify-center absolute w-full text-white"
@@ -26,9 +29,21 @@ const gameStore = useGameStore();
                         :src="`../card_svgs/${card.name}.svg`"
                         :alt="card.name"
                         class="flex h-24"
+                        :class="{
+                            'in-played-hand-card': card.inPlayedHand,
+                        }"
                     />
                 </div>
             </li>
         </ul>
     </div>
 </template>
+
+<style scoped>
+.in-played-hand {
+    transform: translateY(-15px);
+}
+.in-played-hand-card {
+    box-shadow: 7px 5px 10px rgb(8, 8, 8);
+}
+</style>

@@ -11,6 +11,7 @@ export const useGameStore = defineStore({
         totalPoints: 0,
         selectedCards: [],
         totalScore: 0,
+        handScore: 0,
         suitOrder: ["diamonds", "clubs", "hearts", "spades"],
         playerHand: "",
         showPlayerHand: "",
@@ -81,7 +82,7 @@ export const useGameStore = defineStore({
                     this.selectedCards.push(index);
                 }
             }
-            
+
             const handCalculator = useHandCalculator();
             this.playerHand = handCalculator.getHandName(this.selectedCards);
 
@@ -124,13 +125,18 @@ export const useGameStore = defineStore({
                 } else {
                     this.isPlayHandClicked = !this.isPlayHandClicked;
                     this.drawCards();
+                    this.calculateTotalPoints();
                     this.clearDisplay();
+                    console.log(this.totalPoints);
                 }
             };
 
             if (this.selectedCards.some((card) => card.inPlayedHand)) {
                 displayNextValue();
             }
+        },
+        calculateTotalPoints() {
+            this.totalPoints += this.multiplier * this.totalScore;
         },
     },
 });
