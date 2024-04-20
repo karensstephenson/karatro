@@ -11,6 +11,7 @@ export const useGameStore = defineStore({
         totalPoints: 0,
         selectedCards: [],
         totalScore: 0,
+        handScore: 0,
         suitOrder: ["diamonds", "clubs", "hearts", "spades"],
         playerHand: "",
         showPlayerHand: "",
@@ -81,7 +82,7 @@ export const useGameStore = defineStore({
                     this.selectedCards.push(index);
                 }
             }
-            
+
             const handCalculator = useHandCalculator();
             this.playerHand = handCalculator.getHandName(this.selectedCards);
 
@@ -106,24 +107,30 @@ export const useGameStore = defineStore({
         },
         displayValueWithDelay() {
             this.currentCardIndex = -1;
-            this.currentScore = this.totalScore
+            this.currentScore = this.totalScore;
             let intervalId = setInterval(() => {
                 if (this.currentCardIndex < this.selectedCards.length - 1) {
                     this.currentCardIndex++;
-                    const currentCard = this.selectedCards[this.currentCardIndex]
-                    if (currentCard.inPlayedHand) {                      
-                    this.currentScore +=
-                        this.selectedCards[this.currentCardIndex].value;  
+                    const currentCard =
+                        this.selectedCards[this.currentCardIndex];
+                    if (currentCard.inPlayedHand) {
+                        this.currentScore +=
+                            this.selectedCards[this.currentCardIndex].value;
                     }
-                    
+
                     this.totalScore = this.currentScore;
                 } else {
                     clearInterval(intervalId);
                     this.isPlayHandClicked = !this.isPlayHandClicked;
                     this.drawCards();
+                    this.calculateTotalPoints();
                     this.clearDisplay();
+                    console.log(this.totalPoints);
                 }
             }, 1500);
+        },
+        calculateTotalPoints() {
+            this.totalPoints += this.multiplier * this.totalScore;
         },
     },
 });
