@@ -34,7 +34,7 @@ const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
 // fetch api/hello
 const fetchHello = async () => {
     const response = await fetch("/api/hello");
-    const {message} = await response.json();
+    const { message } = await response.json();
     console.log(message);
 };
 
@@ -57,7 +57,12 @@ const fetchHello = async () => {
                         :showPlayerHand="gameStore.showPlayerHand"
                     />
 
-                    <PlayedCards v-if="gameStore.isPlayHandClicked"/>
+                    <div class="h-40">
+                        <PlayedCards
+                            class=""
+                            v-if="gameStore.isPlayHandClicked"
+                        />
+                    </div>
 
                     <div class="flex flex-col items-center">
                         <draggable
@@ -79,7 +84,7 @@ const fetchHello = async () => {
                                         <img
                                             :src="`../card_svgs/${element.name}.svg`"
                                             :alt="element.name"
-                                            class="flex"
+                                            class="flex h-24"
                                         />
                                     </li>
                                 </div>
