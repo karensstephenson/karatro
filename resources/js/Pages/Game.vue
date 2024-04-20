@@ -127,7 +127,7 @@ const fetchHello = async () => {
 
                             <CashAndTotalPoints
                                 :cash="cash"
-                                :totalPoints="totalPoints"
+                                :totalPoints="gameStore.totalPoints"
                             />
                         </div>
                     </div>
