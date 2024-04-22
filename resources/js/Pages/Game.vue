@@ -45,9 +45,14 @@ const fetchHello = async () => {
 const saveGameState = async () => {
     try {
         const url = `/api/game/${props.gameUuid}/save`;
-        //console.log(url)
+        //Expected url
+        console.log(url)
+        //Expected hand array
         console.log(gameStore.hand)
+        //Expected card array
         console.log(gameStore.cards)
+        //Expected object
+        console.log(JSON.stringify(gameStore.hand))
         const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -81,8 +86,6 @@ const saveGameState = async () => {
 //         console.error('Failed to load game state: ', error)
 //     }
 // }
-
-// saveGameState();
 </script>
 
 <template>
