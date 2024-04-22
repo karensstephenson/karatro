@@ -17,6 +17,7 @@ const gameStore = useGameStore();
 onMounted(() => {
     gameStore.cards = props.cardList;
     gameStore.drawCards();
+    saveGameState();
 });
 
 const props = defineProps<{
@@ -27,6 +28,7 @@ const props = defineProps<{
     cardList: any[];
     cash: number;
     totalPoints: number;
+    gameUuid: string;
 }>();
 
 const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
@@ -39,6 +41,48 @@ const fetchHello = async () => {
 };
 
 //fetchHello();
+
+const saveGameState = async () => {
+    try {
+        const url = `/api/game/${props.gameUuid}/save`;
+        //console.log(url)
+        console.log(gameStore.hand)
+        console.log(gameStore.cards)
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                hand: gameStore.hand,
+                cards: gameStore.cards,
+            }),
+        });
+        const responseData = await response.json();
+        console.log(responseData.message);
+    } catch (error) {
+        console.error("Failed to save game state: ", error);
+    }
+};
+
+//saveGameState();
+
+//console.log(gameStore.hand)
+//console.log(gameStore.cards)
+
+// const loadGameState = async () => {
+//     try {
+//         const response = await fetch('/load-game');
+//         const gameState = response.data;
+//         this.$pinia.state.gameStore.hand = gameState.hand;
+//         this.$pinia.state.gameStore.cards = gameState.cards;
+//         console.log('Game state loaded successfully');
+//     } catch (error) {
+//         console.error('Failed to load game state: ', error)
+//     }
+// }
+
+// saveGameState();
 </script>
 
 <template>

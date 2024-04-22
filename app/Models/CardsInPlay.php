@@ -10,7 +10,6 @@ class CardsInPlay extends Model
 
     protected $fillable = [
         'id',
-        'uuid',
         'hand_cards',
         'cards_left',
         'played_cards',
