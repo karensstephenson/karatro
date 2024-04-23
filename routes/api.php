@@ -14,5 +14,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/game/{gameUuid}/save', [GameController::class, 'saveCards']);
 
-
-//Route::get('/load-game', 'GameController::load');
+Route::get('/game/{gameUuid}/load', [GameController::class, 'loadCards']);

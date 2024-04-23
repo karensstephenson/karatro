@@ -15,9 +15,7 @@ import PlayedCards from "@/Components/PlayedCards.vue";
 const gameStore = useGameStore();
 
 onMounted(() => {
-    gameStore.cards = props.cardList;
-    gameStore.drawCards();
-    saveGameState();
+    loadGameState();
 });
 
 const props = defineProps<{
@@ -63,17 +61,30 @@ const saveGameState = async () => {
     }
 };
 
-// const loadGameState = async () => {
-//     try {
-//         const response = await fetch('/load-game');
-//         const gameState = response.data;
-//         this.$pinia.state.gameStore.hand = gameState.hand;
-//         this.$pinia.state.gameStore.cards = gameState.cards;
-//         console.log('Game state loaded successfully');
-//     } catch (error) {
-//         console.error('Failed to load game state: ', error)
-//     }
-// }
+const loadGameState = async () => {
+    try {
+        const url = `/api/game/${props.gameUuid}/load`;
+
+        const response = await fetch(url);
+
+        if (response.ok) {
+            const responseData = await response.json();
+
+            if (Object.keys(responseData).length === 0) {
+                gameStore.cards = props.cardList;
+                gameStore.drawCards();
+                saveGameState();
+            } else {
+                gameStore.hand = responseData.hand_cards;
+                gameStore.cards = responseData.cards_left;
+            }
+        } else {
+            throw new Error("Failed to get response");
+        }
+    } catch (error) {
+        console.error("Failed to load game state: ", error);
+    }
+};
 </script>
 
 <template>
