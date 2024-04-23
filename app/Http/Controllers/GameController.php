@@ -27,8 +27,8 @@ class GameController extends Controller
         //dd($rawRequestBody);
 
         //Returns []
-        // $requestData = $request->json()->all();
-        // dd($requestData);
+        //$requestData = $request->json()->all();
+        //dd($requestData);
         // $hand = $requestData['hand'];
         // $cards = $requestData['cards'];
       
@@ -36,14 +36,15 @@ class GameController extends Controller
         //dd($data);
         //dd($request->input('hand'));
         //dd($request->input('cards'));
-
+        
+        //dd(json_encode($request->input(key:'hand')))
 
         CardsInPlay::updateOrCreate(
             ['game_id' => $gameId],
             [
-                'game_id' => $gameId,
-                'hand_cards' => $request->input('hand'),
-                'cards_left' => $request->input('cards')
+                
+                'hand_cards' => json_encode($request->input(key:'hand')),
+                'cards_left' => json_encode($request->input(key:'cards'))
             ]
             
         );
