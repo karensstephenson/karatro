@@ -10,9 +10,15 @@ class CardsInPlay extends Model
 
     protected $fillable = [
         'id',
-        'uuid',
-        'hand_cards',
-        'cards_left',
+        'game_id',
+        'hand_cards', 
+        'cards_left',     
         'played_cards',
+    ];
+
+    protected $casts = [
+        'hand_cards' => 'array',
+        'cards_left' => 'array',
+        'played_cards' => 'array',
     ];
 }
