@@ -85,47 +85,118 @@ const saveGameState = async () => {
             class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                <main class="mt-6 flex flex-col items-center justify-center">
-                    <GameScore
-                        :totalScore="gameStore.totalScore"
-                        :multiplier="gameStore.multiplier"
-                        :showPlayerHand="gameStore.showPlayerHand"
-                    />
-
-                    <div class="h-40">
-                        <PlayedCards
-                            class=""
-                            v-if="gameStore.isPlayHandClicked"
+                <main
+                    class="grid grid-cols-3 relative mt-6 flex items-center gap-3"
+                >
+                    <!-- SCORING SECTION -->
+                    <div class="mt-6 text-sm h-full">
+                        <div
+                            class="flex items-center w-28 mt-5 bg-gray-600 text-white border rounded p-3 mb-2 w-full justify-around"
+                        >
+                            <p>Round Score</p>
+                            <p>{{ gameStore.totalPoints }}</p>
+                        </div>
+                        <GameScore
+                            :totalScore="gameStore.totalScore"
+                            :multiplier="gameStore.multiplier"
+                            :showPlayerHand="gameStore.showPlayerHand"
                         />
+
+                        <div class="grid grid-cols-3 grid-rows-6 gap-1">
+                            <div
+                                class="flex flex-col row-start-1 row-span-3 items-center h-full bg-gray-600 text-white border rounded p-3"
+                            >
+                                <p>Info</p>
+                            </div>
+
+                            <div
+                                class="flex flex-col items-center bg-gray-600 text-white border rounded p-3 col-start-2 row-span-2"
+                            >
+                                <p>Hands</p>
+                                <p>4</p>
+                            </div>
+
+                            <div
+                                class="flex flex-col items-center bg-gray-600 text-white border rounded p-3 col-start-3 row-span-2"
+                            >
+                                <p>Discards</p>
+                                <p>3</p>
+                            </div>
+
+                            <div
+                                class="flex flex-col row-start-4 row-span-3 items-center h-full bg-gray-600 text-white border rounded p-3"
+                            >
+                                <p>Options</p>
+                            </div>
+                            <div
+                                class="flex flex-col items-center justify-center bg-gray-600 text-white border rounded p-3 col-start-2 row-start-3 row-span-2 col-span-2 text-xl"
+                            >
+                                <p>$ {{ cash }}</p>
+                            </div>
+                            <!-- <div
+                                class="col-start-2 row-start-3 row-span-2 h-full"
+                            >
+                                <CashAndTotalPoints
+                                    :cash="cash"
+                                    :totalPoints="gameStore.totalPoints"
+                                />
+                            </div> -->
+                            <div
+                                class="flex flex-col row-start-5 row-span-2 items-center w-18 h-full bg-gray-600 text-white border rounded p-3"
+                            >
+                                Ante
+                            </div>
+                            <div
+                                class="flex flex-col row-start-5 row-span-2 items-center w-18 h-full bg-gray-600 text-white border rounded p-3"
+                            >
+                                Round
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="flex flex-col items-center">
-                        <draggable
-                            class="flex justify-center gap-3 list-none"
-                            v-model="gameStore.hand"
-                            :item-key="(item) => item.id"
-                        >
-                            <template #item="{ element }">
-                                <div>
-                                    <li
-                                        :key="element"
-                                        class="card"
-                                        :class="{
-                                            selected:
-                                                gameStore.isSelected(element),
-                                        }"
-                                        @click="gameStore.toggleCard(element)"
-                                    >
-                                        <img
-                                            :src="`../card_svgs/${element.name}.svg`"
-                                            :alt="element.name"
-                                            class="flex h-24"
-                                        />
-                                    </li>
-                                </div>
-                            </template>
-                        </draggable>
+                    <!-- CARD SECTION -->
+                    <div
+                        class="col-start-2 col-span-2 mt-6 flex flex-col items-center w-full"
+                    >
+                        
+                        <div class="h-40 flex flex-col">
+                            <PlayedCards
+                                class="flex flex-col h-24"
+                                v-if="gameStore.isPlayHandClicked"
+                            />
+                        </div>
 
+                        <div class="flex flex-col items-center">
+                            <draggable
+                                class="flex justify-center gap-3 list-none"
+                                v-model="gameStore.hand"
+                                :item-key="(item) => item.id"
+                            >
+                                <template #item="{ element }">
+                                    <div>
+                                        <li
+                                            :key="element"
+                                            class="card"
+                                            :class="{
+                                                selected:
+                                                    gameStore.isSelected(
+                                                        element
+                                                    ),
+                                            }"
+                                            @click="
+                                                gameStore.toggleCard(element)
+                                            "
+                                        >
+                                            <img
+                                                :src="`../card_svgs/${element.name}.svg`"
+                                                :alt="element.name"
+                                                class="h-24"
+                                            />
+                                        </li>
+                                    </div>
+                                </template>
+                            </draggable>
+                        </div>
                         <div class="flex gap-3">
                             <button
                                 :disabled="isButtonDisabled"
@@ -133,37 +204,29 @@ const saveGameState = async () => {
                                     'opacity-50 cursor-not-allowed':
                                         isButtonDisabled,
                                 }"
-                                class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                                class="mt-6 px-4 py-6 w-20 text-white bg-indigo-600 rounded-md border hover:bg-indigo-700"
                                 @click="gameStore.showScore"
                             >
                                 Play Hand
                             </button>
-                            <button
-                                :disabled="isButtonDisabled"
-                                :class="{
-                                    'opacity-50 cursor-not-allowed':
-                                        isButtonDisabled,
-                                }"
-                                class="mt-6 px-4 py-2 text-white bg-red-600 rounded-md hover:bg-indigo-700"
-                                @click="gameStore.discardCards"
-                            >
-                                Discard
-                            </button>
-                        </div>
 
-                        <div class="flex gap-10">
                             <HandSort
                                 @sortByRank="gameStore.sortByRank"
                                 @sortBySuit="gameStore.sortBySuit"
                                 class="self-center"
                             />
 
-                            <HandsAndDiscards />
-
-                            <CashAndTotalPoints
-                                :cash="cash"
-                                :totalPoints="gameStore.totalPoints"
-                            />
+                            <button
+                                :disabled="isButtonDisabled"
+                                :class="{
+                                    'opacity-50 cursor-not-allowed':
+                                        isButtonDisabled,
+                                }"
+                                class="mt-6 px-4 py-6 w-20 text-white bg-red-600 rounded-md border hover:bg-indigo-700"
+                                @click="gameStore.discardCards"
+                            >
+                                Discard
+                            </button>
                         </div>
                     </div>
                 </main>
