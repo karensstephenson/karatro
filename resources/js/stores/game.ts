@@ -50,7 +50,7 @@ export const useGameStore = defineStore({
                 inPlayedHand: false,
             };
         },
-        removeSelectedCardsFromHand() {
+        async removeSelectedCardsFromHand() {
             let cardsPlayedThisHand = this.hand.filter((card) =>
                 this.selectedCards.some(
                     (selectedCard) => selectedCard.name === card.name
@@ -65,11 +65,11 @@ export const useGameStore = defineStore({
             this.hand = handCardsLeft;
             this.playedCards = [...cardsPlayedThisHand, ...this.playedCards];
         },
-        showScore() {
+        async showScore() {
             this.isPlayHandClicked = !this.isPlayHandClicked;
-            this.removeSelectedCardsFromHand();
+            await this.removeSelectedCardsFromHand();
             this.selectedCards.sort((a, b) => b.rank - a.rank);
-            this.displayValueWithDelay();
+            await this.displayValueWithDelay();
         },
         discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
@@ -113,7 +113,7 @@ export const useGameStore = defineStore({
             this.multiplier = 0;
             this.totalScore = 0;
         },
-        displayValueWithDelay() {
+        async displayValueWithDelay() {
             this.currentCardIndex = -1;
             this.currentScore = this.totalScore;
             this.currentScore = this.totalScore;

@@ -18,7 +18,7 @@ class GameController extends Controller
             [
                 'hand_cards' => $request->input(key: 'hand'),
                 'cards_left' => $request->input(key: 'cards'),
-                'played_cards' => []
+                'played_cards' => $request->input(key: 'playedCards')
             ]
         );
         return response()->json(['message' => 'Game state saved successfully']);
