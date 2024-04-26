@@ -7,19 +7,23 @@ defineProps(["totalScore", "multiplier", "showPlayerHand"]);
 </script>
 
 <template>
-    <div>
-        <p class="h-2 text-white font-bold">{{ showPlayerHand }}</p>
+    <div
+        class="flex justify-center  mt-2 bg-gray-600 text-white border rounded p-3 w-full"
+    >
+        <p class="flex items-center h-5 text-white font-bold">
+            {{ showPlayerHand }}
+        </p>
     </div>
 
-    <div class="mb-20 flex gap-5">
+    <div class="mb-5 flex gap-5 w-full">
         <div
-            class="flex justify-center w-24 mt-10 bg-indigo-600 text-white border rounded p-3"
+            class="flex justify-center w-full mt-5 bg-indigo-600 text-white border rounded p-3"
         >
             {{ totalScore }}
         </div>
-        <FontAwesomeIcon :icon="faX" class="text-white self-center mt-10" />
+        <FontAwesomeIcon :icon="faX" class="text-white self-center mt-5" />
         <div
-            class="flex justify-center w-24 mt-10 bg-red-600 text-white border rounded p-3"
+            class="flex justify-center w-full mt-5 bg-red-600 text-white border rounded p-3"
         >
             {{ multiplier }}
         </div>

@@ -26,9 +26,9 @@ export const useGameStore = defineStore({
             this.selectedCards = [];
             let card: any;
             let i = 0;
-            const handSize = 10;
+            const handSize = 8;
 
-            while (i < handSize && this.hand.length < 10) {
+            while (i < handSize && this.hand.length < handSize) {
                 card = this.pickRandomCard();
                 this.hand.push(card);
                 this.cards = this.cards.filter((chosenCard: any) => {
