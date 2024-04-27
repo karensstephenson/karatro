@@ -53,6 +53,7 @@ const saveGameState = async () => {
                 hand: gameStore.hand,
                 cards: gameStore.cards,
                 playedCards: gameStore.playedCards,
+                totalPoints: gameStore.totalPoints,
             }),
         });
         const responseData = await response.json();
@@ -76,9 +77,10 @@ const loadGameState = async () => {
                 gameStore.drawCards();
                 saveGameState();
             } else {
-                gameStore.hand = responseData.hand_cards;
-                gameStore.cards = responseData.cards_left;
-                gameStore.playedCards = responseData.played_cards;
+                gameStore.hand = responseData.gameState.hand_cards;
+                gameStore.cards = responseData.gameState.cards_left;
+                gameStore.playedCards = responseData.gameState.played_cards;
+                gameStore.totalPoints = responseData.total_points;
             }
         } else {
             throw new Error("Failed to get response");
@@ -115,7 +117,7 @@ const playHand = async () => {
                             <p>{{ gameStore.totalPoints }}</p>
                         </div>
                         <GameScore
-                            :totalScore="gameStore.totalScore"
+                            :chips="gameStore.chips"
                             :multiplier="gameStore.multiplier"
                             :showPlayerHand="gameStore.showPlayerHand"
                         />

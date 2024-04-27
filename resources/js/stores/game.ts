@@ -11,7 +11,7 @@ export const useGameStore = defineStore({
         playedHands: [],
         totalPoints: 0,
         selectedCards: [],
-        totalScore: 0,
+        chips: 0,
         handScore: 0,
         suitOrder: ["diamonds", "clubs", "hearts", "spades"],
         playerHand: "",
@@ -102,7 +102,7 @@ export const useGameStore = defineStore({
 
             this.showPlayerHand = handDetails[this.playerHand].name;
             this.multiplier = handDetails[this.playerHand].mult;
-            this.totalScore = handDetails[this.playerHand].chips;
+            this.chips = handDetails[this.playerHand].chips;
         },
         sortBySuit() {
             this.hand.sort(
@@ -117,14 +117,13 @@ export const useGameStore = defineStore({
         clearDisplay() {
             this.showPlayerHand = "";
             this.multiplier = 0;
-            this.totalScore = 0;
+            this.chips = 0;
         },
         displayValueWithDelay() {
             return new Promise<void>((resolve) => {
                 this.currentCardIndex = -1;
-                this.currentScore = this.totalScore;
-                this.currentScore = this.totalScore;
-
+                this.currentScore = this.chips;
+                
                 const displayNextValue = () => {
                     if (this.currentCardIndex < this.selectedCards.length - 1) {
                         this.currentCardIndex++;
@@ -132,7 +131,7 @@ export const useGameStore = defineStore({
                             this.selectedCards[this.currentCardIndex];
                         if (currentCard.inPlayedHand) {
                             this.currentScore += currentCard.value;
-                            this.totalScore = this.currentScore;
+                            this.chips = this.currentScore;
                             setTimeout(displayNextValue, 1500);
                         } else {
                             displayNextValue();
@@ -153,7 +152,7 @@ export const useGameStore = defineStore({
             });
         },
         calculateTotalPoints() {
-            this.totalPoints += this.multiplier * this.totalScore;
+            this.totalPoints += this.multiplier * this.chips;
         },
     },
 });
