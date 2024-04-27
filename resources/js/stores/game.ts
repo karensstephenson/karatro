@@ -79,13 +79,13 @@ export const useGameStore = defineStore({
             this.selectedCards.sort((a, b) => b.rank - a.rank);
             await this.displayValueWithDelay();
             this.remainingHands--;
-            console.log(this.remainingHands);
         },
-        discardCards() {
+        async discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
             this.removeSelectedCardsFromHand();
             this.clearDisplay();
             this.drawCards();
+            this.remainingDiscards--;
         },
         isSelected(index: number) {
             return this.selectedCards.includes(index);

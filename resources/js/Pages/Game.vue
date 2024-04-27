@@ -104,6 +104,11 @@ const playHand = async () => {
     await gameStore.showScore();
     saveGameState();
 };
+
+const updateDiscardCards = async () => {
+    await gameStore.discardCards();
+    saveGameState();
+};
 </script>
 
 <template>
@@ -252,7 +257,7 @@ const playHand = async () => {
                                         isButtonDisabled,
                                 }"
                                 class="mt-6 px-4 py-6 w-20 text-white bg-red-600 rounded-md border hover:bg-indigo-700"
-                                @click="gameStore.discardCards"
+                                @click="updateDiscardCards"
                             >
                                 Discard
                             </button>
