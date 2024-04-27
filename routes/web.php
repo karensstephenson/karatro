@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Models\Card;
+use App\Models\Deck;
 use App\Models\Game;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -23,6 +24,8 @@ Route::post('/game', function () {
 Route::get('/game/{gameUuid}', function ($gameUuid) {
 
     $game = Game::where('uuid', $gameUuid)->first();
+    $deckId = Game::where('uuid', $gameUuid)->firstOrFail()->deck_id;
+    $deck = Deck::where('id', $deckId)->first();
 
     return Inertia::render('Game', [
         'canLogin' => Route::has('login'),
@@ -34,6 +37,8 @@ Route::get('/game/{gameUuid}', function ($gameUuid) {
         'gameUuid' => $gameUuid,
         'cash' => $game->cash,
         'totalPoints' => $game->total_points,
+        'hands' => $deck->hands,
+        'discards' => $deck->discards,
     ]);
 })->name('game');
 
@@ -48,4 +53,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
