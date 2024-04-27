@@ -41,7 +41,6 @@ const fetchHello = async () => {
 //fetchHello();
 
 const saveGameState = async () => {
-    console.log(gameStore.hand)
     try {
         const url = `/api/game/${props.gameUuid}/save`;
 
@@ -91,11 +90,7 @@ const loadGameState = async () => {
 
 const playHand = async () => {
     await gameStore.showScore();
-    console.log(gameStore.hand)
-    console.log(gameStore.playedCards)
-    
-    await saveGameState()
-
+    saveGameState();
 };
 </script>
 
