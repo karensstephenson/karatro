@@ -27,6 +27,8 @@ const props = defineProps<{
     cash: number;
     totalPoints: number;
     gameUuid: string;
+    hands: number;
+    discards: number;
 }>();
 
 const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
@@ -54,6 +56,8 @@ const saveGameState = async () => {
                 cards: gameStore.cards,
                 playedCards: gameStore.playedCards,
                 totalPoints: gameStore.totalPoints,
+                remainingHands: gameStore.remainingHands,
+                remainingDiscards: gameStore.remainingDiscards,
             }),
         });
         const responseData = await response.json();
@@ -71,9 +75,11 @@ const loadGameState = async () => {
 
         if (response.ok) {
             const responseData = await response.json();
-
+            console.log(responseData);
             if (Object.keys(responseData).length === 0) {
                 gameStore.cards = props.cardList;
+                gameStore.remainingHands = props.hands;
+                gameStore.remainingDiscards = props.discards;
                 gameStore.drawCards();
                 saveGameState();
             } else {
@@ -81,6 +87,10 @@ const loadGameState = async () => {
                 gameStore.cards = responseData.gameState.cards_left;
                 gameStore.playedCards = responseData.gameState.played_cards;
                 gameStore.totalPoints = responseData.total_points;
+                gameStore.remainingHands =
+                    responseData.gameRoundState.remaining_hands;
+                gameStore.remainingDiscards =
+                    responseData.gameRoundState.remaining_discards;
             }
         } else {
             throw new Error("Failed to get response");
@@ -133,14 +143,14 @@ const playHand = async () => {
                                 class="flex flex-col items-center bg-gray-600 text-white border rounded p-3 col-start-2 row-span-2"
                             >
                                 <p>Hands</p>
-                                <p>4</p>
+                                <p>{{ gameStore.remainingHands }}</p>
                             </div>
 
                             <div
                                 class="flex flex-col items-center bg-gray-600 text-white border rounded p-3 col-start-3 row-span-2"
                             >
                                 <p>Discards</p>
-                                <p>3</p>
+                                <p>{{ gameStore.remainingDiscards }}</p>
                             </div>
 
                             <div

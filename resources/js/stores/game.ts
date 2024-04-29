@@ -20,6 +20,8 @@ export const useGameStore = defineStore({
         currentCardIndex: -1,
         currentScore: 0,
         isPlayHandClicked: false,
+        remainingHands: 0,
+        remainingDiscards: 0,
     }),
 
     actions: {
@@ -76,6 +78,8 @@ export const useGameStore = defineStore({
             await this.removeSelectedCardsFromHand();
             this.selectedCards.sort((a, b) => b.rank - a.rank);
             await this.displayValueWithDelay();
+            this.remainingHands--;
+            console.log(this.remainingHands);
         },
         discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
@@ -123,7 +127,6 @@ export const useGameStore = defineStore({
             return new Promise<void>((resolve) => {
                 this.currentCardIndex = -1;
                 this.currentScore = this.chips;
-                
                 const displayNextValue = () => {
                     if (this.currentCardIndex < this.selectedCards.length - 1) {
                         this.currentCardIndex++;
