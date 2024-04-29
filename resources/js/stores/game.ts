@@ -80,7 +80,7 @@ export const useGameStore = defineStore({
             await this.displayValueWithDelay();
             this.remainingHands--;
         },
-        async discardCards() {
+        discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
             this.removeSelectedCardsFromHand();
             this.clearDisplay();
