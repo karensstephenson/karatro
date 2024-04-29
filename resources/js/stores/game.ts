@@ -127,7 +127,6 @@ export const useGameStore = defineStore({
             return new Promise<void>((resolve) => {
                 this.currentCardIndex = -1;
                 this.currentScore = this.chips;
-
                 const displayNextValue = () => {
                     if (this.currentCardIndex < this.selectedCards.length - 1) {
                         this.currentCardIndex++;
