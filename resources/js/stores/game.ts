@@ -7,6 +7,7 @@ export const useGameStore = defineStore({
         cards: [] as Card[],
         hand: [] as Card[],
         discards: [] as Card[],
+        playedCards: [] as Card[],
         playedHands: [],
         totalPoints: 0,
         selectedCards: [],
@@ -50,12 +51,19 @@ export const useGameStore = defineStore({
             };
         },
         removeSelectedCardsFromHand() {
-            this.hand = this.hand.filter(
+            let cardsPlayedThisHand = this.hand.filter((card) =>
+                this.selectedCards.some(
+                    (selectedCard) => selectedCard.name === card.name
+                )
+            );
+            let handCardsLeft = this.hand.filter(
                 (card) =>
                     !this.selectedCards.some(
                         (selectedCard) => selectedCard.name === card.name
                     )
             );
+            this.hand = handCardsLeft;
+            this.playedCards = [...cardsPlayedThisHand, ...this.playedCards];
         },
         showScore() {
             this.isPlayHandClicked = !this.isPlayHandClicked;
@@ -107,7 +115,7 @@ export const useGameStore = defineStore({
         },
         displayValueWithDelay() {
             this.currentCardIndex = -1;
-            this.currentScore = this.totalScore
+            this.currentScore = this.totalScore;
             this.currentScore = this.totalScore;
 
             const displayNextValue = () => {
