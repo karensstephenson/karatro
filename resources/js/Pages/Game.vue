@@ -3,6 +3,7 @@ import { defineProps, ref, computed, onMounted } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 import cards from "@/global/cards";
 import draggable from "vuedraggable";
+import { router } from "@inertiajs/vue3";
 
 import { useGameStore } from "@/stores/game";
 
@@ -11,6 +12,7 @@ import GameScore from "@/Components/GameScore.vue";
 import HandsAndDiscards from "@/Components/HandsAndDiscards.vue";
 import CashAndTotalPoints from "@/Components/CashAndTotalPoints.vue";
 import PlayedCards from "@/Components/PlayedCards.vue";
+import GameOver from "@/Components/GameOver.vue";
 
 const gameStore = useGameStore();
 
@@ -32,6 +34,12 @@ const props = defineProps<{
 }>();
 
 const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
+
+let isGameOver = computed(() => gameStore.remainingHands <= 0);
+
+const newGame = () => {
+    router.get(route("home"));
+};
 
 // fetch api/hello
 const fetchHello = async () => {
@@ -114,7 +122,8 @@ const updateDiscardCards = async () => {
 <template>
     <Head title="Karatro" />
     <div
-        class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 green-bg"
+        class="min-h-screen bg-gray-50 text-black/50 dark:bg-black dark:text-white/50 flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
+        :class="{ 'bg-black': isGameOver, 'green-bg': !isGameOver }"
     >
         <div
             class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
@@ -262,6 +271,14 @@ const updateDiscardCards = async () => {
                                 Discard
                             </button>
                         </div>
+                    </div>
+
+                    <!-- GAME OVER -->
+                    <div
+                        v-if="isGameOver"
+                        class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-85"
+                    >
+                        <GameOver @newGame="newGame" />
                     </div>
                 </main>
             </div>
