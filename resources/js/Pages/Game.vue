@@ -88,6 +88,7 @@ const loadGameState = async () => {
                 gameStore.cards = props.cardList;
                 gameStore.remainingHands = props.hands;
                 gameStore.remainingDiscards = props.discards;
+                gameStore.totalPoints = 0;
                 gameStore.drawCards();
                 saveGameState();
             } else {
