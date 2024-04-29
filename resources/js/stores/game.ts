@@ -51,25 +51,31 @@ export const useGameStore = defineStore({
             };
         },
         removeSelectedCardsFromHand() {
-            let cardsPlayedThisHand = this.hand.filter((card) =>
-                this.selectedCards.some(
-                    (selectedCard) => selectedCard.name === card.name
-                )
-            );
-            let handCardsLeft = this.hand.filter(
-                (card) =>
-                    !this.selectedCards.some(
+            return new Promise<void>((resolve) => {
+                let cardsPlayedThisHand = this.hand.filter((card) =>
+                    this.selectedCards.some(
                         (selectedCard) => selectedCard.name === card.name
                     )
-            );
-            this.hand = handCardsLeft;
-            this.playedCards = [...cardsPlayedThisHand, ...this.playedCards];
+                );
+                let handCardsLeft = this.hand.filter(
+                    (card) =>
+                        !this.selectedCards.some(
+                            (selectedCard) => selectedCard.name === card.name
+                        )
+                );
+                this.hand = handCardsLeft;
+                this.playedCards = [
+                    ...cardsPlayedThisHand,
+                    ...this.playedCards,
+                ];
+                resolve();
+            });
         },
-        showScore() {
+        async showScore() {
             this.isPlayHandClicked = !this.isPlayHandClicked;
-            this.removeSelectedCardsFromHand();
+            await this.removeSelectedCardsFromHand();
             this.selectedCards.sort((a, b) => b.rank - a.rank);
-            this.displayValueWithDelay();
+            await this.displayValueWithDelay();
         },
         discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
@@ -114,34 +120,37 @@ export const useGameStore = defineStore({
             this.totalScore = 0;
         },
         displayValueWithDelay() {
-            this.currentCardIndex = -1;
-            this.currentScore = this.totalScore;
-            this.currentScore = this.totalScore;
+            return new Promise<void>((resolve) => {
+                this.currentCardIndex = -1;
+                this.currentScore = this.totalScore;
+                this.currentScore = this.totalScore;
 
-            const displayNextValue = () => {
-                if (this.currentCardIndex < this.selectedCards.length - 1) {
-                    this.currentCardIndex++;
-                    const currentCard =
-                        this.selectedCards[this.currentCardIndex];
-                    if (currentCard.inPlayedHand) {
-                        this.currentScore += currentCard.value;
-                        this.totalScore = this.currentScore;
-                        setTimeout(displayNextValue, 1500);
+                const displayNextValue = () => {
+                    if (this.currentCardIndex < this.selectedCards.length - 1) {
+                        this.currentCardIndex++;
+                        const currentCard =
+                            this.selectedCards[this.currentCardIndex];
+                        if (currentCard.inPlayedHand) {
+                            this.currentScore += currentCard.value;
+                            this.totalScore = this.currentScore;
+                            setTimeout(displayNextValue, 1500);
+                        } else {
+                            displayNextValue();
+                        }
                     } else {
-                        displayNextValue();
+                        this.isPlayHandClicked = !this.isPlayHandClicked;
+                        this.drawCards();
+                        this.calculateTotalPoints();
+                        this.clearDisplay();
+                        console.log(this.totalPoints);
+                        resolve();
                     }
-                } else {
-                    this.isPlayHandClicked = !this.isPlayHandClicked;
-                    this.drawCards();
-                    this.calculateTotalPoints();
-                    this.clearDisplay();
-                    console.log(this.totalPoints);
-                }
-            };
+                };
 
-            if (this.selectedCards.some((card) => card.inPlayedHand)) {
-                displayNextValue();
-            }
+                if (this.selectedCards.some((card) => card.inPlayedHand)) {
+                    displayNextValue();
+                }
+            });
         },
         calculateTotalPoints() {
             this.totalPoints += this.multiplier * this.totalScore;

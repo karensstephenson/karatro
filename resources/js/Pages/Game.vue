@@ -52,6 +52,7 @@ const saveGameState = async () => {
             body: JSON.stringify({
                 hand: gameStore.hand,
                 cards: gameStore.cards,
+                playedCards: gameStore.playedCards,
             }),
         });
         const responseData = await response.json();
@@ -77,6 +78,7 @@ const loadGameState = async () => {
             } else {
                 gameStore.hand = responseData.hand_cards;
                 gameStore.cards = responseData.cards_left;
+                gameStore.playedCards = responseData.played_cards;
             }
         } else {
             throw new Error("Failed to get response");
@@ -84,6 +86,11 @@ const loadGameState = async () => {
     } catch (error) {
         console.error("Failed to load game state: ", error);
     }
+};
+
+const playHand = async () => {
+    await gameStore.showScore();
+    saveGameState();
 };
 </script>
 
@@ -169,7 +176,6 @@ const loadGameState = async () => {
                     <div
                         class="col-start-2 col-span-2 mt-6 flex flex-col items-center w-full"
                     >
-                        
                         <div class="h-40 flex flex-col">
                             <PlayedCards
                                 class="flex flex-col h-24"
@@ -216,7 +222,7 @@ const loadGameState = async () => {
                                         isButtonDisabled,
                                 }"
                                 class="mt-6 px-4 py-6 w-20 text-white bg-indigo-600 rounded-md border hover:bg-indigo-700"
-                                @click="gameStore.showScore"
+                                @click="playHand"
                             >
                                 Play Hand
                             </button>
