@@ -16,4 +16,3 @@ Route::post('/game/{gameUuid}/save', [GameController::class, 'saveCards']);
 
 Route::get('/game/{gameUuid}/load', [GameController::class, 'loadCards']);
 
-Route::post('/game/{gameUuid}/playHand', [GameController::class, 'saveCards']);
