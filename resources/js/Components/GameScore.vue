@@ -3,12 +3,12 @@ import { defineProps } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 
-defineProps(["totalScore", "multiplier", "showPlayerHand"]);
+defineProps(["chips", "multiplier", "showPlayerHand"]);
 </script>
 
 <template>
     <div
-        class="flex justify-center  mt-2 bg-gray-600 text-white border rounded p-3 w-full"
+        class="flex justify-center mt-2 bg-gray-600 text-white border rounded p-3 w-full"
     >
         <p class="flex items-center h-5 text-white font-bold">
             {{ showPlayerHand }}
@@ -19,7 +19,7 @@ defineProps(["totalScore", "multiplier", "showPlayerHand"]);
         <div
             class="flex justify-center w-full mt-5 bg-indigo-600 text-white border rounded p-3"
         >
-            {{ totalScore }}
+            {{ chips }}
         </div>
         <FontAwesomeIcon :icon="faX" class="text-white self-center mt-5" />
         <div

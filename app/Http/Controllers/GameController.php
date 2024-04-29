@@ -21,6 +21,8 @@ class GameController extends Controller
                 'played_cards' => $request->input(key: 'playedCards')
             ]
         );
+        Game::where('uuid', $gameUuid)->update(['total_points' => $request->input(key: 'totalPoints')]);
+
         return response()->json(['message' => 'Game state saved successfully']);
     }
 
@@ -29,9 +31,13 @@ class GameController extends Controller
         $gameUuid = $request->route('gameUuid');
         $gameId = Game::where('uuid', $gameUuid)->firstOrFail()->id;
         $gameState = CardsInPlay::where('game_id', $gameId)->first();
+        $game = Game::where('uuid', $gameUuid)->first();
 
         if ($gameState) {
-            return response()->json($gameState);
+            return response()->json([
+                'gameState' => $gameState,
+                'total_points' => $game->total_points,
+            ]);
         } else {
             return [];
         }
