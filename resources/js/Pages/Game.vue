@@ -37,6 +37,8 @@ const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
 
 let isGameOver = computed(() => gameStore.remainingHands <= 0);
 
+let isDiscardsZero = computed(() => gameStore.remainingDiscards <= 0 || gameStore.selectedCards.length === 0);
+
 const newGame = () => {
     router.get(route("home"));
 };
@@ -261,10 +263,10 @@ const updateDiscardCards = async () => {
                             />
 
                             <button
-                                :disabled="isButtonDisabled"
+                                :disabled="isDiscardsZero"
                                 :class="{
                                     'opacity-50 cursor-not-allowed':
-                                        isButtonDisabled,
+                                        isDiscardsZero,
                                 }"
                                 class="mt-6 px-4 py-6 w-20 text-white bg-red-600 rounded-md border hover:bg-indigo-700"
                                 @click="updateDiscardCards"
