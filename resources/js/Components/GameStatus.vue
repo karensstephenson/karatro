@@ -4,11 +4,14 @@ import { defineEmits } from "vue";
 import { Head, Link } from "@inertiajs/vue3";
 
 const emit = defineEmits(["newGame"]);
+defineProps<{
+    gameStatus: string;
+}>();
 </script>
 
 <template>
     <div class="flex flex-col items-center border p-10 rounded-md bg-black">
-        <p class="text-red-600">GAME OVER</p>
+        <p class="text-red-600">{{ gameStatus }}</p>
 
         <div class="flex gap-3">
             <Link
