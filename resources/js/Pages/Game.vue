@@ -12,8 +12,8 @@ import GameScore from "@/Components/GameScore.vue";
 import HandsAndDiscards from "@/Components/HandsAndDiscards.vue";
 import CashAndTotalPoints from "@/Components/CashAndTotalPoints.vue";
 import PlayedCards from "@/Components/PlayedCards.vue";
-import GameOver from "@/Components/GameOver.vue";
-import Deck from "@/Components/Deck.vue";
+import GameStatus from "@/Components/GameStatus.vue";
+import Deck from "@/Components/Deck.vue"
 
 const gameStore = useGameStore();
 
@@ -33,6 +33,8 @@ const props = defineProps<{
     hands: number;
     discards: number;
 }>();
+
+const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore)
 
 const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
 
@@ -69,7 +71,7 @@ const saveGameState = async () => {
                 hand: gameStore.hand,
                 cards: gameStore.cards,
                 playedCards: gameStore.playedCards,
-                totalPoints: gameStore.totalPoints,
+                totalPoints: gameStore.roundPoints,
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
             }),
@@ -95,13 +97,15 @@ const loadGameState = async () => {
                 gameStore.remainingHands = props.hands;
                 gameStore.remainingDiscards = props.discards;
                 gameStore.totalPoints = 0;
+                gameStore.roundPoints = 0;
+                gameStore.targetScore = 300;
                 gameStore.drawCards();
                 saveGameState();
             } else {
                 gameStore.hand = responseData.gameState.hand_cards;
                 gameStore.cards = responseData.gameState.cards_left;
                 gameStore.playedCards = responseData.gameState.played_cards;
-                gameStore.totalPoints = responseData.total_points;
+                gameStore.roundPoints = responseData.total_points;
                 gameStore.remainingHands =
                     responseData.gameRoundState.remaining_hands;
                 gameStore.remainingDiscards =
@@ -149,8 +153,14 @@ const toggleCardDeck = () => {
                         <div
                             class="flex items-center w-28 mt-5 bg-gray-600 text-white border rounded p-3 mb-2 w-full justify-around"
                         >
+                            <p>Target Score</p>
+                            <p>{{ gameStore.targetScore }}</p>
+                        </div>
+                        <div
+                            class="flex items-center w-28 mt-5 bg-gray-600 text-white border rounded p-3 mb-2 w-full justify-around"
+                        >
                             <p>Round Score</p>
-                            <p>{{ gameStore.totalPoints }}</p>
+                            <p>{{ gameStore.roundPoints }}</p>
                         </div>
                         <GameScore
                             :chips="gameStore.chips"
@@ -294,9 +304,15 @@ const toggleCardDeck = () => {
                     <!-- GAME OVER -->
                     <div
                         v-if="isGameOver"
-                        class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-85"
+                        class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
                     >
-                        <GameOver @newGame="newGame" />
+                        <GameStatus @newGame="newGame" gameStatus="GAME OVER"/>
+                    </div>
+                    <div
+                        v-if="winGame"
+                        class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
+                    >
+                        <GameStatus @newGame="newGame" gameStatus="YOU WIN"/>
                     </div>
                 </main>
                 <div
