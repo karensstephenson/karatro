@@ -13,6 +13,7 @@ import HandsAndDiscards from "@/Components/HandsAndDiscards.vue";
 import CashAndTotalPoints from "@/Components/CashAndTotalPoints.vue";
 import PlayedCards from "@/Components/PlayedCards.vue";
 import GameStatus from "@/Components/GameStatus.vue";
+import Deck from "@/Components/Deck.vue"
 
 const gameStore = useGameStore();
 
@@ -39,7 +40,10 @@ const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
 
 let isGameOver = computed(() => gameStore.remainingHands <= 0);
 
-let isDiscardsZero = computed(() => gameStore.remainingDiscards <= 0 || gameStore.selectedCards.length === 0);
+let isDiscardsZero = computed(
+    () =>
+        gameStore.remainingDiscards <= 0 || gameStore.selectedCards.length === 0
+);
 
 const newGame = () => {
     router.get(route("home"));
@@ -95,6 +99,8 @@ const loadGameState = async () => {
                 gameStore.totalPoints = 0;
                 gameStore.roundPoints = 0;
                 gameStore.targetScore = 300;
+                gameStore.discards = [];
+                gameStore.playedCards = [];
                 gameStore.drawCards();
                 saveGameState();
             } else {
@@ -123,6 +129,11 @@ const playHand = async () => {
 const updateDiscardCards = async () => {
     await gameStore.discardCards();
     saveGameState();
+};
+
+let isCardDeck = ref(false);
+const toggleCardDeck = () => {
+    isCardDeck.value = !isCardDeck.value;
 };
 </script>
 
@@ -278,10 +289,16 @@ const updateDiscardCards = async () => {
                                     'opacity-50 cursor-not-allowed':
                                         isDiscardsZero,
                                 }"
-                                class="mt-6 px-4 py-6 w-20 text-white bg-red-600 rounded-md border hover:bg-indigo-700"
+                                class="mt-6 px-4 py-6 w-20 text-white bg-red-600 rounded-md border hover:bg-red-700"
                                 @click="updateDiscardCards"
                             >
                                 Discard
+                            </button>
+                            <button
+                                class="self-end h-10 w-10 text-white text-xs bg-white-600 rounded-md border hover:bg-neutral-500"
+                                @click="toggleCardDeck"
+                            >
+                                Deck
                             </button>
                         </div>
                     </div>
@@ -300,6 +317,15 @@ const updateDiscardCards = async () => {
                         <GameStatus @newGame="newGame" gameStatus="YOU WIN"/>
                     </div>
                 </main>
+                <div
+                    v-if="isCardDeck"
+                    class="flex items-center justify-center absolute inset-0 bg-black bg-opacity-85"
+                >
+                    <Deck
+                        :cardList="cardList"
+                        @toggleCardDeck="toggleCardDeck"
+                    />
+                </div>
             </div>
         </div>
     </div>
