@@ -99,6 +99,7 @@ const loadGameState = async () => {
                 gameStore.totalPoints = 0;
                 gameStore.roundPoints = 0;
                 gameStore.targetScore = 300;
+                gameStore.hand = [];
                 gameStore.discards = [];
                 gameStore.playedCards = [];
                 gameStore.drawCards();
