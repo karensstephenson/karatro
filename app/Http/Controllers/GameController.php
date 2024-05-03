@@ -40,7 +40,6 @@ class GameController extends Controller
                 'game_id' => $gameId,
                 'played_hand' => $request->input(key: 'playedHand'),
             ]
-
         );
 
         return response()->json(['message' => 'Game state saved successfully']);
