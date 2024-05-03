@@ -14,11 +14,13 @@ class CardsInPlay extends Model
         'hand_cards', 
         'cards_left',     
         'played_cards',
+        'discards',
     ];
 
     protected $casts = [
         'hand_cards' => 'array',
         'cards_left' => 'array',
         'played_cards' => 'array',
+        'discards' => 'array',
     ];
 }
