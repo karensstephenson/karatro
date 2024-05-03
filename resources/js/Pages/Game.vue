@@ -71,6 +71,7 @@ const saveGameState = async () => {
                 hand: gameStore.hand,
                 cards: gameStore.cards,
                 playedCards: gameStore.playedCards,
+                discards: gameStore.discards,
                 totalPoints: gameStore.roundPoints,
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
@@ -107,6 +108,7 @@ const loadGameState = async () => {
                 gameStore.hand = responseData.gameState.hand_cards;
                 gameStore.cards = responseData.gameState.cards_left;
                 gameStore.playedCards = responseData.gameState.played_cards;
+                gameStore.discards = responseData.gameState.played_cards
                 gameStore.roundPoints = responseData.total_points;
                 gameStore.remainingHands =
                     responseData.gameRoundState.remaining_hands;

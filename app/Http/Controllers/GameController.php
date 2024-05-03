@@ -20,7 +20,8 @@ class GameController extends Controller
             [
                 'hand_cards' => $request->input(key: 'hand'),
                 'cards_left' => $request->input(key: 'cards'),
-                'played_cards' => $request->input(key: 'playedCards')
+                'played_cards' => $request->input(key: 'playedCards'),
+                'discards' => $request->input(key: 'discards'),
             ]
         );
         Game::where('uuid', $gameUuid)->update(['total_points' => $request->input(key: 'totalPoints')]);
