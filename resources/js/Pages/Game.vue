@@ -75,6 +75,7 @@ const saveGameState = async () => {
                 totalPoints: gameStore.roundPoints,
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
+                playedHand: gameStore.playerHand,
             }),
         });
         const responseData = await response.json();
