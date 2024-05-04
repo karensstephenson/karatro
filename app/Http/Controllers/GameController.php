@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Deck;
 use App\Models\Game;
 use App\Models\CardsInPlay;
+use App\Models\GamePlayedHands;
 use App\Models\GameRound;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,12 @@ class GameController extends Controller
                 'uuid' => $gameUuid,
                 'remaining_hands' => $request->input(key: 'remainingHands'),
                 'remaining_discards' => $request->input(key: 'remainingDiscards'),
+            ]
+        );
+        GamePlayedHands::create(
+            [
+                'game_id' => $gameId,
+                'played_hand' => $request->input(key: 'playedHand'),
             ]
         );
 

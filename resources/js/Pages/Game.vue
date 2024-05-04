@@ -13,7 +13,7 @@ import HandsAndDiscards from "@/Components/HandsAndDiscards.vue";
 import CashAndTotalPoints from "@/Components/CashAndTotalPoints.vue";
 import PlayedCards from "@/Components/PlayedCards.vue";
 import GameStatus from "@/Components/GameStatus.vue";
-import Deck from "@/Components/Deck.vue"
+import Deck from "@/Components/Deck.vue";
 
 const gameStore = useGameStore();
 
@@ -34,7 +34,7 @@ const props = defineProps<{
     discards: number;
 }>();
 
-const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore)
+const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore);
 
 const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
 
@@ -75,6 +75,7 @@ const saveGameState = async () => {
                 totalPoints: gameStore.roundPoints,
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
+                playedHand: gameStore.playerHand,
             }),
         });
         const responseData = await response.json();
@@ -109,7 +110,7 @@ const loadGameState = async () => {
                 gameStore.hand = responseData.gameState.hand_cards;
                 gameStore.cards = responseData.gameState.cards_left;
                 gameStore.playedCards = responseData.gameState.played_cards;
-                gameStore.discards = responseData.gameState.played_cards
+                gameStore.discards = responseData.gameState.played_cards;
                 gameStore.roundPoints = responseData.total_points;
                 gameStore.remainingHands =
                     responseData.gameRoundState.remaining_hands;
@@ -311,13 +312,13 @@ const toggleCardDeck = () => {
                         v-if="isGameOver"
                         class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
                     >
-                        <GameStatus @newGame="newGame" gameStatus="GAME OVER"/>
+                        <GameStatus @newGame="newGame" gameStatus="GAME OVER" />
                     </div>
                     <div
                         v-if="winGame"
                         class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
                     >
-                        <GameStatus @newGame="newGame" gameStatus="YOU WIN"/>
+                        <GameStatus @newGame="newGame" gameStatus="YOU WIN" />
                     </div>
                 </main>
                 <div
