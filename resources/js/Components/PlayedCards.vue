@@ -17,6 +17,11 @@ const gameStore = useGameStore();
             >
                 <p
                     class="flex justify-center absolute w-full text-white"
+                    :class="{
+                        'animate-pop':
+                            index === gameStore.currentCardIndex &&
+                            card.inPlayedHand,
+                    }"
                     v-if="
                         index === gameStore.currentCardIndex &&
                         card.inPlayedHand
@@ -31,6 +36,9 @@ const gameStore = useGameStore();
                         class="flex h-24"
                         :class="{
                             'in-played-hand-card': card.inPlayedHand,
+                            'animate-pop':
+                                index === gameStore.currentCardIndex &&
+                                card.inPlayedHand,
                         }"
                     />
                 </div>
