@@ -14,6 +14,7 @@ import CashAndTotalPoints from "@/Components/CashAndTotalPoints.vue";
 import PlayedCards from "@/Components/PlayedCards.vue";
 import GameStatus from "@/Components/GameStatus.vue";
 import Deck from "@/Components/Deck.vue";
+import NewRound from "@/Components/NewRound.vue";
 
 const gameStore = useGameStore();
 
@@ -321,6 +322,15 @@ const toggleCardDeck = () => {
                         <GameStatus @newGame="newGame" gameStatus="YOU WIN" />
                     </div>
                 </main>
+
+                <!-- NEW ROUND OPTIONS -->
+                <div class="flex">
+                    <NewRound />
+                    <NewRound />
+                    <NewRound />
+                </div>
+
+                <!-- CARD DECK -->
                 <div
                     v-if="isCardDeck"
                     class="flex items-center justify-center absolute inset-0 bg-black bg-opacity-85"
