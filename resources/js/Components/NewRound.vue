@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { router } from "@inertiajs/vue3";
-import { Head, Link } from "@inertiajs/vue3";
-
-defineProps<{}>();
 </script>
 
 <template>
