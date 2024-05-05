@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
     <div
         class="flex justify-center border-blue-800 rounded border-8 bg-black m-2"
