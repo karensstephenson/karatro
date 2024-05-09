@@ -6,13 +6,11 @@ import { router } from "@inertiajs/vue3";
 
 import { useGameStore } from "@/stores/game";
 
-
-
 import GameStatus from "@/Components/GameStatus.vue";
 import Deck from "@/Components/Deck.vue";
 import NewRound from "@/Components/NewRound.vue";
 import GameArea from "@/Components/GameArea.vue";
-import InformationArea from "@/Components/InformationArea.vue"
+import InformationArea from "@/Components/InformationArea.vue";
 
 const gameStore = useGameStore();
 
@@ -147,7 +145,7 @@ const toggleCardDeck = () => {
                     class="grid grid-cols-3 relative mt-6 flex items-center gap-3"
                 >
                     <!-- SCORING SECTION -->
-                    <InformationArea :cash="cash"/>
+                    <InformationArea :cash="cash" />
 
                     <!-- CARD SECTION -->
                     <GameArea
