@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, ref, computed, onMounted } from "vue";
+import { computed } from "vue";
 import { defineEmits } from "vue";
 import draggable from "vuedraggable";
 import { useGameStore } from "@/stores/game";
@@ -11,7 +11,7 @@ const gameStore = useGameStore();
 
 const emit = defineEmits(["playHand", "updateDiscardCards", "toggleCardDeck"]);
 
-const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
+const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0 );
 
 let isDiscardsZero = computed(
     () =>
@@ -99,9 +99,5 @@ let isDiscardsZero = computed(
 
 .card:hover {
     cursor: pointer;
-}
-
-.green-bg {
-    background-color: #00796b;
 }
 </style>
