@@ -171,17 +171,19 @@ const toggleCardDeck = () => {
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main
-                    class="grid grid-cols-3 relative mt-6 flex items-center gap-3"
+                    class="grid grid-cols-4 relative mt-6 flex items-center gap-2"
                 >
                     <!-- SCORING SECTION -->
                     <InformationArea :cash="cash" />
 
                     <!-- CARD SECTION -->
-                    <GameArea
-                        @playHand="playHand()"
-                        @updateDiscardCards="updateDiscardCards()"
-                        @toggleCardDeck="toggleCardDeck()"
-                    />
+                    <div v-if="!winGame" class="col-start-2 col-span-3">
+                        <GameArea
+                            @playHand="playHand()"
+                            @updateDiscardCards="updateDiscardCards()"
+                            @toggleCardDeck="toggleCardDeck()"
+                        />
+                    </div>
 
                     <!-- END OF GAME -->
                     <div
@@ -196,22 +198,21 @@ const toggleCardDeck = () => {
                     </div>
                     <div
                         v-if="winGame"
-                        class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
+                        class="col-start-2 col-span-3 row-start-1 row-end-4 flex items-center justify-around absolute inset-0"
                     >
-                        <GameStatus
+                        <div class="flex">
+                            <NewRound @newGame="newRound" />
+                            <NewRound @newGame="newRound" />
+                            <NewRound @newGame="newRound" />
+                        </div>
+
+                        <!-- <GameStatus
                             @newGame="newRound"
                             gameStatus="YOU WIN"
                             nextGame="Next Round"
-                        />
+                        /> -->
                     </div>
                 </main>
-
-                <!-- NEW ROUND OPTIONS -->
-                <div class="flex">
-                    <NewRound />
-                    <NewRound />
-                    <NewRound />
-                </div>
 
                 <!-- CARD DECK -->
                 <div
