@@ -24,6 +24,7 @@ export const useGameStore = defineStore({
         remainingDiscards: 0,
         targetScore: 300,
         roundPoints: 0,
+        gameStatus: "in_progress"
     }),
 
     actions: {

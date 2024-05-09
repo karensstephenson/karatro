@@ -29,6 +29,7 @@ const props = defineProps<{
     gameUuid: string;
     hands: number;
     discards: number;
+    gameStatus: string;
 }>();
 
 const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore);
@@ -57,6 +58,7 @@ const saveGameState = async () => {
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
                 playedHand: gameStore.playerHand,
+                status: gameStore.gameStatus,
             }),
         });
         const responseData = await response.json();
@@ -79,6 +81,7 @@ const loadGameState = async () => {
                 gameStore.cards = props.cardList;
                 gameStore.remainingHands = props.hands;
                 gameStore.remainingDiscards = props.discards;
+                gameStore.gameStatus = props.gameStatus;
                 gameStore.totalPoints = 0;
                 gameStore.roundPoints = 0;
                 gameStore.targetScore = 300;
@@ -97,6 +100,7 @@ const loadGameState = async () => {
                     responseData.gameRoundState.remaining_hands;
                 gameStore.remainingDiscards =
                     responseData.gameRoundState.remaining_discards;
+                gameStore.gameStatus = responseData.status;
             }
         } else {
             throw new Error("Failed to get response");
@@ -108,6 +112,9 @@ const loadGameState = async () => {
 
 const playHand = async () => {
     await gameStore.showScore();
+    if (isGameOver.value) {
+        gameStore.gameStatus = "completed";
+    }
     saveGameState();
 };
 
