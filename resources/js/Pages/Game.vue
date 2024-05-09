@@ -39,6 +39,38 @@ const newGame = () => {
     router.get(route("home"));
 };
 
+const newRound = async () => {
+    try {
+        const url = `/api/game/${props.gameUuid}/new-round`;
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                round: gameStore.round,
+            }),
+        });
+        const responseData = await response.json();
+        console.log(responseData.message);
+    } catch (error) {
+        console.error("Failed to start new round: ", error);
+    }
+    gameStore.cards = props.cardList;
+    gameStore.remainingHands = props.hands;
+    gameStore.remainingDiscards = props.discards;
+    gameStore.totalPoints = 0;
+    gameStore.roundPoints = 0;
+    gameStore.targetScore = 300;
+    gameStore.hand = [];
+    gameStore.discards = [];
+    gameStore.playedCards = [];
+    gameStore.round += 1;
+    gameStore.drawCards();
+    saveGameState();
+};
+
 // fetch api/hello
 const fetchHello = async () => {
     const response = await fetch("/api/hello");
@@ -66,6 +98,7 @@ const saveGameState = async () => {
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
                 playedHand: gameStore.playerHand,
+                round: gameStore.round,
             }),
         });
         const responseData = await response.json();
@@ -94,6 +127,7 @@ const loadGameState = async () => {
                 gameStore.hand = [];
                 gameStore.discards = [];
                 gameStore.playedCards = [];
+                gameStore.round = 1;
                 gameStore.drawCards();
                 saveGameState();
             } else {
@@ -106,6 +140,7 @@ const loadGameState = async () => {
                     responseData.gameRoundState.remaining_hands;
                 gameStore.remainingDiscards =
                     responseData.gameRoundState.remaining_discards;
+                gameStore.round = responseData.round;
             }
         } else {
             throw new Error("Failed to get response");
@@ -159,13 +194,21 @@ const toggleCardDeck = () => {
                         v-if="isGameOver"
                         class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
                     >
-                        <GameStatus @newGame="newGame" gameStatus="GAME OVER" />
+                        <GameStatus
+                            @newGame="newGame"
+                            gameStatus="GAME OVER"
+                            nextGame="New Game"
+                        />
                     </div>
                     <div
                         v-if="winGame"
                         class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
                     >
-                        <GameStatus @newGame="newGame" gameStatus="YOU WIN" />
+                        <GameStatus
+                            @newGame="newRound"
+                            gameStatus="YOU WIN"
+                            nextGame="Next Round"
+                        />
                     </div>
                 </main>
 
