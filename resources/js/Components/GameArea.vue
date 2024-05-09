@@ -11,11 +11,11 @@ const gameStore = useGameStore();
 
 const emit = defineEmits(["playHand", "updateDiscardCards", "toggleCardDeck"]);
 
-const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0);
+const isButtonDisabled = computed(() => gameStore.selectedCards.length === 0 || gameStore.isPlayHandClicked);
 
 let isDiscardsZero = computed(
     () =>
-        gameStore.remainingDiscards <= 0 || gameStore.selectedCards.length === 0
+        gameStore.remainingDiscards <= 0 || gameStore.selectedCards.length === 0 || gameStore.isPlayHandClicked
 );
 </script>
 
