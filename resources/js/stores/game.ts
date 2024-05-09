@@ -86,6 +86,7 @@ export const useGameStore = defineStore({
             this.discards = this.discards.concat(this.selectedCards);
             this.removeSelectedCardsFromHand();
             this.clearDisplay();
+            this.playerHand = "";
             this.drawCards();
             this.remainingDiscards--;
         },
