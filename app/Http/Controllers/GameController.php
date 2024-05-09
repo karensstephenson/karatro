@@ -66,7 +66,7 @@ class GameController extends Controller
         }
     }
 
-    public function newRound(Request $request)
+    public function newRound(Request $request): void
     {
         $gameUuid = $request->route('gameUuid');
 

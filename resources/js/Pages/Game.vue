@@ -57,6 +57,11 @@ const newRound = async () => {
     } catch (error) {
         console.error("Failed to start new round: ", error);
     }
+    gameStore.round += 1;
+    resetGame();
+};
+
+const resetGame = () => {
     gameStore.cards = props.cardList;
     gameStore.remainingHands = props.hands;
     gameStore.remainingDiscards = props.discards;
@@ -66,7 +71,6 @@ const newRound = async () => {
     gameStore.hand = [];
     gameStore.discards = [];
     gameStore.playedCards = [];
-    gameStore.round += 1;
     gameStore.drawCards();
     saveGameState();
 };
@@ -118,18 +122,8 @@ const loadGameState = async () => {
             const responseData = await response.json();
             console.log(responseData);
             if (Object.keys(responseData).length === 0) {
-                gameStore.cards = props.cardList;
-                gameStore.remainingHands = props.hands;
-                gameStore.remainingDiscards = props.discards;
-                gameStore.totalPoints = 0;
-                gameStore.roundPoints = 0;
-                gameStore.targetScore = 300;
-                gameStore.hand = [];
-                gameStore.discards = [];
-                gameStore.playedCards = [];
                 gameStore.round = 1;
-                gameStore.drawCards();
-                saveGameState();
+                resetGame();
             } else {
                 gameStore.hand = responseData.gameState.hand_cards;
                 gameStore.cards = responseData.gameState.cards_left;
