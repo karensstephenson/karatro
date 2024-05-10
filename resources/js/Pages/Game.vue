@@ -77,15 +77,6 @@ const resetGame = () => {
     saveGameState();
 };
 
-// fetch api/hello
-const fetchHello = async () => {
-    const response = await fetch("/api/hello");
-    const { message } = await response.json();
-    console.log(message);
-};
-
-//fetchHello();
-
 const saveGameState = async () => {
     try {
         const url = `/api/game/${props.gameUuid}/save`;
@@ -168,7 +159,7 @@ const toggleCardDeck = () => {
 
 const cashOut = () => {
     console.log("Hello!");
-}
+};
 </script>
 
 <template>
@@ -234,9 +225,8 @@ const cashOut = () => {
 
                 <!-- ROUND SUMMARY -->
                 <div>
-                  <RoundSummary @cashOut="cashOut"/>  
+                    <RoundSummary @cashOut="cashOut" />
                 </div>
-                
 
                 <!-- CARD DECK -->
                 <div
