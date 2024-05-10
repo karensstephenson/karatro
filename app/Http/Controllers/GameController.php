@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Deck;
 use App\Models\Game;
-use App\Models\CardsInPlay;
-use App\Models\GamePlayedHands;
 use App\Models\GameRound;
+use App\Models\CardsInPlay;
 use Illuminate\Http\Request;
+use App\Models\GamePlayedHands;
 
 class GameController extends Controller
 {
@@ -26,6 +25,8 @@ class GameController extends Controller
             ]
         );
         Game::where('uuid', $gameUuid)->update(['total_points' => $request->input(key: 'totalPoints')]);
+
+        Game::where('uuid', $gameUuid)->update(['round' => $request->input(key: 'round')]);
 
         GameRound::updateOrCreate(
             ['game_id' => $gameId],
@@ -58,9 +59,17 @@ class GameController extends Controller
                 'gameState' => $gameState,
                 'total_points' => $game->total_points,
                 'gameRoundState' => $gameRoundState,
+                'round' => $game->round,
             ]);
         } else {
             return [];
         }
+    }
+
+    public function newRound(Request $request): void
+    {
+        $gameUuid = $request->route('gameUuid');
+
+        Game::where('uuid', $gameUuid)->update(['round' => $request->input(key: 'round')]);
     }
 }
