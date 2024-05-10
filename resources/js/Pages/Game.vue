@@ -11,6 +11,7 @@ import Deck from "@/Components/Deck.vue";
 import NewRound from "@/Components/NewRound.vue";
 import GameArea from "@/Components/GameArea.vue";
 import InformationArea from "@/Components/InformationArea.vue";
+import RoundSummary from "@/Components/RoundSummary.vue";
 
 const gameStore = useGameStore();
 
@@ -40,6 +41,51 @@ const newGame = () => {
     router.get(route("home"));
 };
 
+const newRound = async () => {
+    try {
+        const url = `/api/game/${props.gameUuid}/new-round`;
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                round: gameStore.round,
+            }),
+        });
+        const responseData = await response.json();
+        console.log(responseData.message);
+    } catch (error) {
+        console.error("Failed to start new round: ", error);
+    }
+    gameStore.round += 1;
+    resetGame();
+};
+
+const resetGame = () => {
+    gameStore.cards = props.cardList;
+    gameStore.remainingHands = props.hands;
+    gameStore.remainingDiscards = props.discards;
+    gameStore.totalPoints = 0;
+    gameStore.roundPoints = 0;
+    gameStore.targetScore = 300;
+    gameStore.hand = [];
+    gameStore.discards = [];
+    gameStore.playedCards = [];
+    gameStore.drawCards();
+    saveGameState();
+};
+
+// fetch api/hello
+const fetchHello = async () => {
+    const response = await fetch("/api/hello");
+    const { message } = await response.json();
+    console.log(message);
+};
+
+//fetchHello();
+
 const saveGameState = async () => {
     try {
         const url = `/api/game/${props.gameUuid}/save`;
@@ -59,6 +105,7 @@ const saveGameState = async () => {
                 remainingDiscards: gameStore.remainingDiscards,
                 playedHand: gameStore.playerHand,
                 status: gameStore.gameStatus,
+                round: gameStore.round,
             }),
         });
         const responseData = await response.json();
@@ -78,18 +125,8 @@ const loadGameState = async () => {
             const responseData = await response.json();
             console.log(responseData);
             if (Object.keys(responseData).length === 0) {
-                gameStore.cards = props.cardList;
-                gameStore.remainingHands = props.hands;
-                gameStore.remainingDiscards = props.discards;
-                gameStore.gameStatus = props.gameStatus;
-                gameStore.totalPoints = 0;
-                gameStore.roundPoints = 0;
-                gameStore.targetScore = 300;
-                gameStore.hand = [];
-                gameStore.discards = [];
-                gameStore.playedCards = [];
-                gameStore.drawCards();
-                saveGameState();
+                gameStore.round = 1;
+                resetGame();
             } else {
                 gameStore.hand = responseData.gameState.hand_cards;
                 gameStore.cards = responseData.gameState.cards_left;
@@ -101,6 +138,7 @@ const loadGameState = async () => {
                 gameStore.remainingDiscards =
                     responseData.gameRoundState.remaining_discards;
                 gameStore.gameStatus = responseData.status;
+                gameStore.round = responseData.round;
             }
         } else {
             throw new Error("Failed to get response");
@@ -127,6 +165,10 @@ let isCardDeck = ref(false);
 const toggleCardDeck = () => {
     isCardDeck.value = !isCardDeck.value;
 };
+
+const cashOut = () => {
+    console.log("Hello!");
+}
 </script>
 
 <template>
@@ -140,30 +182,46 @@ const toggleCardDeck = () => {
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <main
-                    class="grid grid-cols-3 relative mt-6 flex items-center gap-3"
+                    class="grid grid-cols-4 relative mt-6 flex items-center gap-2"
                 >
                     <!-- SCORING SECTION -->
                     <InformationArea :cash="cash" />
 
                     <!-- CARD SECTION -->
-                    <GameArea
-                        @playHand="playHand()"
-                        @updateDiscardCards="updateDiscardCards()"
-                        @toggleCardDeck="toggleCardDeck()"
-                    />
+                    <div v-if="!winGame" class="col-start-2 col-span-3">
+                        <GameArea
+                            @playHand="playHand()"
+                            @updateDiscardCards="updateDiscardCards()"
+                            @toggleCardDeck="toggleCardDeck()"
+                        />
+                    </div>
 
                     <!-- END OF GAME -->
                     <div
                         v-if="isGameOver"
                         class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
                     >
-                        <GameStatus @newGame="newGame" gameStatus="GAME OVER" />
+                        <GameStatus
+                            @newGame="newGame"
+                            gameStatus="GAME OVER"
+                            nextGame="New Game"
+                        />
                     </div>
                     <div
                         v-if="winGame"
-                        class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
+                        class="col-start-2 col-span-3 row-start-1 row-end-4 flex items-center justify-around absolute inset-0"
                     >
-                        <GameStatus @newGame="newGame" gameStatus="YOU WIN" />
+                        <div class="flex">
+                            <NewRound @newGame="newRound" />
+                            <NewRound @newGame="newRound" />
+                            <NewRound @newGame="newRound" />
+                        </div>
+
+                        <!-- <GameStatus
+                            @newGame="newRound"
+                            gameStatus="YOU WIN"
+                            nextGame="Next Round"
+                        /> -->
                     </div>
                 </main>
 
@@ -173,6 +231,12 @@ const toggleCardDeck = () => {
                     <NewRound />
                     <NewRound />
                 </div>
+
+                <!-- ROUND SUMMARY -->
+                <div>
+                  <RoundSummary @cashOut="cashOut"/>  
+                </div>
+                
 
                 <!-- CARD DECK -->
                 <div

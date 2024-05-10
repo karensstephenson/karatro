@@ -33,6 +33,8 @@ class GameController extends Controller
 
         Game::where('uuid', $gameUuid)->update(['round' => $request->input(key: 'round')]);
 
+        Game::where('uuid', $gameUuid)->update(['round' => $request->input(key: 'round')]);
+
         GameRound::updateOrCreate(
             ['game_id' => $gameId],
             [

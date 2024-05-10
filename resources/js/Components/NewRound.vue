@@ -1,13 +1,30 @@
+<script setup lang="ts">
+import { defineEmits } from "vue";
+
+const emit = defineEmits(["newGame"]);
+defineProps<{
+    gameStatus: string;
+    nextGame: string;
+}>();
+</script>
+
 <template>
     <div
         class="flex justify-center border-blue-800 rounded border-8 bg-black m-2"
     >
         <div class="m-2">
-            <button
+            <Link
+                @click="$emit('newGame')"
+                class="block justify-center px-4 py-1 text-white bg-orange-600 rounded-md hover:bg-orange-700 text-center"
+            >
+                Select
+            </Link>
+
+            <!-- <button
                 class="justify-center px-4 py-1 text-white bg-orange-600 rounded-md hover:bg-orange-700 w-full"
             >
                 Select
-            </button>
+            </button> -->
             <p
                 class="mt-4 border rounded-full text-white bg-blue-900 flex justify-center w-full"
             >

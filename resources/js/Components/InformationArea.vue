@@ -38,21 +38,21 @@ const props = defineProps<{
             </div>
 
             <div
-                class="flex flex-col items-center bg-gray-600 text-white border rounded p-3 col-start-2 row-span-2"
+                class="flex flex-col items-center bg-gray-600 text-white border rounded p-3 col-start-2 row-span-2 text-xs"
             >
                 <p>Hands</p>
-                <p>{{ gameStore.remainingHands }}</p>
+                <p class="text-base">{{ gameStore.remainingHands }}</p>
             </div>
 
             <div
-                class="flex flex-col items-center bg-gray-600 text-white border rounded p-3 col-start-3 row-span-2"
+                class="flex flex-col items-center bg-gray-600 text-white border rounded p-3 col-start-3 row-span-2 text-xs"
             >
-                <p>Discards</p>
-                <p>{{ gameStore.remainingDiscards }}</p>
+                <p >Discards</p>
+                <p class="text-base">{{ gameStore.remainingDiscards }}</p>
             </div>
 
             <div
-                class="flex flex-col row-start-4 row-span-3 items-center h-full bg-gray-600 text-white border rounded p-3"
+                class="flex flex-col row-start-4 row-span-3 items-center h-full bg-gray-600 text-white border rounded p-3 text-xs"
             >
                 <p>Options</p>
             </div>
@@ -69,7 +69,8 @@ const props = defineProps<{
             <div
                 class="flex flex-col row-start-5 row-span-2 items-center w-18 h-full bg-gray-600 text-white border rounded p-3"
             >
-                Round
+                <p>Round</p>
+                <p>{{ gameStore.round }}</p>
             </div>
         </div>
     </div>

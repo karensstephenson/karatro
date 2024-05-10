@@ -6,6 +6,7 @@ import { Head, Link } from "@inertiajs/vue3";
 const emit = defineEmits(["newGame"]);
 defineProps<{
     gameStatus: string;
+    nextGame: string;
 }>();
 </script>
 
@@ -18,7 +19,7 @@ defineProps<{
                 @click="$emit('newGame')"
                 class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
             >
-                New Game
+                {{ nextGame }}
             </Link>
         </div>
     </div>

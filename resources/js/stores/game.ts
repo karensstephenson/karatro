@@ -24,7 +24,8 @@ export const useGameStore = defineStore({
         remainingDiscards: 0,
         targetScore: 300,
         roundPoints: 0,
-        gameStatus: "in_progress"
+        gameStatus: "in_progress",
+        round: 1,
     }),
 
     actions: {
@@ -146,7 +147,7 @@ export const useGameStore = defineStore({
                     } else {
                         this.isPlayHandClicked = !this.isPlayHandClicked;
                         this.drawCards();
-                        this.calculateTotalPoints(); 
+                        this.calculateTotalPoints();
                         this.calculateRoundPoints();
                         this.clearDisplay();
                         resolve();
@@ -158,11 +159,11 @@ export const useGameStore = defineStore({
                 }
             });
         },
-        calculateTotalPoints() { 
+        calculateTotalPoints() {
             this.totalPoints = this.multiplier * this.chips;
         },
         calculateRoundPoints() {
-            this.roundPoints += this.totalPoints
+            this.roundPoints += this.totalPoints;
         },
     },
 });
