@@ -11,6 +11,7 @@ import Deck from "@/Components/Deck.vue";
 import NewRound from "@/Components/NewRound.vue";
 import GameArea from "@/Components/GameArea.vue";
 import InformationArea from "@/Components/InformationArea.vue";
+import RoundSummary from "@/Components/RoundSummary.vue";
 
 const gameStore = useGameStore();
 
@@ -120,6 +121,10 @@ let isCardDeck = ref(false);
 const toggleCardDeck = () => {
     isCardDeck.value = !isCardDeck.value;
 };
+
+const cashOut = () => {
+    console.log("Hello!");
+}
 </script>
 
 <template>
@@ -166,6 +171,12 @@ const toggleCardDeck = () => {
                     <NewRound />
                     <NewRound />
                 </div>
+
+                <!-- ROUND SUMMARY -->
+                <div>
+                  <RoundSummary @cashOut="cashOut"/>  
+                </div>
+                
 
                 <!-- CARD DECK -->
                 <div
