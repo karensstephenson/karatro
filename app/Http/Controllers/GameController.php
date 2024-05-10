@@ -24,7 +24,14 @@ class GameController extends Controller
                 'discards' => $request->input(key: 'discards'),
             ]
         );
-        Game::where('uuid', $gameUuid)->update(['total_points' => $request->input(key: 'totalPoints')]);
+        Game::where('uuid', $gameUuid)->update(
+            [
+                'total_points' => $request->input(key: 'totalPoints'),
+                'status' => $request->input(key: 'status'),
+            ]
+        );
+
+        Game::where('uuid', $gameUuid)->update(['round' => $request->input(key: 'round')]);
 
         Game::where('uuid', $gameUuid)->update(['round' => $request->input(key: 'round')]);
 
@@ -60,6 +67,7 @@ class GameController extends Controller
                 'total_points' => $game->total_points,
                 'gameRoundState' => $gameRoundState,
                 'round' => $game->round,
+                'status' => $game->status,
             ]);
         } else {
             return [];

@@ -30,6 +30,7 @@ const props = defineProps<{
     gameUuid: string;
     hands: number;
     discards: number;
+    gameStatus: string;
 }>();
 
 const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore);
@@ -103,6 +104,7 @@ const saveGameState = async () => {
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
                 playedHand: gameStore.playerHand,
+                status: gameStore.gameStatus,
                 round: gameStore.round,
             }),
         });
@@ -135,6 +137,7 @@ const loadGameState = async () => {
                     responseData.gameRoundState.remaining_hands;
                 gameStore.remainingDiscards =
                     responseData.gameRoundState.remaining_discards;
+                gameStore.gameStatus = responseData.status;
                 gameStore.round = responseData.round;
             }
         } else {
@@ -147,6 +150,9 @@ const loadGameState = async () => {
 
 const playHand = async () => {
     await gameStore.showScore();
+    if (isGameOver.value) {
+        gameStore.gameStatus = "completed";
+    }
     saveGameState();
 };
 

@@ -39,6 +39,7 @@ Route::get('/game/{gameUuid}', function ($gameUuid) {
         'totalPoints' => $game->total_points,
         'hands' => $deck->hands,
         'discards' => $deck->discards,
+        'gameStatus' => $game->status,
     ]);
 })->name('game');
 
