@@ -20,7 +20,7 @@ let isDiscardsZero = computed(
 </script>
 
 <template>
-    <div class="col-start-2 col-span-2 mt-6 flex flex-col items-center w-full">
+    <div class="col-start-2 col-span-3 mt-6 flex flex-col items-center w-full">
         <div class="h-40 flex flex-col">
             <PlayedCards
                 class="flex flex-col h-24"
