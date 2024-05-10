@@ -26,7 +26,7 @@ const props = defineProps<{
     phpVersion: string;
     cardList: any[];
     cash: number;
-    totalPoints: number;
+    roundPoints: number;
     gameUuid: string;
     hands: number;
     discards: number;
@@ -67,7 +67,7 @@ const resetGame = () => {
     gameStore.cards = props.cardList;
     gameStore.remainingHands = props.hands;
     gameStore.remainingDiscards = props.discards;
-    gameStore.totalPoints = 0;
+    gameStore.chips = 0;
     gameStore.roundPoints = 0;
     gameStore.targetScore = 300;
     gameStore.hand = [];
@@ -100,7 +100,7 @@ const saveGameState = async () => {
                 cards: gameStore.cards,
                 playedCards: gameStore.playedCards,
                 discards: gameStore.discards,
-                totalPoints: gameStore.roundPoints,
+                roundPoints: gameStore.roundPoints,
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
                 playedHand: gameStore.playerHand,
@@ -132,7 +132,7 @@ const loadGameState = async () => {
                 gameStore.cards = responseData.gameState.cards_left;
                 gameStore.playedCards = responseData.gameState.played_cards;
                 gameStore.discards = responseData.gameState.played_cards;
-                gameStore.roundPoints = responseData.total_points;
+                gameStore.roundPoints = responseData.round_points;
                 gameStore.remainingHands =
                     responseData.gameRoundState.remaining_hands;
                 gameStore.remainingDiscards =

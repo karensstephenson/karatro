@@ -9,20 +9,18 @@ export const useGameStore = defineStore({
         discards: [] as Card[],
         playedCards: [] as Card[],
         playedHands: [],
-        totalPoints: 0,
         selectedCards: [],
-        chips: 0,
-        handScore: 0,
         suitOrder: ["diamonds", "clubs", "hearts", "spades"],
         playerHand: "",
         showPlayerHand: "",
+        chips: 0,
         multiplier: 0,
         currentCardIndex: -1,
-        currentScore: 0,
         isPlayHandClicked: false,
         remainingHands: 0,
         remainingDiscards: 0,
         targetScore: 300,
+        handPoints: 0,
         roundPoints: 0,
         gameStatus: "in_progress",
         round: 1,
@@ -131,15 +129,13 @@ export const useGameStore = defineStore({
         displayValueWithDelay() {
             return new Promise<void>((resolve) => {
                 this.currentCardIndex = -1;
-                this.currentScore = this.chips;
                 const displayNextValue = () => {
                     if (this.currentCardIndex < this.selectedCards.length - 1) {
                         this.currentCardIndex++;
                         const currentCard =
                             this.selectedCards[this.currentCardIndex];
                         if (currentCard.inPlayedHand) {
-                            this.currentScore += currentCard.value;
-                            this.chips = this.currentScore;
+                            this.chips += currentCard.value;
                             setTimeout(displayNextValue, 1500);
                         } else {
                             displayNextValue();
@@ -147,7 +143,7 @@ export const useGameStore = defineStore({
                     } else {
                         this.isPlayHandClicked = !this.isPlayHandClicked;
                         this.drawCards();
-                        this.calculateTotalPoints();
+                        this.calculateHandPoints();
                         this.calculateRoundPoints();
                         this.clearDisplay();
                         resolve();
@@ -159,11 +155,11 @@ export const useGameStore = defineStore({
                 }
             });
         },
-        calculateTotalPoints() {
-            this.totalPoints = this.multiplier * this.chips;
+        calculateHandPoints() {
+            this.handPoints = this.multiplier * this.chips;
         },
         calculateRoundPoints() {
-            this.roundPoints += this.totalPoints;
+            this.roundPoints += this.handPoints;
         },
     },
 });
