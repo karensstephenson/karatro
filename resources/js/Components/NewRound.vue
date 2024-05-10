@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { router } from "@inertiajs/vue3";
 import { defineEmits } from "vue";
-import { Head, Link } from "@inertiajs/vue3";
 
 const emit = defineEmits(["newGame"]);
 defineProps<{
@@ -21,7 +19,7 @@ defineProps<{
             >
                 Select
             </Link>
-            
+
             <!-- <button
                 class="justify-center px-4 py-1 text-white bg-orange-600 rounded-md hover:bg-orange-700 w-full"
             >
