@@ -54,14 +54,14 @@ const newRound = async () => {
                 round: gameStore.round,
             }),
         });
-        const responseData = await response.json();
-        console.log(responseData.message);
+        // const responseData = await response.json();
+        // console.log(responseData.message);
     } catch (error) {
         console.error("Failed to start new round: ", error);
     }
     gameStore.round += 1;
     resetGame();
-    showRoundOptions = !showRoundOptions;
+    showRoundOptions = false;
 };
 
 const resetGame = () => {
@@ -160,7 +160,9 @@ const toggleCardDeck = () => {
 
 let showRoundOptions = false;
 const cashOut = () => {
-    showRoundOptions = !showRoundOptions;
+    showRoundOptions = true;
+    gameStore.roundPoints = 0;
+
     
 };
 </script>
@@ -218,7 +220,7 @@ const cashOut = () => {
 
                 <!-- ROUND SUMMARY -->
                 <div
-                    v-if="winGame && !showRoundOptions"
+                    v-if="winGame && (!showRoundOptions)"
                     class="flex items-end justify-around absolute inset-0 grid grid-cols-3"
                 >
                     <RoundSummary @cashOut="cashOut" />

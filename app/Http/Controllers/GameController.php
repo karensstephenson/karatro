@@ -28,12 +28,9 @@ class GameController extends Controller
             [
                 'round_points' => $request->input(key: 'roundPoints'),
                 'status' => $request->input(key: 'status'),
+                'round' => $request->input(key: 'round'),
             ]
-        );
-
-        Game::where('uuid', $gameUuid)->update(['round' => $request->input(key: 'round')]);
-
-        Game::where('uuid', $gameUuid)->update(['status' => $request->input(key: 'status')]);
+        );       
 
         GameRound::updateOrCreate(
             ['game_id' => $gameId],
