@@ -35,7 +35,7 @@ const props = defineProps<{
 
 const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore);
 
-let isGameOver = computed(() => gameStore.remainingHands <= 0);
+let isGameOver = computed(() => gameStore.remainingHands <= 0 && !winGame);
 
 const newGame = () => {
     router.get(route("home"));
