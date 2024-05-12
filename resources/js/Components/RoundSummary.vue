@@ -8,7 +8,7 @@ const emit = defineEmits(["cashOut"]);
 
 <template>
     <div
-        class="flex flex-col mx-auto mb-4 rounded-md outline outline-offset-2 outline-4 outline-slate-800 bg-black px-2 w-3/4"
+        class="flex flex-col col-start-2 col-span-2 mb-4 rounded-md outline outline-offset-2 outline-4 outline-slate-800 bg-black px-2 "
     >
         <button
             @click="$emit('cashOut')"

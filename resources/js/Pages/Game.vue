@@ -35,7 +35,7 @@ const props = defineProps<{
 
 const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore);
 
-let isGameOver = computed(() => gameStore.remainingHands <= 0);
+let isGameOver = computed(() => gameStore.remainingHands <= 0 && !winGame);
 
 const newGame = () => {
     router.get(route("home"));
@@ -54,13 +54,14 @@ const newRound = async () => {
                 round: gameStore.round,
             }),
         });
-        const responseData = await response.json();
-        console.log(responseData.message);
+        // const responseData = await response.json();
+        // console.log(responseData.message);
     } catch (error) {
         console.error("Failed to start new round: ", error);
     }
     gameStore.round += 1;
     resetGame();
+    showRoundOptions = false;
 };
 
 const resetGame = () => {
@@ -157,8 +158,12 @@ const toggleCardDeck = () => {
     isCardDeck.value = !isCardDeck.value;
 };
 
+let showRoundOptions = false;
 const cashOut = () => {
-    console.log("Hello!");
+    showRoundOptions = true;
+    gameStore.roundPoints = 0;
+
+    
 };
 </script>
 
@@ -179,7 +184,10 @@ const cashOut = () => {
                     <InformationArea :cash="cash" />
 
                     <!-- CARD SECTION -->
-                    <div v-if="!winGame" class="col-start-2 col-span-3">
+                    <div
+                        v-if="!winGame && !showRoundOptions"
+                        class="col-start-2 col-span-3"
+                    >
                         <GameArea
                             @playHand="playHand()"
                             @updateDiscardCards="updateDiscardCards()"
@@ -199,7 +207,7 @@ const cashOut = () => {
                         />
                     </div>
                     <div
-                        v-if="winGame"
+                        v-if="showRoundOptions"
                         class="col-start-2 col-span-3 row-start-1 row-end-4 flex items-center justify-around absolute inset-0"
                     >
                         <div class="flex">
@@ -207,31 +215,21 @@ const cashOut = () => {
                             <NewRound @newGame="newRound" />
                             <NewRound @newGame="newRound" />
                         </div>
-
-                        <!-- <GameStatus
-                            @newGame="newRound"
-                            gameStatus="YOU WIN"
-                            nextGame="Next Round"
-                        /> -->
                     </div>
                 </main>
 
-                <!-- NEW ROUND OPTIONS -->
-                <div class="flex">
-                    <NewRound />
-                    <NewRound />
-                    <NewRound />
-                </div>
-
                 <!-- ROUND SUMMARY -->
-                <div>
+                <div
+                    v-if="winGame && (!showRoundOptions)"
+                    class="flex items-end justify-around absolute inset-0 grid grid-cols-3"
+                >
                     <RoundSummary @cashOut="cashOut" />
                 </div>
 
                 <!-- CARD DECK -->
                 <div
                     v-if="isCardDeck"
-                    class="flex items-center justify-center absolute inset-0 bg-black bg-opacity-85"
+                    class="grid grid-cols-3 flex items-center justify-center absolute inset-0 bg-black bg-opacity-85"
                 >
                     <Deck
                         :cardList="cardList"
