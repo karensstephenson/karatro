@@ -64,6 +64,28 @@ const newRound = async () => {
     showRoundOptions = false;
 };
 
+let showRoundOptions = false;
+const cashOut = async () => {
+    gameStore.cash += (3 + gameStore.remainingHands)
+    try {
+        const url = `/api/game/${props.gameUuid}/cash_out`;
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                cash: gameStore.cash,
+            }),
+        });
+    } catch (error) {
+        console.error("Failed to start new round: ", error);
+    }
+    showRoundOptions = true;
+    gameStore.roundPoints = 0;
+};
+
 const resetGame = () => {
     gameStore.cards = props.cardList;
     gameStore.remainingHands = props.hands;
@@ -98,6 +120,7 @@ const saveGameState = async () => {
                 playedHand: gameStore.playerHand,
                 status: gameStore.gameStatus,
                 round: gameStore.round,
+                cash: gameStore.cash,
             }),
         });
         const responseData = await response.json();
@@ -118,6 +141,7 @@ const loadGameState = async () => {
             console.log(responseData);
             if (Object.keys(responseData).length === 0) {
                 gameStore.round = 1;
+                gameStore.cash = props.cash;
                 resetGame();
             } else {
                 gameStore.hand = responseData.gameState.hand_cards;
@@ -131,6 +155,7 @@ const loadGameState = async () => {
                     responseData.gameRoundState.remaining_discards;
                 gameStore.gameStatus = responseData.status;
                 gameStore.round = responseData.round;
+                gameStore.cash = responseData.cash;
             }
         } else {
             throw new Error("Failed to get response");
@@ -158,13 +183,8 @@ const toggleCardDeck = () => {
     isCardDeck.value = !isCardDeck.value;
 };
 
-let showRoundOptions = false;
-const cashOut = () => {
-    showRoundOptions = true;
-    gameStore.roundPoints = 0;
 
-    
-};
+
 </script>
 
 <template>
@@ -220,7 +240,7 @@ const cashOut = () => {
 
                 <!-- ROUND SUMMARY -->
                 <div
-                    v-if="winGame && (!showRoundOptions)"
+                    v-if="winGame && !showRoundOptions"
                     class="flex items-end justify-around absolute inset-0 grid grid-cols-3"
                 >
                     <RoundSummary @cashOut="cashOut" />

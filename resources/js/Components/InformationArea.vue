@@ -59,7 +59,7 @@ const props = defineProps<{
             <div
                 class="flex flex-col items-center justify-center bg-gray-600 text-white border rounded p-3 col-start-2 row-start-3 row-span-2 col-span-2 text-xl"
             >
-                <p>$ {{ cash }}</p>
+                <p>$ {{ gameStore.cash }}</p>
             </div>
             <div
                 class="flex flex-col row-start-5 row-span-2 items-center w-18 h-full bg-gray-600 text-white border rounded p-3"
