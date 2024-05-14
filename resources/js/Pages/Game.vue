@@ -253,7 +253,7 @@ const toggleCardDeck = () => {
                 <!-- CARD DECK -->
                 <div
                     v-if="isCardDeck"
-                    class="grid grid-cols-3 flex items-center justify-center absolute inset-0 bg-black bg-opacity-85"
+                    class="flex items-center justify-center absolute inset-0 bg-black bg-opacity-85"
                 >
                     <Deck
                         :cardList="cardList"
