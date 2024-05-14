@@ -1,10 +1,26 @@
 <script setup lang="ts">
+import { computed, onMounted } from "vue";
 import { router } from "@inertiajs/vue3";
-
 import { Head, Link } from "@inertiajs/vue3";
+import { useGameStore } from "@/stores/game";
+
+onMounted(() => {
+    gameStore.gameStatus = props.gameStatus;
+});
+
+const props = defineProps<{
+    gameStatus: string;
+}>();
+
+const gameStore = useGameStore();
+
+const isButtonDisabled = computed(() => gameStore.gameStatus === "completed");
 
 const newGame = () => {
     router.post(route("game.create"));
+};
+const resumeGame = () => {
+    router.get(route("game.resume"));
 };
 </script>
 
@@ -27,6 +43,17 @@ const newGame = () => {
                                 class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
                             >
                                 New Game
+                            </Link>
+                            <Link
+                                :disabled="isButtonDisabled"
+                                :class="{
+                                    'opacity-50 cursor-not-allowed':
+                                        isButtonDisabled,
+                                }"
+                                @click="resumeGame()"
+                                class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
+                            >
+                                Resume Game
                             </Link>
                         </div>
                     </div>

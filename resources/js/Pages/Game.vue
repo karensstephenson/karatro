@@ -35,9 +35,12 @@ const props = defineProps<{
 
 const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore);
 
-let isGameOver = computed(() => gameStore.remainingHands <= 0 && !winGame);
+let isGameOver = computed(
+    () => gameStore.remainingHands <= 0 && !winGame.value
+);
 
 const newGame = () => {
+    gameStore.remainingHands = 1;
     router.get(route("home"));
 };
 
@@ -96,6 +99,7 @@ const resetGame = () => {
     gameStore.hand = [];
     gameStore.discards = [];
     gameStore.playedCards = [];
+    gameStore.gameStatus = "in_progress";
     gameStore.drawCards();
     saveGameState();
 };
