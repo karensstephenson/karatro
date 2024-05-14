@@ -29,6 +29,7 @@ class GameController extends Controller
                 'round_points' => $request->input(key: 'roundPoints'),
                 'status' => $request->input(key: 'status'),
                 'round' => $request->input(key: 'round'),
+                'cash' => $request->input(key: 'cash'),
             ]
         );       
 
@@ -65,6 +66,7 @@ class GameController extends Controller
                 'gameRoundState' => $gameRoundState,
                 'round' => $game->round,
                 'status' => $game->status,
+                'cash' => $game->cash,
             ]);
         } else {
             return [];
@@ -76,5 +78,12 @@ class GameController extends Controller
         $gameUuid = $request->route('gameUuid');
 
         Game::where('uuid', $gameUuid)->update(['round' => $request->input(key: 'round')]);
+    }
+
+    public function cashOut(Request $request): void
+    {
+        $gameUuid = $request->route('gameUuid');
+
+        Game::where('uuid', $gameUuid)->update(['cash' => $request->input(key: 'cash')]);
     }
 }
