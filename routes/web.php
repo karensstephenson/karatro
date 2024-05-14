@@ -4,6 +4,7 @@ use App\Models\Card;
 use App\Models\Deck;
 use App\Models\Game;
 use Inertia\Inertia;
+use App\Models\GameRound;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -57,6 +58,8 @@ Route::get('/game', function () {
 Route::get('/resume/{gameUuid}', function ($latestGame) {
 
     $latestGame = Game::latest()->first();
+    $deckId = Game::latest()->first()->deck_id;
+    $deck = Deck::where('id', $deckId)->first();
     
     return Inertia::render('Game', [
         'canLogin' => Route::has('login'),
@@ -68,8 +71,8 @@ Route::get('/resume/{gameUuid}', function ($latestGame) {
         'gameUuid' => $latestGame->uuid,
         'cash' => $latestGame->cash,
         'roundPoints' => $latestGame->round_points,
-        'hands' => $latestGame->hands,
-        'discards' => $latestGame->discards,
+        'hands' => $deck->hands,
+        'discards' => $deck->discards,
         'gameStatus' => $latestGame->status,
     ]);
 })->name('resume');
