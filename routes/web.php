@@ -59,6 +59,12 @@ Route::get('/resume/{gameUuid}', function ($latestGame) {
     $latestGame = Game::latest()->first();
     
     return Inertia::render('Game', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+        'cardList' => Card::all(),
+        'game' => $latestGame,
         'gameUuid' => $latestGame->uuid,
         'cash' => $latestGame->cash,
         'roundPoints' => $latestGame->round_points,
