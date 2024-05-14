@@ -10,7 +10,12 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome');
+    $latestGame = Game::latest()->first();
+
+    return Inertia::render('Welcome', [
+        'gameStatus' => $latestGame->status,
+
+    ]);
 })->name("home");
 
 Route::post('/game', function () {
@@ -43,6 +48,25 @@ Route::get('/game/{gameUuid}', function ($gameUuid) {
     ]);
 })->name('game');
 
+Route::get('/game', function () {
+
+    $latestGame = Game::latest()->first();
+    return redirect()->route('resume', ['gameUuid' => $latestGame->uuid]);
+})->name('game.resume');
+
+Route::get('/resume/{gameUuid}', function ($latestGame) {
+
+    $latestGame = Game::latest()->first();
+    
+    return Inertia::render('Game', [
+        'gameUuid' => $latestGame->uuid,
+        'cash' => $latestGame->cash,
+        'roundPoints' => $latestGame->round_points,
+        'hands' => $latestGame->hands,
+        'discards' => $latestGame->discards,
+        'gameStatus' => $latestGame->status,
+    ]);
+})->name('resume');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
