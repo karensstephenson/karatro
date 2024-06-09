@@ -17,7 +17,7 @@ export const useGameStore = defineStore({
         multiplier: 0,
         currentCardIndex: -1,
         isPlayHandClicked: false,
-        remainingHands: 0,
+        remainingHands: 1,
         remainingDiscards: 0,
         targetScore: 300,
         handPoints: 0,

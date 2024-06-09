@@ -34,7 +34,7 @@ const props = defineProps<{
 }>();
 
 const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore);
-
+console.log(gameStore.remainingHands)
 let isGameOver = computed(
     () => gameStore.remainingHands <= 0 && !winGame.value
 );
