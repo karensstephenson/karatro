@@ -35,9 +35,11 @@ const props = defineProps<{
 
 const winGame = computed(() => gameStore.roundPoints >= gameStore.targetScore);
 console.log(gameStore.remainingHands)
+
 let isGameOver = computed(
-    () => gameStore.remainingHands <= 0 && !winGame.value
+    () => gameStore.remainingHands <= 0 
 );
+console.log(isGameOver.value)
 
 const newGame = () => {
     gameStore.remainingHands = 1;
@@ -49,7 +51,7 @@ const newRound = async () => {
         const url = `/api/game/${props.gameUuid}/new-round`;
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -57,8 +59,6 @@ const newRound = async () => {
                 round: gameStore.round,
             }),
         });
-        // const responseData = await response.json();
-        // console.log(responseData.message);
     } catch (error) {
         console.error("Failed to start new round: ", error);
     }
@@ -71,10 +71,10 @@ let showRoundOptions = false;
 const cashOut = async () => {
     gameStore.cash += (3 + gameStore.remainingHands)
     try {
-        const url = `/api/game/${props.gameUuid}/cash_out`;
+        const url = `/api/game/${props.gameUuid}/cash-out`;
 
         const response = await fetch(url, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -121,7 +121,7 @@ const saveGameState = async () => {
                 roundPoints: gameStore.roundPoints,
                 remainingHands: gameStore.remainingHands,
                 remainingDiscards: gameStore.remainingDiscards,
-                playedHand: gameStore.playerHand,
+                playedHand: gameStore.playerHand || null,
                 status: gameStore.gameStatus,
                 round: gameStore.round,
                 cash: gameStore.cash,
@@ -222,7 +222,7 @@ const toggleCardDeck = () => {
                     <!-- END OF GAME -->
                     <div
                         v-if="isGameOver"
-                        class="col-start-1 col-end-4 row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
+                        class=" row-start-1 row-end-4 flex items-center justify-center absolute inset-0 bg-black bg-opacity-75"
                     >
                         <GameStatus
                             @newGame="newGame"

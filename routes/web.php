@@ -27,6 +27,7 @@ Route::post('/game', function () {
     return redirect()->route('game', ['gameUuid' => $game->uuid]);
 })->name('game.create');
 
+// New game
 Route::get('/game/{gameUuid}', function ($gameUuid) {
 
     $game = Game::where('uuid', $gameUuid)->first();
@@ -49,6 +50,8 @@ Route::get('/game/{gameUuid}', function ($gameUuid) {
     ]);
 })->name('game');
 
+
+// Resume previous game
 Route::get('/game', function () {
 
     $latestGame = Game::latest()->first();

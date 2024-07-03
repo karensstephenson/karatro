@@ -18,19 +18,37 @@ class GameTest extends TestCase
 
         $game = Game::latest()->first();
 
-        $response->assertRedirect(route('game', ['gameId' => $game->id]));
+        $response->assertRedirect(route('game', ['gameUuid' => $game->uuid]));
     }
 
     public function testEndUpOnGameId(): void
     {
         $game = Game::first();
 
-        $response = $this->get(route('game', ['gameId' => $game->id]));
+        $response = $this->get(route('game', ['gameUuid' => $game->uuid]));
 
         $response->assertStatus(200);
 
         $response->assertInertia(
             fn (AssertableInertia $page) => $page
+                ->component('Game')
+                ->has('cardList')
+        );
+    }
+
+    public function testReloadPreviousGame(): void
+    {
+        //
+        $game = Game::latest()->first();
+
+        //
+        $response = $this->get(route('resume', ['gameUuid' => $game->uuid]));
+
+        //
+        $response->assertStatus(200);
+
+        $response->assertInertia(
+            fn (AssertableInertia $page) => $page   
                 ->component('Game')
                 ->has('cardList')
         );

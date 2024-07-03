@@ -9,7 +9,7 @@ export const useGameStore = defineStore({
         discards: [] as Card[],
         playedCards: [] as Card[],
         playedHands: [],
-        selectedCards: [],
+        selectedCards: [] as any,
         suitOrder: ["diamonds", "clubs", "hearts", "spades"],
         playerHand: "",
         showPlayerHand: "",
@@ -59,13 +59,13 @@ export const useGameStore = defineStore({
             return new Promise<void>((resolve) => {
                 let cardsPlayedThisHand = this.hand.filter((card) =>
                     this.selectedCards.some(
-                        (selectedCard) => selectedCard.name === card.name
+                        (selectedCard:any) => selectedCard.name === card.name
                     )
                 );
                 let handCardsLeft = this.hand.filter(
                     (card) =>
                         !this.selectedCards.some(
-                            (selectedCard) => selectedCard.name === card.name
+                            (selectedCard:any) => selectedCard.name === card.name
                         )
                 );
                 this.hand = handCardsLeft;
@@ -79,13 +79,13 @@ export const useGameStore = defineStore({
         async showScore() {
             this.isPlayHandClicked = !this.isPlayHandClicked;
             await this.removeSelectedCardsFromHand();
-            this.selectedCards.sort((a, b) => b.rank - a.rank);
+            this.selectedCards.sort((a:any, b:any) => b.rank - a.rank);
             await this.displayValueWithDelay();
             this.remainingHands--;
         },
         async discardCards() {
             this.discards = this.discards.concat(this.selectedCards);
-            this.removeSelectedCardsFromHand();
+            await this.removeSelectedCardsFromHand();
             this.clearDisplay();
             this.playerHand = "";
             this.drawCards();
@@ -97,7 +97,7 @@ export const useGameStore = defineStore({
         toggleCard(index: number) {
             if (this.isSelected(index)) {
                 this.selectedCards = this.selectedCards.filter(
-                    (cardIndex) => cardIndex !== index
+                    (cardIndex: number) => cardIndex !== index
                 );
             } else {
                 if (this.selectedCards.length < 5) {
@@ -133,7 +133,7 @@ export const useGameStore = defineStore({
                 const displayNextValue = () => {
                     if (this.currentCardIndex < this.selectedCards.length - 1) {
                         this.currentCardIndex++;
-                        const currentCard =
+                        const currentCard:any =
                             this.selectedCards[this.currentCardIndex];
                         if (currentCard.inPlayedHand) {
                             this.chips += currentCard.value;
@@ -151,7 +151,7 @@ export const useGameStore = defineStore({
                     }
                 };
 
-                if (this.selectedCards.some((card) => card.inPlayedHand)) {
+                if (this.selectedCards.some((card:any) => card.inPlayedHand)) {
                     displayNextValue();
                 }
             });

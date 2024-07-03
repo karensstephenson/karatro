@@ -2,7 +2,7 @@
 import { defineProps, defineEmits } from "vue";
 import { useGameStore } from "@/stores/game";
 
-const emit = defineEmits(["sortByRank", "sortBySuit"]);
+const emit = defineEmits(["sortByRank", "sortBySuit", "toggleCardDeck"]);
 
 const gameStore = useGameStore();
 
@@ -10,13 +10,13 @@ const props = defineProps<{
     cardList: any[];
 }>();
 
-const isInHand = (card) => {
+const isInHand = (card: any) => {
     return gameStore.hand.some((handCard) => handCard.name === card.name);
 };
-const isDiscarded = (card) => {
+const isDiscarded = (card: any) => {
     return gameStore.discards.some((handCard) => handCard.name === card.name);
 };
-const isPlayed = (card) => {
+const isPlayed = (card: any) => {
     return gameStore.playedCards.some(
         (handCard) => handCard.name === card.name
     );
@@ -36,8 +36,7 @@ const isPlayed = (card) => {
                 class="h-full"
                 :class="{
                     'border-green-600 border-8': isInHand(card),
-                    'opacity-25': isDiscarded(card),
-                    'opacity-25': isPlayed(card),
+                    'opacity-25': isDiscarded(card) || isPlayed(card),
                 }"
             />
         </li>

@@ -15,12 +15,12 @@ defineProps<{
         <p class="text-red-600">{{ gameStatus }}</p>
 
         <div class="flex gap-3">
-            <Link
+            <a
                 @click="$emit('newGame')"
                 class="mt-6 px-4 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700"
             >
                 {{ nextGame }}
-            </Link>
+            </a>
         </div>
     </div>
 </template>
