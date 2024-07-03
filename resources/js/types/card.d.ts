@@ -4,4 +4,5 @@ interface Card {
     suit: string
     rank: number
     value: number
+    inPlayedHand: boolean
 }

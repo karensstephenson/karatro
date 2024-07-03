@@ -32,7 +32,7 @@ let isDiscardsZero = computed(
             <draggable
                 class="flex justify-center gap-3 list-none"
                 v-model="gameStore.hand"
-                :item-key="(item) => item.id"
+                :item-key="(item:any) => item.id"
             >
                 <template #item="{ element }">
                     <div>

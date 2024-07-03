@@ -12,8 +12,8 @@ Route::post('/game/{gameUuid}/save', [GameController::class, 'saveCards']);
 
 Route::get('/game/{gameUuid}/load', [GameController::class, 'loadCards']);
 
-Route::post('/game/{gameUuid}/new-round', [GameController::class, 'newRound']);
+Route::put('/game/{gameUuid}/new-round', [GameController::class, 'newRound']);
 
-Route::post('/game/{gameUuid}/cash-out', [GameController::class, 'cashOut']);
+Route::put('/game/{gameUuid}/cash-out', [GameController::class, 'cashOut']);
 
 
